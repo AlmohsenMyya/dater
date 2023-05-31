@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
+
+import 'package:dater/constants/api_url.dart';
 import 'package:dater/constants/enums.dart';
 import 'package:dater/constants/messages.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
-import 'package:dater/constants/api_url.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../../model/authentication_model/country_code_list_model/country_code_list.dart';
 import '../../model/authentication_model/country_code_list_model/country_code_list_model.dart';
@@ -38,10 +39,21 @@ class MyNumberInnerScreenController extends GetxController {
     // log('Country Code List Api Url :$url');
 
     try {
-      CountryListModel countryListModel = CountryListModel.fromJson(json.decode(CountryModel.countryList));
+      CountryListModel countryListModel =
+          CountryListModel.fromJson(json.decode(CountryModel.countryList));
       countryCodeList.addAll(countryListModel.countryList);
       searchCountryCodeList = countryCodeList;
-      selectCountryCodeValue = countryCodeList[0];
+
+      String temp = await userPreference.getStringFromPrefs(
+          key: UserPreference.userCountryCodeKey);
+
+      if (authAs == AuthAs.login) {
+        selectCountryCodeValue = searchCountryCodeList
+                .firstWhereOrNull((element) => element.dialCode == temp) ??
+            countryCodeList[0];
+      } else {
+        selectCountryCodeValue = countryCodeList[0];
+      }
       countryCodeController.text = "${selectCountryCodeValue.emoji} "
           "${selectCountryCodeValue.dialCode} ${selectCountryCodeValue.code}";
       /*if (response.statusCode == 200) {
@@ -84,7 +96,8 @@ class MyNumberInnerScreenController extends GetxController {
       var request = http.MultipartRequest('POST', Uri.parse(url));
 
       // request.fields['phone'] = "$countryCode${phoneNumberController.text}";
-      request.fields['phone'] = "${selectCountryCodeValue.dialCode}${phoneNumberController.text}";
+      request.fields['phone'] =
+          "${selectCountryCodeValue.dialCode}${phoneNumberController.text}";
 
       log('Fields : ${request.fields}');
 
@@ -105,13 +118,19 @@ class MyNumberInnerScreenController extends GetxController {
             key: UserPreference.userTokenKey,
             value: loginModel.verifyToken,
           );
+          await userPreference.setStringValueInPrefs(
+              key: UserPreference.userCountryCodeKey,
+              value: selectCountryCodeValue.dialCode.toString());
 
           Get.to(
             () => VerifyCodeScreen(),
             arguments: [
               selectCountryCodeValue.dialCode,
               phoneNumberController.text.trim(),
-              loginModel.msg.toLowerCase() == "Account created successfully".toLowerCase() ? AuthAs.register : authAs,
+              loginModel.msg.toLowerCase() ==
+                      "Account created successfully".toLowerCase()
+                  ? AuthAs.register
+                  : authAs,
               ComingFrom.registerScreen,
             ],
           );
@@ -141,7 +160,8 @@ class MyNumberInnerScreenController extends GetxController {
 
       log('Mobile Number :${phoneNumberController.text.trim()}');
 
-      finalMobileNumber = "${selectCountryCodeValue.dialCode}${phoneNumberController.text.trim()}";
+      finalMobileNumber =
+          "${selectCountryCodeValue.dialCode}${phoneNumberController.text.trim()}";
       log('finalMobileNumber : $finalMobileNumber');
 
       if (authAs == AuthAs.register) {
@@ -155,7 +175,7 @@ class MyNumberInnerScreenController extends GetxController {
   onCountrySelectFunction(CountryData singleItem) {
     isLoading(true);
     countryCodeController.text =
-    "${singleItem.emoji} ${singleItem.dialCode} ${singleItem.code}";
+        "${singleItem.emoji} ${singleItem.dialCode} ${singleItem.code}";
     selectCountryCodeValue = singleItem;
     isLoading(false);
     Get.back();
@@ -170,7 +190,10 @@ class MyNumberInnerScreenController extends GetxController {
   }
 
   initMethod() async {
-    phoneNumberController.text = await userPreference.getStringFromPrefs(key: UserPreference.userMobileNoKey);
+    if (authAs == AuthAs.login) {
+      phoneNumberController.text = await userPreference.getStringFromPrefs(
+          key: UserPreference.userMobileNoKey);
+    }
     await getCountryCodesFunction();
   }
 }

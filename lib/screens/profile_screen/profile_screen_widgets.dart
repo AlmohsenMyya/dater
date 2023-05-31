@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
 import '../../constants/app_images.dart';
 import '../../constants/colors.dart';
 import '../../constants/font_family.dart';
@@ -11,64 +12,60 @@ import '../../controller/profile_screen_controller.dart';
 import '../../utils/style.dart';
 import '../edit_profile_screen/edit_profile_screen.dart';
 
-
-
 class ProfileModule extends StatelessWidget {
-   ProfileModule({Key? key}) : super(key: key);
- final profileScreenController = Get.find<ProfileScreenController>();
- @override
-  Widget build(BuildContext context) {
-    return
-       Center(
-            child: Stack(
-              fit: StackFit.loose,
-              children: [
-                SizedBox(
-                  //height: 17.5.h,
-                  height: 170,
-                  width: 150,
-                  child:
-                     SfRadialGauge(
-                        axes: [
-                          RadialAxis(
-                            minimum: 0,
-                            maximum: 100,
-                            showLabels: false,
-                            showTicks: false,
-                            startAngle: 45,
-                            endAngle: 405,
-                            axisLineStyle: const AxisLineStyle(
-                              thickness: 0.09,
-                              cornerStyle: CornerStyle.bothCurve,
-                              color:  AppColors.grey700Color,
-                              thicknessUnit: GaugeSizeUnit.factor,
-                            ),
-                            pointers: <GaugePointer>[
-                              RangePointer(
-                                  value: profileScreenController.userPercentage.value,
-                                  width: 0.06,
-                                  color: AppColors.darkOrangeColor,
-                                  sizeUnit: GaugeSizeUnit.factor,
-                                  enableAnimation: true,
-                                  animationDuration: 100,
-                                  animationType: AnimationType.linear)
-                            ],
-                          ),
-                        ],
-                    ),
+  ProfileModule({Key? key}) : super(key: key);
+  final profileScreenController = Get.find<ProfileScreenController>();
 
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Stack(
+        fit: StackFit.loose,
+        children: [
+          SizedBox(
+            //height: 17.5.h,
+            height: 170,
+            width: 150,
+            child: SfRadialGauge(
+              axes: [
+                RadialAxis(
+                  minimum: 0,
+                  maximum: 100,
+                  showLabels: false,
+                  showTicks: false,
+                  startAngle: 45,
+                  endAngle: 405,
+                  axisLineStyle: const AxisLineStyle(
+                    thickness: 0.09,
+                    cornerStyle: CornerStyle.bothCurve,
+                    color: AppColors.grey700Color,
+                    thicknessUnit: GaugeSizeUnit.factor,
+                  ),
+                  pointers: <GaugePointer>[
+                    RangePointer(
+                        value: profileScreenController.userPercentage.value,
+                        width: 0.06,
+                        color: AppColors.darkOrangeColor,
+                        sizeUnit: GaugeSizeUnit.factor,
+                        enableAnimation: true,
+                        animationDuration: 100,
+                        animationType: AnimationType.linear)
+                  ],
                 ),
-                Positioned(
-                  top: 20,
-                  left: 10,
-                  child: profileScreenController.userImages.isEmpty
-                  ? Container(
+              ],
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 10,
+            child: profileScreenController.userImages.isEmpty
+                ? Container(
                     height: 130,
                     width: 130,
-                    decoration:  const BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.grey700Color,
                       shape: BoxShape.circle,
-                      image:  DecorationImage(
+                      image: DecorationImage(
                         image: AssetImage(
                           AppImages.swiper2Image,
                         ),
@@ -76,45 +73,44 @@ class ProfileModule extends StatelessWidget {
                       ),
                     ),
                   )
-                  : Container(
+                : Container(
                     height: 130,
                     width: 130,
-                    decoration:  BoxDecoration(
+                    decoration: BoxDecoration(
                       color: AppColors.grey700Color,
                       shape: BoxShape.circle,
-                      image:  DecorationImage(
-                        image: NetworkImage(profileScreenController.userImages[0].imageUrl),
-                        fit: BoxFit.fill,
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            profileScreenController.userImages[0].imageUrl),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
+          ),
+          Positioned(
+            right: 4,
+            bottom: 25,
+            child: Container(
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.whiteColor,
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 5.0,
+                        offset: Offset(-0, 2),
+                        color: AppColors.grey800Color)
+                  ]),
+              child: Text(
+                '${profileScreenController.userPercentage.value.toStringAsFixed(0)}%',
+                style: TextStyle(
+                  fontFamily: FontFamilyText.sFProDisplaySemibold,
+                  fontSize: 11,
                 ),
-                Positioned(
-                  right: 4,
-                  bottom: 25,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.whiteColor,
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 5.0,
-                              offset: Offset(-0, 2),
-                              color: AppColors.grey800Color
-                          )]
-                    ),
-                    child: Text(
-                      '${profileScreenController.userPercentage.value.toStringAsFixed(0)}%',
-                      style: TextStyle(
-                        fontFamily: FontFamilyText.sFProDisplaySemibold,
-                        fontSize: 11,
-                      ),
-                    ).commonAllSidePadding(10),
-                  ),
-                ),
-              ],
+              ).commonAllSidePadding(10),
             ),
-
+          ),
+        ],
+      ),
     );
   }
 }
@@ -174,52 +170,56 @@ class ProfileTextModule extends StatelessWidget {
           ],
         ),
         // Work Module
-        RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${screenController.userWork.value} ',
-                style: TextStyleConfig.textStyle(
-                  textColor: AppColors.grey800Color,
-                  fontFamily: FontFamilyText.sFProDisplayRegular,
-                  fontSize: 12.sp,
+        if (screenController.userWork.value != 'Add') ...[
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: '${screenController.userWork.value} ',
+                  style: TextStyleConfig.textStyle(
+                    textColor: AppColors.grey800Color,
+                    fontFamily: FontFamilyText.sFProDisplayRegular,
+                    fontSize: 12.sp,
+                  ),
                 ),
-              ),
-              WidgetSpan(
-                child: Image.asset(
-                  AppImages.location2Image,
-                  height: 2.h,
+                WidgetSpan(
+                  child: Image.asset(
+                    AppImages.workImage,
+                    height: 2.h,
+                  ),
                 ),
-              ),
-              TextSpan(
-                text: ' ${screenController.userDetails!.distance}',
-                style: TextStyleConfig.textStyle(
-                  textColor: AppColors.grey800Color,
-                  fontFamily: FontFamilyText.sFProDisplayRegular,
-                  fontSize: 12.sp,
-                ),
-              ),
-            ],
+                // TextSpan(
+                //   text: ' ${screenController.userDetails!.distance}',
+                //   style: TextStyleConfig.textStyle(
+                //     textColor: AppColors.grey800Color,
+                //     fontFamily: FontFamilyText.sFProDisplayRegular,
+                //     fontSize: 12.sp,
+                //   ),
+                // ),
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 2.h),
+          SizedBox(height: 2.h),
+        ],
         screenController.promptsList.isNotEmpty
-        ? RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "${screenController.promptsList[0].question}${screenController.promptsList[0].answer}",
-                style: TextStyleConfig.textStyle(
-                  textColor: AppColors.grey800Color,
-                  fontFamily: FontFamilyText.sFProDisplayRegular,
-                  fontSize: 12.sp,
+            ? RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text:
+                          "${screenController.promptsList[0].question}${screenController.promptsList[0].answer}",
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.grey800Color,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ) : Container(),
+              )
+            : Container(),
         SizedBox(height: 2.h),
         RichText(
           textAlign: TextAlign.center,
@@ -260,88 +260,95 @@ class AboutMeAllModule extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         screenController.userImages.length < 2
-        ? Container()
-        : Container(
-          height: 50.h,
-          decoration: BoxDecoration(
-            color: AppColors.grey500Color,
-            image:  DecorationImage(
-              image: NetworkImage(screenController.userImages[1].imageUrl),
-              fit: BoxFit.cover,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20))
-          ),
-        ),
+            ? Container()
+            : Container(
+                height: 50.h,
+                decoration: BoxDecoration(
+                    color: AppColors.grey500Color,
+                    image: DecorationImage(
+                      image:
+                          NetworkImage(screenController.userImages[1].imageUrl),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+              ),
         // About Me Module
-        SizedBox(height: 2.h),
-        Text('About me',
-          style: TextStyleConfig.textStyle(
-            fontFamily: FontFamilyText.sFProDisplayBold,
-            textColor: AppColors.grey800Color,
-            //fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
+        if (screenController.userBio.value != '') ...[
+          SizedBox(height: 2.h),
+          Text(
+            'About me',
+            style: TextStyleConfig.textStyle(
+              fontFamily: FontFamilyText.sFProDisplayBold,
+              textColor: AppColors.grey800Color,
+              //fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
           ),
-        ),
-        SizedBox(height: 1.h),
-        Text(screenController.userBio.value,
-          style: TextStyleConfig.textStyle(
-            fontFamily: FontFamilyText.sFProDisplayRegular,
-            textColor: AppColors.grey600Color,
-            //fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
+          SizedBox(height: 1.h),
+          Text(
+            screenController.userBio.value,
+            style: TextStyleConfig.textStyle(
+              fontFamily: FontFamilyText.sFProDisplayRegular,
+              textColor: AppColors.grey600Color,
+              //fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
           ),
-        ),
+        ],
 
         // My Basic Module
         SizedBox(height: 2.h),
-        Text("Basics",
-          style: TextStyleConfig.textStyle(
-            fontFamily: FontFamilyText.sFProDisplayBold,
-            textColor: AppColors.grey800Color,
-            //fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
+        if (screenController.basicList.isNotEmpty) ...[
+          Text(
+            "Basics",
+            style: TextStyleConfig.textStyle(
+              fontFamily: FontFamilyText.sFProDisplayBold,
+              textColor: AppColors.grey800Color,
+              //fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
           ),
-        ),
-        SizedBox(height: 2.h),
-        Wrap(
-          // spacing: 3.0,
-          children: List.generate(
-            screenController.basicList.length,
-                (int index) {
-              return screenController.basicList[index].name != ""
-              ? Transform(
-                transform: Matrix4.identity()..scale(0.9),
-                child: ChoiceChip(
-                  avatar:CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage(screenController.basicList[index].image),
-                  ),
-                  label: Text(
-                    screenController.basicList[index].name,
-                    // "${screenController.userHeight.value.split('.')[0]} cm",
-
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.grey600Color,
-                      fontSize: 16,
-                    ),
-                  ),
-                  selected: selected,
-                  selectedColor: AppColors.darkOrangeColor,
-                  backgroundColor: Colors.white,
-                  shape: const StadiumBorder(
-                    side: BorderSide(
-                      color: AppColors.grey400Color,
-                      width: 1.5,
-                    ),
-                  ),
-                  onSelected: (bool value) {},
-                ),
-              ).commonSymmetricPadding(horizontal: 5)
-              : Container();
-            },
-          ).toList(),
-        ),
+          SizedBox(height: 2.h),
+          Wrap(
+            // spacing: 3.0,
+            children: List.generate(
+              screenController.basicList.length,
+              (int index) {
+                return (screenController.basicList[index].name != "Add" &&
+                        screenController.basicList[index].name != "")
+                    ? Transform(
+                        transform: Matrix4.identity()..scale(0.9),
+                        child: ChoiceChip(
+                          avatar: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: AssetImage(
+                                screenController.basicList[index].image),
+                          ),
+                          label: Text(
+                            screenController.basicList[index].name,
+                            style: TextStyleConfig.textStyle(
+                              fontFamily: FontFamilyText.sFProDisplaySemibold,
+                              textColor: AppColors.grey600Color,
+                              fontSize: 16,
+                            ),
+                          ),
+                          selected: false,
+                          selectedColor: AppColors.darkOrangeColor,
+                          backgroundColor: Colors.white,
+                          shape: const StadiumBorder(
+                            side: BorderSide(
+                              color: AppColors.grey400Color,
+                              width: 1.5,
+                            ),
+                          ),
+                          onSelected: (bool value) {},
+                        ),
+                      ).commonSymmetricPadding(horizontal: 5)
+                    : const SizedBox();
+              },
+            ).toList(),
+          ),
+        ],
         // Interest Module
         Text(
           "Interests",
@@ -357,12 +364,13 @@ class AboutMeAllModule extends StatelessWidget {
           // spacing: 3.0,
           children: List.generate(
             screenController.interestList.length,
-                (int index) {
+            (int index) {
               return Transform(
                 transform: Matrix4.identity()..scale(0.9),
                 child: ChoiceChip(
-                  avatar:CircleAvatar(
-                    backgroundImage: AssetImage(screenController.interestList[index].image),
+                  avatar: CircleAvatar(
+                    backgroundImage:
+                        AssetImage(screenController.interestList[index].image),
                   ),
                   label: Text(
                     screenController.interestList[index].name,
@@ -387,78 +395,79 @@ class AboutMeAllModule extends StatelessWidget {
             },
           ).toList(),
         ),
-        SizedBox(height: 2.h),
-        // Language Module
-        Text("Languages I Known",
-          style: TextStyleConfig.textStyle(
-            fontFamily: FontFamilyText.sFProDisplayBold,
-            textColor: AppColors.grey800Color,
-            //fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
+        if (screenController.languageList.isNotEmpty) ...[
+          SizedBox(height: 2.h),
+          // Language Module
+          Text(
+            "Languages I Known",
+            style: TextStyleConfig.textStyle(
+              fontFamily: FontFamilyText.sFProDisplayBold,
+              textColor: AppColors.grey800Color,
+              //fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
           ),
-        ),
-        SizedBox(height: 2.h),
-        Wrap(
-          // spacing: 1.0,
-          children: List.generate(
-            screenController.languageList.length,
-                (int index) {
-              return Transform(
-                transform: Matrix4.identity()..scale(0.9),
-                child: ChoiceChip(
-                  avatar:const CircleAvatar(
-                    backgroundImage: AssetImage(AppImages.languageImage),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  label: Text(
-                    screenController.languageList[index],
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.grey600Color,
-                      fontSize: 16,
+          SizedBox(height: 2.h),
+          Wrap(
+            // spacing: 1.0,
+            children: List.generate(
+              screenController.languageList.length,
+              (int index) {
+                return Transform(
+                  transform: Matrix4.identity()..scale(0.9),
+                  child: ChoiceChip(
+                    avatar: const CircleAvatar(
+                      backgroundImage: AssetImage(AppImages.languageImage),
+                      backgroundColor: Colors.transparent,
                     ),
-                  ),
-                  selected: selected,
-                  selectedColor: AppColors.darkOrangeColor,
-                  backgroundColor: Colors.white,
-                  shape: const StadiumBorder(
-                    side: BorderSide(
-                      color: AppColors.grey400Color,
-                      width: 1.5,
+                    label: Text(
+                      screenController.languageList[index],
+                      style: TextStyleConfig.textStyle(
+                        fontFamily: FontFamilyText.sFProDisplaySemibold,
+                        textColor: AppColors.grey600Color,
+                        fontSize: 16,
+                      ),
                     ),
+                    selected: selected,
+                    selectedColor: AppColors.darkOrangeColor,
+                    backgroundColor: Colors.white,
+                    shape: const StadiumBorder(
+                      side: BorderSide(
+                        color: AppColors.grey400Color,
+                        width: 1.5,
+                      ),
+                    ),
+                    onSelected: (bool value) {},
                   ),
-                  onSelected: (bool value) {},
-                ),
-              ).commonSymmetricPadding(horizontal: 5);
-            },
-          ).toList(),
-        ),
-
+                ).commonSymmetricPadding(horizontal: 5);
+              },
+            ).toList(),
+          ),
+        ],
         // User Image Module
         SizedBox(height: 2.h),
         screenController.userImages.length < 3
-        ? Container()
-        : Container(
-          height: 50.h,
-          decoration:  BoxDecoration(
-              color: AppColors.grey500Color,
-              image:  DecorationImage(
-                image: NetworkImage(
-                  screenController.userImages[2].imageUrl,
-                ),
-                fit: BoxFit.cover,
+            ? Container()
+            : Container(
+                height: 50.h,
+                decoration: BoxDecoration(
+                    color: AppColors.grey500Color,
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        screenController.userImages[2].imageUrl,
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
-              borderRadius: const BorderRadius.all(Radius.circular(20))
-          ),
-        ),
         // User Prompts Module
         SizedBox(height: 2.h),
         screenController.promptsList.length > 1
             ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      screenController.promptsList[1].question,
+                    screenController.promptsList[1].question,
                     style: TextStyleConfig.textStyle(
                       fontFamily: FontFamilyText.sFProDisplaySemibold,
                       textColor: AppColors.grey300Color,
@@ -511,27 +520,27 @@ class AboutMeAllModule extends StatelessWidget {
         // User Images Module
         SizedBox(height: 2.h),
         screenController.userImages.length < 4
-        ? Container()
-        : ListView.builder(
-          itemCount: screenController.userSubImagesList.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, i) {
-            return Container(
-              height: 50.h,
-              decoration:  BoxDecoration(
-                  color: AppColors.grey500Color,
-                  image:  DecorationImage(
-                    image: NetworkImage(
-                      screenController.userSubImagesList[i].imageUrl,
-                    ),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(20))
+            ? Container()
+            : ListView.builder(
+                itemCount: screenController.userSubImagesList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, i) {
+                  return Container(
+                    height: 50.h,
+                    decoration: BoxDecoration(
+                        color: AppColors.grey500Color,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            screenController.userSubImagesList[i].imageUrl,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20))),
+                  ).commonSymmetricPadding(vertical: 10);
+                },
               ),
-            ).commonSymmetricPadding(vertical: 10);
-          },
-        ),
 
         /*Container(
           height: 50.h,
@@ -546,71 +555,87 @@ class AboutMeAllModule extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(20))
           ),
         ),*/
-        // User Location Module
-        SizedBox(height: 2.h),
-        Text("${screenController.userName}'s Location",
-          style: TextStyleConfig.textStyle(
-            fontFamily: FontFamilyText.sFProDisplayBold,
-            textColor: AppColors.grey800Color,
-            //fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
+
+        /// User Location Module
+        if (screenController.userCountry.value != '' ||
+            screenController.userHomeTown.value != 'Add') ...[
+          SizedBox(height: 2.h),
+          Text(
+            "${screenController.userName}'s Location",
+            style: TextStyleConfig.textStyle(
+              fontFamily: FontFamilyText.sFProDisplayBold,
+              textColor: AppColors.grey800Color,
+              //fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+            ),
           ),
-        ),
-        SizedBox(height: 1.h),
-        RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            children: [
-              WidgetSpan(child: Image.asset(AppImages.location2Image,height: 2.h,)),
-              TextSpan(
-                text: ' ${screenController.userCountry}',
-                // ${screenController.userDistance.value} km away
-                style: TextStyleConfig.textStyle(
-                  textColor: AppColors.grey800Color,
-                  fontFamily: FontFamilyText.sFProDisplayRegular,
-                  fontSize: 12.sp,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 2.h),
-        Wrap(
-          // spacing: 2.0,
-          children: List.generate(
-            2,
-                (int index) {
-              return Transform(
-                transform: Matrix4.identity()..scale(0.9),
-                child: ChoiceChip(
-                  avatar:const CircleAvatar(
-                    backgroundImage: AssetImage(AppImages.ballImage),
-                  ),
-                  label: Text(
-                    index == 0 ? 'Live in ${screenController.userCountry}' : "From ${screenController.userHomeTown}",
+          if (screenController.userCountry.value != '') ...[
+            SizedBox(height: 1.h),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  WidgetSpan(
+                      child: Image.asset(
+                    AppImages.location2Image,
+                    height: 2.h,
+                  )),
+                  TextSpan(
+                    text: ' ${screenController.userCountry}',
                     style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.grey600Color,
-                      fontSize: 16,
+                      textColor: AppColors.grey800Color,
+                      fontFamily: FontFamilyText.sFProDisplayRegular,
+                      fontSize: 12.sp,
                     ),
                   ),
-                  selected: selected,
-                  selectedColor: AppColors.darkOrangeColor,
-                  backgroundColor: Colors.white,
-                  shape: const StadiumBorder(
-                    side: BorderSide(
-                      color: AppColors.grey400Color,
-                      width: 1.5,
-                    ),
-                  ),
-                  onSelected: (bool value) {},
-                ),
-              ).commonSymmetricPadding(horizontal: 5);
-            },
-          ).toList(),
-        ),
+                ],
+              ),
+            ),
+            SizedBox(height: 2.h),
+          ],
+          Wrap(
+            // spacing: 2.0,
+            children: List.generate(
+              2,
+              (int index) {
+                return (screenController.userCountry.value == '' &&
+                            index == 0) ||
+                        (screenController.userHomeTown.value == 'Add' &&
+                            index == 1)
+                    ? const SizedBox()
+                    : Transform(
+                        transform: Matrix4.identity()..scale(0.9),
+                        child: ChoiceChip(
+                          avatar: const CircleAvatar(
+                            backgroundImage: AssetImage(AppImages.ballImage),
+                          ),
+                          label: Text(
+                            index == 0
+                                ? 'Live in ${screenController.userCountry}'
+                                : "From ${screenController.userHomeTown}",
+                            style: TextStyleConfig.textStyle(
+                              fontFamily: FontFamilyText.sFProDisplaySemibold,
+                              textColor: AppColors.grey600Color,
+                              fontSize: 16,
+                            ),
+                          ),
+                          selected: selected,
+                          selectedColor: AppColors.darkOrangeColor,
+                          backgroundColor: Colors.white,
+                          shape: const StadiumBorder(
+                            side: BorderSide(
+                              color: AppColors.grey400Color,
+                              width: 1.5,
+                            ),
+                          ),
+                          onSelected: (bool value) {},
+                        ),
+                      ).commonSymmetricPadding(horizontal: 5);
+              },
+            ).toList(),
+          ),
+        ],
       ],
-    ).commonSymmetricPadding(horizontal: 25,vertical: 20);
+    ).commonSymmetricPadding(horizontal: 25, vertical: 20);
   }
 }
-

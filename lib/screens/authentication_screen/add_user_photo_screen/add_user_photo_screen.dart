@@ -40,7 +40,7 @@ class AddUserPhotoScreen extends StatelessWidget {
                 body: Column(
                   children: [
                     const Text(
-                      'At least you need one photo',
+                      'At least you need three photos',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: "SFProDisplayRegular", fontSize: 15),

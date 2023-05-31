@@ -972,34 +972,37 @@ class LikerLocationInformationModule extends StatelessWidget {
           children: List.generate(
             2,
             (int index) {
-              return Transform(
-                transform: Matrix4.identity()..scale(0.9),
-                child: ChoiceChip(
-                  avatar: const CircleAvatar(
-                    backgroundImage: AssetImage(AppImages.ballImage),
-                  ).commonOnlyPadding(left: 2),
-                  label: Text(
-                    index == 0
-                        ? "Live in ${singleItem.country!}"
-                        : "From ${singleItem.homeTown!}",
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.grey600Color,
-                      fontSize: 16,
-                    ),
-                  ),
-                  selected: false,
-                  selectedColor: AppColors.darkOrangeColor,
-                  backgroundColor: Colors.white,
-                  shape: const StadiumBorder(
-                    side: BorderSide(
-                      color: AppColors.grey400Color,
-                      width: 1.5,
-                    ),
-                  ),
-                  onSelected: (bool value) {},
-                ),
-              );
+              return (singleItem.country == '' && index == 0) ||
+                      (singleItem.homeTown == '' && index == 1)
+                  ? const SizedBox()
+                  : Transform(
+                      transform: Matrix4.identity()..scale(0.9),
+                      child: ChoiceChip(
+                        avatar: const CircleAvatar(
+                          backgroundImage: AssetImage(AppImages.ballImage),
+                        ).commonOnlyPadding(left: 2),
+                        label: Text(
+                          index == 0
+                              ? "Live in ${singleItem.country!}"
+                              : "From ${singleItem.homeTown!}",
+                          style: TextStyleConfig.textStyle(
+                            fontFamily: FontFamilyText.sFProDisplaySemibold,
+                            textColor: AppColors.grey600Color,
+                            fontSize: 16,
+                          ),
+                        ),
+                        selected: false,
+                        selectedColor: AppColors.darkOrangeColor,
+                        backgroundColor: Colors.white,
+                        shape: const StadiumBorder(
+                          side: BorderSide(
+                            color: AppColors.grey400Color,
+                            width: 1.5,
+                          ),
+                        ),
+                        onSelected: (bool value) {},
+                      ),
+                    );
             },
           ).toList(),
         )

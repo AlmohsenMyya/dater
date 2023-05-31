@@ -1,24 +1,27 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
-import 'package:dater/model/profile_screen_models/logged_in_user_details_model.dart';
-import 'package:dater/screens/language_select_screen/language_select_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:reorderable_grid_view/reorderable_grid_view.dart';
-import 'package:sizer/sizer.dart';
+
 import 'package:dater/common_modules/custom_loader.dart';
 import 'package:dater/constants/app_images.dart';
 import 'package:dater/constants/colors.dart';
 import 'package:dater/constants/font_family.dart';
 import 'package:dater/constants/messages.dart';
+import 'package:dater/model/profile_screen_models/logged_in_user_details_model.dart';
+import 'package:dater/screens/language_select_screen/language_select_screen.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dater/utils/style.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:reorderable_grid_view/reorderable_grid_view.dart';
+import 'package:sizer/sizer.dart';
+
 import '../../common_modules/custom_button.dart';
 import '../../constants/enums.dart';
 import '../../controller/edit_profile_screen_controller.dart';
 import '../../model/profile_screen_models/upload_image_model.dart';
+import '../../utils/functions.dart';
+import '../looking_for_screen/looking_for_screen.dart';
 import '../my_basic_education_screen/my_basic_education_screen.dart';
 import '../my_basic_gender_screen/my_basic_gender_screen.dart';
 import '../my_basic_home_town_screen/my_basic_home_town_screen.dart';
@@ -27,7 +30,6 @@ import '../politics_screen/politics_screen.dart';
 import '../profile_prompts_screens/profile_prompts_screen/profile_prompts_screen.dart';
 import '../religion_screen/religion_screen.dart';
 import '../star_sign_screen/star_sign_screen.dart';
-import '../looking_for_screen/looking_for_screen.dart';
 
 class ProfileStrengthModule extends StatelessWidget {
   ProfileStrengthModule({Key? key}) : super(key: key);
@@ -74,9 +76,9 @@ class ProfileStrengthModule extends StatelessWidget {
   }
 }
 
-
 class ReorderableGridViewModule extends StatelessWidget {
   ReorderableGridViewModule({super.key});
+
   final editProfileScreenController = Get.find<EditProfileScreenController>();
 
   @override
@@ -224,11 +226,9 @@ class ReorderableGridViewModule extends StatelessWidget {
           actions: [
             SizedBox(height: 2.h),
             ButtonCustom(
-              backgroundColor:
-              AppColors.lightOrangeColor,
+              backgroundColor: AppColors.lightOrangeColor,
               textColor: AppColors.whiteColor,
-              textFontFamily: FontFamilyText
-                  .sFProDisplayBold,
+              textFontFamily: FontFamilyText.sFProDisplayBold,
               textsize: 12.sp,
               onPressed: () async {
                 log('Image Id : ${editProfileScreenController.captureImageList[i].id}');
@@ -237,51 +237,40 @@ class ReorderableGridViewModule extends StatelessWidget {
                 );
               },
               text: "Make as cover",
-            ).commonSymmetricPadding(
-                horizontal: 30),
+            ).commonSymmetricPadding(horizontal: 30),
             SizedBox(height: 2.h),
             ButtonCustom(
-              backgroundColor:
-              AppColors.lightOrangeColor,
+              backgroundColor: AppColors.lightOrangeColor,
               textColor: AppColors.whiteColor,
-              textFontFamily: FontFamilyText
-                  .sFProDisplayBold,
+              textFontFamily: FontFamilyText.sFProDisplayBold,
               textsize: 12.sp,
               onPressed: () async {
                 // If image from network then call api
-                if (editProfileScreenController
-                    .captureImageList[i]
-                    .id !=
-                    "") {
-                  await editProfileScreenController
-                      .deleteUserImagesFunction(
-                    id: editProfileScreenController
-                        .captureImageList[i].id,
+                if (editProfileScreenController.captureImageList[i].id != "") {
+                  await editProfileScreenController.deleteUserImagesFunction(
+                    id: editProfileScreenController.captureImageList[i].id,
                     index: i,
                   );
                   Get.back();
                 } else {
                   /// Local image remove only from local ist only
-                  editProfileScreenController
-                      .deleteUserImageFunction(
-                      i);
+                  editProfileScreenController.deleteUserImageFunction(i);
                   Get.back();
                 }
               },
               text: "Delete",
-            ).commonSymmetricPadding(
-                horizontal: 30),
+            ).commonSymmetricPadding(horizontal: 30),
             SizedBox(height: 2.h),
           ],
         );
       },
     );
   }
-
 }
 
 class EditProfileScreenWidgets extends StatelessWidget {
   EditProfileScreenWidgets({super.key});
+
   final editProfileScreenController = Get.find<EditProfileScreenController>();
 
   @override
@@ -298,8 +287,86 @@ class EditProfileScreenWidgets extends StatelessWidget {
         // ),
         // SizedBox(height: 4.h),
 
+        ///name
+        SizedBox(height: 4.h),
+        //TODO: add edit name api call
+        Row(
+          children: [
+            Text(
+              AppMessages.myName,
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplaySemibold,
+                textColor: AppColors.grey800Color,
+                fontSize: 16.sp,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 1.h),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: AppColors.grey300Color,
+              width: 3,
+            ),
+          ),
+          child: TextFormField(
+            cursorColor: AppColors.lightOrangeColor,
+            maxLines: 1,
+            controller: editProfileScreenController.myNameController,
+            onEditingComplete: () async {
+              printAll('done', name: 'name');
+              await editProfileScreenController.setUserNameFunction();
+            },
+            decoration: InputDecoration(
+              hintText: "My new name...",
+              hintStyle: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayRegular,
+                textColor: AppColors.grey600Color,
+                fontSize: 15.sp,
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+              focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+            ),
+            textAlign: TextAlign.center,
+            style: TextStyleConfig.textStyle(
+              fontFamily: FontFamilyText.sFProDisplayRegular,
+              fontSize: 15.sp,
+              textColor: AppColors.grey600Color,
+            ),
+          ),
+        ),
+        ButtonCustom(
+                // fontWeight: FontWeight.bold,
+                textsize: 14.sp,
+                textFontFamily: FontFamilyText.sFProDisplayBold,
+                textColor: AppColors.whiteColor2,
+                backgroundColor: AppColors.darkOrangeColor,
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                size: const Size(18.0, 18.0),
+                text: 'save name',
+                onPressed: () async {
+                  // await editProfileScreenController.setUserBioFunction();
+                })
+            .commonOnlyPadding(top: 1.h),
+
         /// My Bio
-        SizedBox(height: 5.h),
+        SizedBox(height: 4.h),
         Row(
           children: [
             Text(
@@ -312,19 +379,6 @@ class EditProfileScreenWidgets extends StatelessWidget {
             ),
           ],
         ),
-        /*Row(
-          children: [
-            Text(
-              "Write a fun and punchy intro",
-              style: TextStyleConfig.textStyle(
-                fontFamily: FontFamilyText.sFProDisplayRegular,
-                textColor: AppColors.grey600Color,
-                fontSize: 12.sp,
-              ),
-            )
-          ],
-        ),
-        SizedBox(height: 2.h),*/
         SizedBox(height: 1.h),
         Container(
           decoration: BoxDecoration(
@@ -338,7 +392,8 @@ class EditProfileScreenWidgets extends StatelessWidget {
             cursorColor: AppColors.lightOrangeColor,
             maxLines: 1,
             controller: editProfileScreenController.myBioController,
-            onChanged: (value) async {
+            onEditingComplete: () async {
+              // printAll('done', name: 'bio');
               await editProfileScreenController.setUserBioFunction();
             },
             decoration: InputDecoration(
@@ -373,10 +428,21 @@ class EditProfileScreenWidgets extends StatelessWidget {
             ),
           ),
         ),
-        ///
+        ButtonCustom(
+            // fontWeight: FontWeight.bold,
+            textsize: 14.sp,
+            textFontFamily: FontFamilyText.sFProDisplayBold,
+            textColor: AppColors.whiteColor2,
+            backgroundColor: AppColors.darkOrangeColor,
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            size: const Size(18.0, 18.0),
+            text: 'save bio',
+            onPressed: () async {
+              await editProfileScreenController.setUserBioFunction();
+            }).commonOnlyPadding(top: 1.h),
 
         /// My basics
-        SizedBox(height: 5.h),
+        SizedBox(height: 4.h),
         Row(
           children: [
             Text(
@@ -394,8 +460,8 @@ class EditProfileScreenWidgets extends StatelessWidget {
         MyBasicRowmodule(
           gesOnTap: () {
             Get.to(
-                  () => MyBasicWorkScreen(),
-              // arguments: [editProfileScreenController.work], //todo
+              () => MyBasicWorkScreen(),
+              arguments: [editProfileScreenController.work], //todo
             )!
                 .then((value) async {
               await editProfileScreenController.getMyBasicWorkValueFromPrefs();
@@ -409,8 +475,8 @@ class EditProfileScreenWidgets extends StatelessWidget {
         MyBasicRowmodule(
           gesOnTap: () {
             Get.to(
-                  () => MyBasicEducationScreen(),
-              // arguments: [editProfileScreenController.education], //todo
+              () => MyBasicEducationScreen(),
+              arguments: [editProfileScreenController.education],
             )!
                 .then((value) async {
               await editProfileScreenController
@@ -419,13 +485,15 @@ class EditProfileScreenWidgets extends StatelessWidget {
           },
           image: AppImages.educationImage,
           lableText: "Education",
-          text: editProfileScreenController.education,
+          text: editProfileScreenController.education == ""
+              ? 'Add'
+              : editProfileScreenController.education,
         ),
         // Gender Module
         MyBasicRowmodule(
           gesOnTap: () {
             Get.to(
-                  () => MyBasicGenderScreen(),
+              () => MyBasicGenderScreen(),
               arguments: [editProfileScreenController.gender],
             )!
                 .then((value) async {
@@ -435,14 +503,16 @@ class EditProfileScreenWidgets extends StatelessWidget {
           },
           image: AppImages.genderImage,
           lableText: "Gender",
-          text: editProfileScreenController.gender,
+          text: editProfileScreenController.gender == ''
+              ? 'Add'
+              : editProfileScreenController.gender,
         ),
 
         // Home Town Module
         MyBasicRowmodule(
           gesOnTap: () {
             Get.to(
-                  () => MyBasicHomeTownScreen(),
+              () => MyBasicHomeTownScreen(),
               arguments: [editProfileScreenController.homeTown],
             )!
                 .then((value) async {
@@ -452,78 +522,110 @@ class EditProfileScreenWidgets extends StatelessWidget {
           },
           image: AppImages.homeTownImage,
           lableText: "Hometown",
-          text: editProfileScreenController.homeTown,
+          text: editProfileScreenController.homeTown == ''
+              ? 'Add'
+              : editProfileScreenController.homeTown,
         ),
 
         // Looking For Module
         MyBasicRowmodule(
           gesOnTap: () {
             Get.to(
-                  () => LookingForScreen(),
+              () => LookingForScreen(),
               arguments: [editProfileScreenController.lookingFor],
-            )!.then((value) async {
-              await editProfileScreenController.getMyBasicLookingForValueFromPrefs();
+            )!
+                .then((value) async {
+              await editProfileScreenController
+                  .getMyBasicLookingForValueFromPrefs();
             });
           },
           image: AppImages.lookingForImage,
           lableText: "Looking for",
-          text: editProfileScreenController.lookingFor,
+          text: editProfileScreenController.lookingFor == ''
+              ? 'Add'
+              : editProfileScreenController.lookingFor,
         ),
-        // Height Module
+
+
+        /// Height Module
+        SizedBox(height: 1.h),
         Row(
           children: [
             Image.asset(AppImages.heightImage),
             SizedBox(width: 3.w),
             Text(
-              AppMessages.height,
+              '${AppMessages.height}:',
               style: TextStyleConfig.textStyle(
                 fontFamily: FontFamilyText.sFProDisplayRegular,
                 textColor: AppColors.grey600Color,
                 fontSize: 15.sp,
               ),
             ),
-            // const Spacer(),
+            SizedBox(width: 1.w),
+            Text(
+              textAlign: TextAlign.center,
+              "${editProfileScreenController.endVal.value.toStringAsFixed(0)} cm",
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayRegular,
+                textColor: AppColors.grey600Color,
+                fontSize: 13.sp,
+              ),
+            ),
+            // SizedBox(width: 15.w),
+            const Spacer(),
+            ButtonCustom(
+                // fontWeight: FontWeight.bold,
+                textsize: 9.sp,
+                textFontFamily: FontFamilyText.sFProDisplayBold,
+                textColor: AppColors.whiteColor2,
+                backgroundColor: AppColors.darkOrangeColor,
+                // padding: const EdgeInsets.symmetric(horizontal: 4),
+                size: const Size(3.0, 3.0),
+                text: 'save height',
+                onPressed: () async {
+                  await editProfileScreenController.setUserHeightFunction();
+                }),
+          ],
+        ),
+        SizedBox(
+          height: 0.5.h,
+        ),
+        Row(
+          children: [
             Expanded(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          textAlign: TextAlign.end,
-                          "${editProfileScreenController.endVal.value.toStringAsFixed(0)} cm",
-                          style: TextStyleConfig.textStyle(
-                            fontFamily: FontFamilyText.sFProDisplayRegular,
-                            textColor: AppColors.grey600Color,
-                            fontSize: 11.sp,
-                          ),
+                    SizedBox(
+                      width: Get.width / 1.2,
+                      child: SliderTheme(
+                        data: const SliderThemeData(trackHeight: 2),
+                        child: Slider(
+                          min: 120.0,
+                          max: 220.0,
+                          activeColor: AppColors.lightOrangeColor,
+                          inactiveColor: AppColors.darkGreyColor,
+                          value: editProfileScreenController.endVal.value,
+                          onChanged: (double value) {
+                            editProfileScreenController.endVal.value = value;
+                            // await editProfileScreenController
+                            //     .setUserHeightFunction();
+                            editProfileScreenController.loadUI();
+                          },
                         ),
-                        SliderTheme(
-                          data: const SliderThemeData(trackHeight: 1),
-                          child: Slider(
-                            min: 0,
-                            max: 220,
-                            activeColor: AppColors.lightOrangeColor,
-                            inactiveColor: AppColors.darkGreyColor,
-                            value: editProfileScreenController.endVal.value,
-                            onChanged: (double value) async {
-                              editProfileScreenController.endVal.value = value;
-                              await editProfileScreenController
-                                  .setUserHeightFunction();
-                              editProfileScreenController.loadUI();
-                              // editProfileScreenController.isLoading(true);
-                              // editProfileScreenController.isLoading(false);
-                            },
-                          ),
-                        ),
-                      ],
-                    )
+                      ),
+                    ),
                   ],
-                ))
+                ),
+              ],
+            ))
           ],
         ),
         // Exercise
+        SizedBox(height: 1.h),
         FilterRowmodule(
           image: AppImages.exerciseImage,
           lableText: "Exercise",
@@ -531,32 +633,32 @@ class EditProfileScreenWidgets extends StatelessWidget {
           text2: "Sometimes",
           text3: "Yes",
           containerColor1:
-          editProfileScreenController.exerciseValue == MoreAboutMe.no
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
+              editProfileScreenController.exerciseValue == MoreAboutMe.no
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
           containerColor2:
-          editProfileScreenController.exerciseValue == MoreAboutMe.sometimes
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
+              editProfileScreenController.exerciseValue == MoreAboutMe.sometimes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
           containerColor3:
-          editProfileScreenController.exerciseValue == MoreAboutMe.yes
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
-          gesOnTap1: () async {
+              editProfileScreenController.exerciseValue == MoreAboutMe.yes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
+          gesOnTap1: () {
             editProfileScreenController.exerciseValue = MoreAboutMe.no;
-            await editProfileScreenController
+            editProfileScreenController
                 .setExerciseFunction(editProfileScreenController.exerciseValue);
             editProfileScreenController.loadUI();
           },
-          gesOnTap2: () async {
+          gesOnTap2: () {
             editProfileScreenController.exerciseValue = MoreAboutMe.sometimes;
-            await editProfileScreenController
+            editProfileScreenController
                 .setExerciseFunction(editProfileScreenController.exerciseValue);
             editProfileScreenController.loadUI();
           },
-          gesOnTap3: () async {
+          gesOnTap3: () {
             editProfileScreenController.exerciseValue = MoreAboutMe.yes;
-            await editProfileScreenController
+            editProfileScreenController
                 .setExerciseFunction(editProfileScreenController.exerciseValue);
             editProfileScreenController.loadUI();
           },
@@ -569,32 +671,32 @@ class EditProfileScreenWidgets extends StatelessWidget {
           text2: "Socially",
           text3: "Yes",
           containerColor1:
-          editProfileScreenController.drinkingValue == MoreAboutMe.no
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
+              editProfileScreenController.drinkingValue == MoreAboutMe.no
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
           containerColor2:
-          editProfileScreenController.drinkingValue == MoreAboutMe.sometimes
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
+              editProfileScreenController.drinkingValue == MoreAboutMe.sometimes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
           containerColor3:
-          editProfileScreenController.drinkingValue == MoreAboutMe.yes
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
-          gesOnTap1: () async {
+              editProfileScreenController.drinkingValue == MoreAboutMe.yes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
+          gesOnTap1: () {
             editProfileScreenController.drinkingValue = MoreAboutMe.no;
-            await editProfileScreenController
+            editProfileScreenController
                 .setDrinkingFunction(editProfileScreenController.drinkingValue);
             editProfileScreenController.loadUI();
           },
-          gesOnTap2: () async {
+          gesOnTap2: () {
             editProfileScreenController.drinkingValue = MoreAboutMe.sometimes;
-            await editProfileScreenController
+            editProfileScreenController
                 .setDrinkingFunction(editProfileScreenController.drinkingValue);
             editProfileScreenController.loadUI();
           },
-          gesOnTap3: () async {
+          gesOnTap3: () {
             editProfileScreenController.drinkingValue = MoreAboutMe.yes;
-            await editProfileScreenController
+            editProfileScreenController
                 .setDrinkingFunction(editProfileScreenController.drinkingValue);
             editProfileScreenController.loadUI();
           },
@@ -607,32 +709,32 @@ class EditProfileScreenWidgets extends StatelessWidget {
           text2: "Socially",
           text3: "Yes",
           containerColor1:
-          editProfileScreenController.smokingValue == MoreAboutMe.no
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
+              editProfileScreenController.smokingValue == MoreAboutMe.no
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
           containerColor2:
-          editProfileScreenController.smokingValue == MoreAboutMe.sometimes
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
+              editProfileScreenController.smokingValue == MoreAboutMe.sometimes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
           containerColor3:
-          editProfileScreenController.smokingValue == MoreAboutMe.yes
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
-          gesOnTap1: () async {
+              editProfileScreenController.smokingValue == MoreAboutMe.yes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
+          gesOnTap1: () {
             editProfileScreenController.smokingValue = MoreAboutMe.no;
-            await editProfileScreenController
+            editProfileScreenController
                 .setSmokingFunction(editProfileScreenController.smokingValue);
             editProfileScreenController.loadUI();
           },
-          gesOnTap2: () async {
+          gesOnTap2: () {
             editProfileScreenController.smokingValue = MoreAboutMe.sometimes;
-            await editProfileScreenController
+            editProfileScreenController
                 .setSmokingFunction(editProfileScreenController.smokingValue);
             editProfileScreenController.loadUI();
           },
-          gesOnTap3: () async {
+          gesOnTap3: () {
             editProfileScreenController.smokingValue = MoreAboutMe.yes;
-            await editProfileScreenController
+            editProfileScreenController
                 .setSmokingFunction(editProfileScreenController.smokingValue);
             editProfileScreenController.loadUI();
           },
@@ -645,41 +747,43 @@ class EditProfileScreenWidgets extends StatelessWidget {
           text2: "Want someday",
           text3: "Yes",
           containerColor1:
-          editProfileScreenController.kidsValue == MoreAboutMe.no
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
+              editProfileScreenController.kidsValue == MoreAboutMe.no
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
           containerColor2:
-          editProfileScreenController.kidsValue == MoreAboutMe.sometimes
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
+              editProfileScreenController.kidsValue == MoreAboutMe.sometimes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
           containerColor3:
-          editProfileScreenController.kidsValue == MoreAboutMe.yes
-              ? AppColors.lightOrangeColor
-              : AppColors.grey500Color,
-          gesOnTap1: () async {
+              editProfileScreenController.kidsValue == MoreAboutMe.yes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
+          gesOnTap1: () {
             editProfileScreenController.kidsValue = MoreAboutMe.no;
-            await editProfileScreenController
+            editProfileScreenController
                 .setKidsFunction(editProfileScreenController.kidsValue);
             editProfileScreenController.loadUI();
           },
-          gesOnTap2: () async {
+          gesOnTap2: () {
             editProfileScreenController.kidsValue = MoreAboutMe.sometimes;
-            await editProfileScreenController
+            editProfileScreenController
                 .setKidsFunction(editProfileScreenController.kidsValue);
             editProfileScreenController.loadUI();
           },
-          gesOnTap3: () async {
+          gesOnTap3: () {
             editProfileScreenController.kidsValue = MoreAboutMe.yes;
-            await editProfileScreenController
+            editProfileScreenController
                 .setKidsFunction(editProfileScreenController.kidsValue);
             editProfileScreenController.loadUI();
           },
         ),
         // Star Sign
+        SizedBox(height: 1.h),
+
         MyBasicRowmodule(
           gesOnTap: () {
             Get.to(
-                  () => StarSignScreen(),
+              () => StarSignScreen(),
               arguments: [editProfileScreenController.starSign],
             )!
                 .then((value) async {
@@ -688,13 +792,15 @@ class EditProfileScreenWidgets extends StatelessWidget {
           },
           image: AppImages.starsignImage,
           lableText: "Star Sign",
-          text: editProfileScreenController.starSign,
+          text: editProfileScreenController.starSign == ''
+              ? 'Add'
+              : editProfileScreenController.starSign,
         ),
         // Politics
         MyBasicRowmodule(
           gesOnTap: () {
             Get.to(
-                  () => PoliticsScreen(),
+              () => PoliticsScreen(),
               arguments: [editProfileScreenController.politics],
             )!
                 .then((value) async {
@@ -703,13 +809,15 @@ class EditProfileScreenWidgets extends StatelessWidget {
           },
           image: AppImages.politicsImage,
           lableText: "Politics",
-          text: editProfileScreenController.politics,
+          text: editProfileScreenController.politics == ''
+              ? 'Add'
+              : editProfileScreenController.politics,
         ),
         // Religion
         MyBasicRowmodule(
           gesOnTap: () {
             Get.to(
-                  () => ReligionScreen(),
+              () => ReligionScreen(),
               arguments: [editProfileScreenController.religion],
             )!
                 .then((value) async {
@@ -718,9 +826,10 @@ class EditProfileScreenWidgets extends StatelessWidget {
           },
           image: AppImages.religionImage,
           lableText: "Religion",
-          text: editProfileScreenController.religion,
+          text: editProfileScreenController.religion == ''
+              ? 'Add'
+              : editProfileScreenController.religion,
         ),
-        ///
 
         /// My Interest Module
         SizedBox(height: 5.h),
@@ -766,7 +875,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
               (int index) {
                 bool selected = true;
                 return Transform(
-                  transform: Matrix4.identity()..scale(0.9),
+                  transform: Matrix4.identity()..scale(0.95),
                   child: ChoiceChip(
                     avatar: const CircleAvatar(
                       backgroundImage: AssetImage(AppImages.ballImage),
@@ -790,12 +899,11 @@ class EditProfileScreenWidgets extends StatelessWidget {
                     ),
                     onSelected: (bool value) {},
                   ),
-                ).commonSymmetricPadding(horizontal: 10);
+                ).commonSymmetricPadding(horizontal: 1);
               },
             ).toList(),
           ),
         ),
-        ///
 
         /// Language Box
         SizedBox(height: 5.h),
@@ -827,9 +935,9 @@ class EditProfileScreenWidgets extends StatelessWidget {
         GestureDetector(
           onTap: () {
             Get.to(() => LanguageSelectScreen(),
-                arguments: [editProfileScreenController.languageList])!
+                    arguments: [editProfileScreenController.languageList])!
                 .then((value) async =>
-            await editProfileScreenController.getUserDetailsFunction());
+                    await editProfileScreenController.getUserDetailsFunction());
           },
           child: Container(
             width: Get.width,
@@ -845,12 +953,13 @@ class EditProfileScreenWidgets extends StatelessWidget {
               // spacing: 3.0,
               children: List.generate(
                 editProfileScreenController.languageList.length,
-                    (int index) {
+                (int index) {
                   bool selected = true;
                   return Transform(
                     transform: Matrix4.identity()..scale(0.9),
                     child: ChoiceChip(
                       avatar: const CircleAvatar(
+                        backgroundColor: Colors.transparent,
                         backgroundImage: AssetImage(AppImages.languageImage),
                       ),
                       label: Text(
@@ -872,13 +981,12 @@ class EditProfileScreenWidgets extends StatelessWidget {
                       ),
                       onSelected: (bool value) {},
                     ),
-                  ).commonSymmetricPadding(horizontal: 10);
+                  ).commonSymmetricPadding(horizontal: 1);
                 },
               ).toList(),
             ),
           ),
         ),
-        ///
 
         /// Profile Prompts
         SizedBox(height: 5.h),
@@ -910,74 +1018,74 @@ class EditProfileScreenWidgets extends StatelessWidget {
 
         editProfileScreenController.promptsList.isNotEmpty
             ? ListView.builder(
-          itemCount: editProfileScreenController.promptsList.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, i) {
-            Prompt singleData =
-            editProfileScreenController.promptsList[i];
-            return GestureDetector(
-              onTap: () => openEditPromptsBottomSheetModule(
-                index: i,
-                singleData: singleData,
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color: AppColors.grey300Color,
-                    width: 3,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            singleData.question,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyleConfig.textStyle(
-                              fontFamily:
-                              FontFamilyText.sFProDisplaySemibold,
-                              textColor: AppColors.blackColor,
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                          Text(
-                            singleData.answer,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyleConfig.textStyle(
-                              fontFamily:
-                              FontFamilyText.sFProDisplaySemibold,
-                              textColor: AppColors.grey400Color,
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        ],
+                itemCount: editProfileScreenController.promptsList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, i) {
+                  Prompt singleData =
+                      editProfileScreenController.promptsList[i];
+                  return GestureDetector(
+                    onTap: () => openEditPromptsBottomSheetModule(
+                      index: i,
+                      singleData: singleData,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: AppColors.grey300Color,
+                          width: 3,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: AppColors.grey600Color,
-                      size: 15.sp,
-                    ),
-                    /*IconButton(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  singleData.question,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyleConfig.textStyle(
+                                    fontFamily:
+                                        FontFamilyText.sFProDisplaySemibold,
+                                    textColor: AppColors.blackColor,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                                Text(
+                                  singleData.answer,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyleConfig.textStyle(
+                                    fontFamily:
+                                        FontFamilyText.sFProDisplaySemibold,
+                                    textColor: AppColors.grey400Color,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: AppColors.grey600Color,
+                            size: 15.sp,
+                          ),
+                          /*IconButton(
                       onPressed: () {},
                       icon: const Icon(
                         Icons.arrow_forward_ios_rounded,
                         color: AppColors.grey600Color,
                       ),
                     ),*/
-                  ],
-                ).commonAllSidePadding(10),
-              ).commonSymmetricPadding(vertical: 5),
-            );
-          },
-        )
+                        ],
+                      ).commonAllSidePadding(10),
+                    ).commonSymmetricPadding(vertical: 5),
+                  );
+                },
+              )
             : const SizedBox(),
 
         editProfileScreenController.promptsList.isNotEmpty
@@ -1001,7 +1109,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
                         ? false
                         : true,
                     controller:
-                    editProfileScreenController.profilePromptsController,
+                        editProfileScreenController.profilePromptsController,
                     cursorColor: AppColors.lightOrangeColor,
                     onChanged: (value) async {
                       await editProfileScreenController
@@ -1017,7 +1125,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
                         fontSize: 15.sp,
                       ),
                       contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 10),
+                          const EdgeInsets.symmetric(horizontal: 10),
                       counterText: "",
                       enabledBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -1055,77 +1163,9 @@ class EditProfileScreenWidgets extends StatelessWidget {
                   color: AppColors.grey600Color,
                 ),
               ),
-              // Old Switch Module - TextField Enable or Disable
-              /*Obx(
-                () => Transform.scale(
-                  scale: 0.7,
-                  child: FlutterSwitch(
-                    // toggleSize: 40.0,
-                    activeColor: AppColors.darkOrangeColor,
-                    activeToggleColor: AppColors.blackColor,
-                    inactiveToggleColor: AppColors.blackColor,
-                    inactiveSwitchBorder: Border.all(
-                      width: 3,
-                      color: AppColors.blackColor,
-                    ),
-                    activeSwitchBorder: Border.all(
-                      width: 3,
-                      color: AppColors.blackColor,
-                    ),
-                    onToggle: (value) {
-                      editProfileScreenController.isLoading(true);
-                      editProfileScreenController.onSelected.value = value;
-                      editProfileScreenController.isLoading(false);
-                    },
-                    value: editProfileScreenController.onSelected.value,
-                  ),
-                ),
-              ),*/
             ],
           ),
         ),
-        ///
-
-        // SizedBox(height: 5.h),
-        // Row(
-        //   children: [
-        //     Text(
-        //       AppMessages.moreAboutMe,
-        //       style: TextStyleConfig.textStyle(
-        //         fontFamily: FontFamilyText.sFProDisplaySemibold,
-        //         textColor: AppColors.grey800Color,
-        //         fontSize: 16.sp,
-        //       ),
-        //     )
-        //   ],
-        // ),
-        // Row(
-        //   children: [
-        //     Text(
-        //       "Cover things most people are curious about",
-        //       style: TextStyleConfig.textStyle(
-        //         fontFamily: FontFamilyText.sFProDisplayRegular,
-        //         textColor: AppColors.grey600Color,
-        //         fontSize: 12.sp,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        // SizedBox(height: 5.h),
-
-        /*MyBasicRowmodule(
-          gesOnTap: () {},
-          image: AppImages.educationImage,
-          lableText: "Education level",
-          text: "Undergraduate Degree",
-        ),*/
-        /*MyBasicRowmodule(
-          gesOnTap: () {},
-          image: AppImages.starImage,
-          lableText: "Education level",
-          text: editProfileScreenController.education,
-        ),*/
-
       ],
     );
   }
@@ -1190,6 +1230,7 @@ class MyBasicRowmodule extends StatelessWidget {
   String lableText;
   String image;
   String text;
+
   MyBasicRowmodule({
     Key? key,
     required this.gesOnTap,
@@ -1299,8 +1340,8 @@ class FilterRowmodule extends StatelessWidget {
                   InkWell(
                     onTap: gesOnTap1,
                     child: Container(
-                      height: 15,
-                      width: 15,
+                      height: 18,
+                      width: 18,
                       decoration: BoxDecoration(
                         color: containerColor1,
                         shape: BoxShape.circle,
@@ -1311,7 +1352,7 @@ class FilterRowmodule extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 27.w,
+              width: 28.w,
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -1327,8 +1368,8 @@ class FilterRowmodule extends StatelessWidget {
                   InkWell(
                     onTap: gesOnTap2,
                     child: Container(
-                      height: 15,
-                      width: 15,
+                      height: 18,
+                      width: 18,
                       decoration: BoxDecoration(
                         color: containerColor2,
                         shape: BoxShape.circle,
@@ -1353,8 +1394,8 @@ class FilterRowmodule extends StatelessWidget {
                   InkWell(
                     onTap: gesOnTap3,
                     child: Container(
-                      height: 15,
-                      width: 15,
+                      height: 18,
+                      width: 18,
                       decoration: BoxDecoration(
                         color: containerColor3,
                         shape: BoxShape.circle,

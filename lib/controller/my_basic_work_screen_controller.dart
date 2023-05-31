@@ -21,6 +21,12 @@ class MyBasicWorkScreenController extends GetxController {
   UserPreference userPreference = UserPreference();
 
 
+  @override
+  void onInit() {
+    super.onInit();
+    titleFieldController.text=Get.arguments[0];
+  }
+
   Future<void> doneButtonClick() async {
     if(formKey.currentState!.validate()) {
       // String work = "${titleFieldController.text.trim()} at ${companyFieldController.text.trim()}";

@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:dater/constants/messages.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:dater/constants/api_url.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../constants/app_images.dart';
 import '../model/profile_screen_models/basic_model.dart';
-import '../model/profile_screen_models/language_save_model.dart';
 import '../model/profile_screen_models/logged_in_user_details_model.dart';
 import '../utils/preferences/user_preference.dart';
 
@@ -151,44 +150,26 @@ class ProfileScreenController extends GetxController {
 
   /// Set Basic Details
   void setBasicListFunction() {
-    // if (userHeight.value != "") {
     basicList.add(BasicModel(
         image: AppImages.heightImage, name: "${userHeight.value} cm"));
-    // }
-
     basicList.add(BasicModel(
         image: AppImages.educationImage, name: userEducation.value));
-
-    // if(userGender.value != "") {
     basicList
         .add(
         BasicModel(image: AppImages.genderImage, name: userGender.value));
-    // }
-
     basicList.add(BasicModel(
         image: AppImages.homeTownImage, name: userHomeTown.value));
-
-
-
-
-    // if(userDrinking.value != "") {
     basicList.add(
         BasicModel(image: AppImages.drinkingImage, name: userDrinking.value));
-    // }
-    // if(userSmoking.value != "") {
     basicList.add(
         BasicModel(image: AppImages.smokingImage, name: userSmoking.value));
-    // }
-
-    // if(userStarSign.value != "") {
     basicList.add(
         BasicModel(image: AppImages.starsignImage, name: userStarSign.value));
-    // }
-    // if(userEducation.value != "") {
     basicList.add(
         BasicModel(
             image: AppImages.educationImage, name: userEducation.value));
-    // }
+    basicList
+        .add(BasicModel(image: AppImages.religionImage, name: userReligion.value));
   }
 
   /// Set Interest in local & Prefs

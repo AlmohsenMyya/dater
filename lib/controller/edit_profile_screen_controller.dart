@@ -48,6 +48,9 @@ class EditProfileScreenController extends GetxController {
   TextEditingController profilePromptsController = TextEditingController();
   TextEditingController myBioController = TextEditingController();
 
+
+  TextEditingController myNameController = TextEditingController();
+
   UserPreference userPreference = UserPreference();
 
   // RxList<File> captureImageList = RxList<File>();
@@ -139,6 +142,14 @@ class EditProfileScreenController extends GetxController {
         await userPreference.getStringFromPrefs(key: UserPreference.bioKey);
     log('Bio : $bio');
     await updateUserProfileFunction(key: AppMessages.bioApiText, value: bio);
+  }
+  Future<void> setUserNameFunction() async {
+    await userPreference.setStringValueInPrefs(
+        key: UserPreference.nameKey, value: myNameController.text.trim());
+    String name =
+        await userPreference.getStringFromPrefs(key: UserPreference.nameKey);
+    log('My Name : $name');
+    await updateUserProfileFunction(key: AppMessages.fNameApiText, value: name);
   }
 
   /// Set User height in Prefs

@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:dater/model/home_screen_model/super_love_model.dart';
 import 'package:dater/model/profile_screen_models/basic_model.dart';
 import 'package:dater/screens/index_screen/index_screen.dart';
+import 'package:dater/utils/functions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -153,7 +154,7 @@ class HomeScreenController extends GetxController {
     try {
       String verifyToken = await userPreference.getStringFromPrefs(
           key: UserPreference.userVerifyTokenKey);
-      log('Get User Suggestion User Token : $verifyToken');
+      // log('Get User Suggestion User Token : $verifyToken');
 
       var formData = dio.FormData.fromMap({
         'token': verifyToken
@@ -162,6 +163,7 @@ class HomeScreenController extends GetxController {
       var response = await dioRequest.post(url, data: formData);
       log('Suggestion Response : ${response.data}');
 
+      // printAll(name: 'suggest',"${response.data}");
       SuggestionListModel suggestionListModel = SuggestionListModel.fromJson(json.decode(response.data));
       successStatus.value = suggestionListModel.statusCode;
 
@@ -285,10 +287,11 @@ class HomeScreenController extends GetxController {
   /// Set Basic Details
   List<BasicModel> setBasicListFunction({required SuggestionData singleItem}) {
     List<BasicModel> basicList = [];
-    basicList.add(BasicModel(image: AppImages.genderImage, name: gender.value));
     // basicList.add(BasicModel(image: AppImages.workImage, name: work.value));
     // basicList.add(
     //     BasicModel(image: AppImages.educationImage, name: education.value));
+
+    basicList.add(BasicModel(image: AppImages.genderImage, name: gender.value));
     basicList.add(
         BasicModel(image: AppImages.heightImage, name: "${height.value} cm"));
     basicList
@@ -301,7 +304,8 @@ class HomeScreenController extends GetxController {
     basicList
         .add(BasicModel(image: AppImages.politicsImage, name: politics.value));
     basicList
-        .add(BasicModel(image: AppImages.refreshImage, name: religion.value));
+        .add(BasicModel(image: AppImages.religionImage, name: religion.value));
+
     basicList.add(BasicModel(image: AppImages.kidsImage, name: kids.value));
 
     return basicList;
@@ -376,7 +380,7 @@ class HomeScreenController extends GetxController {
           SuperLoveModel.fromJson(json.decode(response.body));
 
       if (superLoveModel.statusCode == 200) {
-        Fluttertoast.showToast(msg: superLoveModel.msg);
+        // Fluttertoast.showToast(msg: superLoveModel.msg);
         /// If Coming from card swipe that time not call this if condition because double time swipe the card
         /*if (swipeCard == false) {
           if (likeType == LikeType.like) {
@@ -477,8 +481,9 @@ class HomeScreenController extends GetxController {
       successStatus.value = regatherModel.statusCode;
 
       if(successStatus.value == 200) {
-        Fluttertoast.cancel();
-        Fluttertoast.showToast(msg: regatherModel.msg);
+        // Fluttertoast.cancel();
+        // Fluttertoast.showToast(msg: regatherModel.msg);
+
         // cardController.rewind();
         // log('cardController.canRewind : ${cardController.canRewind}');
       } else {

@@ -4,8 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
   static String userMobileNoKey = "userMobileNoKey"; // String
+  static String userCountryCodeKey = "userCountyCodeKey"; // string
   static String userTokenKey = "userTokenKey"; // This is temp token // String
-  static String userCountryDialCodeKey = "userCountryDialCodeKey"; // String
+  // static String userCountryDialCodeKey = "userCountryDialCodeKey"; // String
   static String userVerifyTokenKey =
       "userVerifyTokenKey"; // This is main token // String
   static String isUserCreatedKey = "isUserCreatedKey"; // bool
@@ -65,7 +66,7 @@ class UserPreference {
   // Set String Type List
   Future<void> setListOfStringInPrefs({required List<String> value}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(listOfImageKey, value);
+prefs.setStringList(listOfImageKey, value);
   }
 
   // Set Language String Type List

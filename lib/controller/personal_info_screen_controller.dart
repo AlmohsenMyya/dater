@@ -14,7 +14,6 @@ import '../utils/preferences/user_preference.dart';
 
 
 class PersonalInfoScreenController extends GetxController {
-  //AuthAs authAs = Get.arguments[0];
   RxBool isLoading = false.obs;
   RxInt successStatus = 0.obs;
 
@@ -52,7 +51,11 @@ class PersonalInfoScreenController extends GetxController {
       countryCodeList.addAll(countryListModel.countryList);
       searchCountryCodeList = countryCodeList;
       log('searchCountryCodeList Length : ${searchCountryCodeList.length}');
-      selectCountryCodeValue = countryCodeList[0];
+      String temp = await userPreference.getStringFromPrefs(
+          key: UserPreference.userCountryCodeKey);
+      selectCountryCodeValue = searchCountryCodeList
+          .firstWhereOrNull((element) => element.dialCode == temp) ??
+          countryCodeList[0];
       oldCountryCode.value = "${selectCountryCodeValue.emoji} "
           "${selectCountryCodeValue.dialCode} ${selectCountryCodeValue.code}";
       newCountryCode.value = "${selectCountryCodeValue.emoji} "
@@ -168,7 +171,7 @@ class PersonalInfoScreenController extends GetxController {
     phoneNumberController.text = await userPreference.getStringFromPrefs(
         key: UserPreference.userMobileNoKey);
     prefsCountryDialCode = await userPreference.getStringFromPrefs(
-        key: UserPreference.userCountryDialCodeKey);
+        key: UserPreference.userCountryCodeKey);
     log('old phone Number : ${phoneNumberController.text}');
     log('prefsCountryDialCode : $prefsCountryDialCode');
     await getCountryCodesFunction();

@@ -33,7 +33,10 @@ class SignUpPreference {
     prefs.remove(targetGenderKey);
     prefs.remove(userGoalKey);
     prefs.remove(userInterestKey);
+    prefs.remove(isUserFirstTimeKey);
 
+
+    setBoolValueInPrefs(key: isUserFirstTimeKey,value: true);
     prefs.setString(signUpEmailKey, "");
     prefs.setString(signUpLocationKey, "");
     prefs.setString(signUpFNameKey, "");

@@ -162,17 +162,16 @@ class LikerDetailsScreenController extends GetxController {
 
   List<BasicModel> setBasicListFunction() {
     List<BasicModel> basicList = [];
-    basicList.add(BasicModel(image: AppImages.genderImage, name: gender.value));
     // basicList.add(BasicModel(image: AppImages.workImage, name: work.value));
     // basicList.add(
     //     BasicModel(image: AppImages.educationImage, name: education.value));
+    basicList.add(BasicModel(image: AppImages.genderImage, name: gender.value));
     basicList.add(
         BasicModel(image: AppImages.heightImage, name: "${height.value} cm"));
     basicList
         .add(BasicModel(image: AppImages.exerciseImage, name: exercise.value));
     basicList
         .add(BasicModel(image: AppImages.smokingImage, name: smoking.value));
-
     basicList
         .add(BasicModel(image: AppImages.drinkingImage, name: drinking.value));
     basicList

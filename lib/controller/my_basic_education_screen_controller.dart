@@ -20,6 +20,15 @@ class MyBasicEducationScreenController extends GetxController {
 
   UserPreference userPreference = UserPreference();
 
+  @override
+  void onInit() {
+    super.onInit();
+    institutionFieldController.text=Get.arguments[0];
+    if(institutionFieldController.text=='Add'){
+      institutionFieldController.text='';
+    }
+  }
+
 
   Future<void> doneButtonClick() async {
     if(formKey.currentState!.validate()) {

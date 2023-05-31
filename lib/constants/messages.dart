@@ -145,6 +145,7 @@ class AppMessages {
   static String holdAndDragText = "Hold & drag photos to change their order";
   static String myInterests = "My Interests";
   static String myBio = "My bio";
+  static String myName = "My name";
   static String profileStrength = "Profile Strength";
   static String myBasics = "My Basics";
   static String moreAboutMe = "More Basics";

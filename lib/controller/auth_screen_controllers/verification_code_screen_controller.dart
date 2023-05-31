@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
+
+import 'package:dater/constants/api_url.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/screens/index_screen/index_screen.dart';
 import 'package:dater/utils/preferences/user_preference.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
-import 'package:dater/constants/api_url.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../../constants/enums.dart';
 import '../../model/authentication_model/verify_code_screen_model/account_active_model.dart';
@@ -50,15 +51,15 @@ class VerifyCodeScreenController extends GetxController {
     "0",
     "#",
   ];
-  
+
   // Active Account
   Future<void> activateAccountFunction() async {
     isLoading(true);
     String url = ApiUrl.accountActiveApi;
     log('activateAccountFunction Api Url : $url');
 
-
-    String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userTokenKey);
+    String verifyToken = await userPreference.getStringFromPrefs(
+        key: UserPreference.userTokenKey);
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
@@ -71,17 +72,20 @@ class VerifyCodeScreenController extends GetxController {
       response.stream.transform(utf8.decoder).listen((value) async {
         log('Active Value : $value');
 
-        AccountActiveModel accountActiveModel = AccountActiveModel.fromJson(json.decode(value));
+        AccountActiveModel accountActiveModel =
+            AccountActiveModel.fromJson(json.decode(value));
 
-        if(accountActiveModel.statusCode == 200) {
+        if (accountActiveModel.statusCode == 200) {
           log('Msg : ${accountActiveModel.msg}');
 
-          if(accountActiveModel.msg.toLowerCase() == "Account already activated".toLowerCase()) {
 
+          if (accountActiveModel.msg.toLowerCase() ==
+              "Account already activated".toLowerCase()) {
             await userPreference.setStringValueInPrefs(
               key: UserPreference.userVerifyTokenKey,
               value: accountActiveModel.token,
             );
+
             await userPreference.setBoolValueInPrefs(
               key: UserPreference.isUserCreatedKey,
               value: true,
@@ -95,22 +99,20 @@ class VerifyCodeScreenController extends GetxController {
               value: true,
             );
 
-            if(comingFrom == ComingFrom.changeNumberScreen) {
+            if (comingFrom == ComingFrom.changeNumberScreen) {
               Get.back();
               Get.back();
             } else {
               Get.offAll(() => IndexScreen());
             }
-          }
-          else {
-
+          } else {
             await userPreference.setStringValueInPrefs(
               key: UserPreference.userVerifyTokenKey,
               value: accountActiveModel.token,
             );
-            if(authAs == AuthAs.register) {
+            if (authAs == AuthAs.register) {
               Get.off(() => SignUpEmailScreen());
-            } else if(authAs == AuthAs.login) {
+            } else if (authAs == AuthAs.login) {
               await userPreference.setBoolValueInPrefs(
                 key: UserPreference.isUserCreatedKey,
                 value: true,
@@ -119,7 +121,14 @@ class VerifyCodeScreenController extends GetxController {
                 key: UserPreference.isUserLoggedInKey,
                 value: true,
               );
-              if(comingFrom == ComingFrom.changeNumberScreen) {
+              await userPreference.setStringValueInPrefs(
+                key: UserPreference.userMobileNoKey,
+                value: mobileNumber.toString(),
+              );
+              await userPreference.setStringValueInPrefs(
+                  key: UserPreference.userCountryCodeKey,
+                  value: countryCode.toString());
+              if (comingFrom == ComingFrom.changeNumberScreen) {
                 Get.back();
                 Get.back();
               } else {
@@ -127,14 +136,13 @@ class VerifyCodeScreenController extends GetxController {
               }
             }
           }
-
-        } else if(accountActiveModel.statusCode == 400) {
+        } else if (accountActiveModel.statusCode == 400) {
           Fluttertoast.showToast(msg: accountActiveModel.msg);
         } else {
           Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
         }
       });
-    } catch(e) {
+    } catch (e) {
       log('activateAccountFunction Error :$e');
       rethrow;
     }
@@ -145,7 +153,7 @@ class VerifyCodeScreenController extends GetxController {
     isLoading(true);
     String url = ApiUrl.resendCodeApi;
     log('Resend Code Api Url :$url');
-    
+
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['phone'] = "$countryCode$mobileNumber";
@@ -155,23 +163,23 @@ class VerifyCodeScreenController extends GetxController {
       response.stream.transform(utf8.decoder).listen((value) async {
         log('Resend code response :$value');
 
-        ResendCodeModel resendCodeModel = ResendCodeModel.fromJson(json.decode(value));
+        ResendCodeModel resendCodeModel =
+            ResendCodeModel.fromJson(json.decode(value));
 
-        if(resendCodeModel.statusCode == 200) {
+        if (resendCodeModel.statusCode == 200) {
           Fluttertoast.showToast(msg: resendCodeModel.msg);
           firstDigitController.clear();
           secondDigitController.clear();
           thirdDigitController.clear();
           fourthDigitController.clear();
           controller.clear();
-        } else if(resendCodeModel.statusCode == 400) {
+        } else if (resendCodeModel.statusCode == 400) {
           Fluttertoast.showToast(msg: resendCodeModel.msg);
         } else {
           Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
         }
       });
-
-    } catch(e) {
+    } catch (e) {
       log('resendCodeFunction Error :$e');
       rethrow;
     }
@@ -183,5 +191,4 @@ class VerifyCodeScreenController extends GetxController {
     log('mobileNumber : $mobileNumber');
     super.onInit();
   }
- 
 }

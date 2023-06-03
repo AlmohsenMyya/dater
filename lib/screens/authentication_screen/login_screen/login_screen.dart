@@ -1,5 +1,6 @@
 import 'package:dater/common_modules/custom_loader.dart';
 import 'package:dater/constants/app_images.dart';
+import 'package:dater/constants/colors.dart';
 import 'package:dater/screens/authentication_screen/login_screen/login_screen_widgets.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
@@ -23,17 +24,20 @@ class LoginInScreen extends StatelessWidget {
             height: Get.height,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(AppImages.signInBackgroundimage),
+                image: AssetImage(AppImages.splashBackgroundImage2),
                 fit: BoxFit.fill,
               ),
             ),
           ),
-          SafeArea(
-            child: Obx(
-              () => loginInScreenController.isLoading.value
-                  ? const CustomLoader()
-                  : ColumnWidgets().commonOnlyPadding(
-                      top: 5.h, right: 15, left: 15, bottom: 20),
+          Container(
+            color: AppColors.lightOrangeBackGround,
+            child: SafeArea(
+              child: Obx(
+                () => loginInScreenController.isLoading.value
+                    ? const CustomLoader()
+                    : ColumnWidgets().commonOnlyPadding(
+                        top: 5.h, right: 15, left: 15, bottom: 20),
+              ),
             ),
           ),
         ],

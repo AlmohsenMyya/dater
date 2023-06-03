@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../../constants/app_images.dart';
+
 LoggedInUserDetailsModel loggedInUserDetailsModelFromJson(String str) => LoggedInUserDetailsModel.fromJson(json.decode(str));
 
 String loggedInUserDetailsModelToJson(LoggedInUserDetailsModel data) => json.encode(data.toJson());
@@ -14,8 +16,8 @@ class LoggedInUserDetailsModel {
 
   String response;
   List<UserDetails> msg;
-  String token;
   int statusCode;
+  String token;
 
   factory LoggedInUserDetailsModel.fromJson(Map<String, dynamic> json) => LoggedInUserDetailsModel(
     response: json["response"] ?? "",
@@ -192,16 +194,20 @@ class UserImages {
 class Interest {
   Interest({
     required this.name,
+    required this.image,
   });
 
   String name;
+  String image;
 
   factory Interest.fromJson(Map<String, dynamic> json) => Interest(
     name: json["name"] ?? "",
+    image: json["image"]??AppImages.ballImage,
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
+    "image":image,
   };
 }
 

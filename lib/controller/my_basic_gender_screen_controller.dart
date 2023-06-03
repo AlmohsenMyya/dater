@@ -16,7 +16,9 @@ class MyBasicGenderScreenController extends GetxController {
 
   RxBool isShowOnProfile = true.obs;
 
-  List<Msg> sexualityList = [];
+  List<Msg> genderList = [];
+  List<Msg> mainGenderList = [];
+  List<Msg> nonBinaryGenderList = [];
   Msg selectedSexualityValue = Msg(id: "1", name: "Female");
 
   UserPreference userPreference = UserPreference();
@@ -33,16 +35,23 @@ class MyBasicGenderScreenController extends GetxController {
       successStatus.value = getGenderModel.statusCode;
 
       if (successStatus.value == 200) {
-        sexualityList.clear();
-        sexualityList.addAll(getGenderModel.msg);
+        genderList.clear();
+        genderList.addAll(getGenderModel.msg);
 
-        for (var element in sexualityList) {
+        for (var element in genderList) {
+
+          if(element.name == "Woman" || element.name == "Man"||element.name=="Non-Binary") {
+            mainGenderList.add(element);
+          } else {
+            nonBinaryGenderList.add(element);
+          }
+
           if (element.name == genderValue) {
             selectedSexualityValue = element;
           }
         }
 
-        log('sexualityList Length : ${sexualityList.length}');
+        log('sexualityList Length : ${genderList.length}');
       } else {
         log('getSexualityFunction Else');
       }

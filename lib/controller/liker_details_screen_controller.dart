@@ -6,15 +6,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:swipable_stack/swipable_stack.dart';
+
 import '../constants/api_url.dart';
 import '../constants/app_images.dart';
 import '../constants/enums.dart';
-import '../constants/messages.dart';
+
 // import '../model/favorite_screen_model/liker_model.dart';
 // import '../model/home_screen_model/matches_model.dart';
 import '../model/home_screen_model/super_love_model.dart';
 import '../model/liker_details_screen_model/liker_user_details_model.dart';
 import '../model/profile_screen_models/basic_model.dart';
+import '../screens/home_screen/widgets/match_dialog.dart';
+import '../utils/functions.dart';
 import '../utils/preferences/user_preference.dart';
 
 class LikerDetailsScreenController extends GetxController {
@@ -38,6 +41,7 @@ class LikerDetailsScreenController extends GetxController {
 
   SwipableStackController cardController = SwipableStackController();
   UserPreference userPreference = UserPreference();
+
   // MatchPersonData singlePersonData = MatchPersonData();
   UserDetails userDetails = UserDetails();
   RxBool selected = false.obs;
@@ -48,13 +52,12 @@ class LikerDetailsScreenController extends GetxController {
     // log("selectedSuperLove.value: ${selectedSuperLove.value}");
 
     await superLoveProfileFunction(
-        likedId: "${userDetails.id}",
-        likeType: LikeType.super_love,
-        // swipeCard: false,
-        // index: index
-        );
+      likedId: "${userDetails.id}",
+      likeType: LikeType.super_love,
+      // swipeCard: false,
+      // index: index
+    );
   }
-
 
   /// Like & SuperLove function
   Future<void> superLoveProfileFunction(
@@ -62,7 +65,8 @@ class LikerDetailsScreenController extends GetxController {
     String url = ApiUrl.superLoveProfileApi;
 
     try {
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
       Map<String, dynamic> bodyData = {
         "token": verifyToken,
         "type": likeType.name,
@@ -77,10 +81,10 @@ class LikerDetailsScreenController extends GetxController {
 
       log('superLove ProfileFunction Response Function : ${response.body}');
 
-      SuperLoveModel superLoveModel = SuperLoveModel.fromJson(json.decode(response.body));
+      SuperLoveModel superLoveModel =
+          SuperLoveModel.fromJson(json.decode(response.body));
 
       if (superLoveModel.statusCode == 200) {
-
         if (likeType == LikeType.like) {
           cardController.next(
             swipeDirection: SwipeDirection.right,
@@ -91,11 +95,11 @@ class LikerDetailsScreenController extends GetxController {
             duration: const Duration(milliseconds: 600),
           );
         }
-        Get.back();
-
+        printAll('done: ${superLoveModel.isMatch.toString()}');
       } else if (superLoveModel.statusCode == 400) {
         Fluttertoast.showToast(msg: superLoveModel.msg);
-        if(superLoveModel.msg.toLowerCase() == "You already liked this account") {
+        if (superLoveModel.msg.toLowerCase() ==
+            "You already liked this account") {
           if (likeType == LikeType.like) {
             cardController.next(
               swipeDirection: SwipeDirection.right,
@@ -123,7 +127,8 @@ class LikerDetailsScreenController extends GetxController {
     log('getLikerDetailsFunction Api Url : $url');
 
     try {
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['token'] = verifyToken;
       request.fields['user_id'] = likerId;
@@ -132,9 +137,10 @@ class LikerDetailsScreenController extends GetxController {
 
       response.stream.transform(utf8.decoder).listen((value) async {
         log("value :$value");
-        UserDetailsModel userDetailsModel = UserDetailsModel.fromJson(json.decode(value));
+        UserDetailsModel userDetailsModel =
+            UserDetailsModel.fromJson(json.decode(value));
 
-        if(userDetailsModel.statusCode == 200) {
+        if (userDetailsModel.statusCode == 200) {
           userDetails = userDetailsModel.msg[0];
           gender.value = userDetails.basic!.gender;
           height.value = userDetails.basic!.height;
@@ -144,21 +150,16 @@ class LikerDetailsScreenController extends GetxController {
           politics.value = userDetails.basic!.politics;
           religion.value = userDetails.basic!.religion;
           kids.value = userDetails.basic!.kids;
-
         } else {
           log('getLikerDetailsFunction Else');
         }
-
       });
-
-    } catch(e) {
+    } catch (e) {
       log('getLikerDetailsFunction Error :$e');
       rethrow;
     }
     isLoading(false);
   }
-
-
 
   List<BasicModel> setBasicListFunction() {
     List<BasicModel> basicList = [];

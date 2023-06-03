@@ -170,7 +170,7 @@ class TextFormFieldModule extends StatelessWidget {
               await chatScreenController.sendChatMessageFunction();
             }
           },
-          icon: Image.asset(AppImages.locationImage),
+          icon: Image.asset(AppImages.appIcon),
         ),
       ],
     ).commonSymmetricPadding(horizontal: 60, vertical: 4);

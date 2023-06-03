@@ -95,6 +95,7 @@ class ProfileScreenController extends GetxController {
           userDrinking.value = loggedInUserDetailsModel.msg[0].basic.drinking;
           userPolitics.value = loggedInUserDetailsModel.msg[0].basic.politics;
           userReligion.value = loggedInUserDetailsModel.msg[0].basic.religion;
+          userStarSign.value = loggedInUserDetailsModel.msg[0].starSign;
           userKids.value = loggedInUserDetailsModel.msg[0].basic.kids;
           userPercentage.value = double.parse(loggedInUserDetailsModel.msg[0].percentage.toString());
           userCountry.value = loggedInUserDetailsModel.msg[0].country;
@@ -157,10 +158,13 @@ class ProfileScreenController extends GetxController {
     basicList
         .add(
         BasicModel(image: AppImages.genderImage, name: userGender.value));
-    basicList.add(BasicModel(
-        image: AppImages.homeTownImage, name: userHomeTown.value));
+    // basicList.add(BasicModel(
+    //     image: AppImages.homeTownImage, name: userHomeTown.value));
     basicList.add(
         BasicModel(image: AppImages.drinkingImage, name: userDrinking.value));
+    basicList.add(BasicModel(image: AppImages.kidsImage, name: userKids.value));
+    basicList
+        .add(BasicModel(image: AppImages.exerciseImage, name: userExercise.value));
     basicList.add(
         BasicModel(image: AppImages.smokingImage, name: userSmoking.value));
     basicList.add(
@@ -170,6 +174,8 @@ class ProfileScreenController extends GetxController {
             image: AppImages.educationImage, name: userEducation.value));
     basicList
         .add(BasicModel(image: AppImages.religionImage, name: userReligion.value));
+    basicList
+        .add(BasicModel(image: AppImages.politicsImage, name: userPolitics.value));
   }
 
   /// Set Interest in local & Prefs
@@ -177,7 +183,7 @@ class ProfileScreenController extends GetxController {
     if (interest.isNotEmpty) {
       for (var element in interest) {
         interestList
-            .add(BasicModel(image: AppImages.ballImage, name: element.name));
+            .add(BasicModel(image: element.image, name: element.name));
       }
 
       /// Set Interest List in Prefs

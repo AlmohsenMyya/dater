@@ -1,15 +1,20 @@
 class AppMessages {
+  static String termsUrl = "https://bambo.social/terms-of-use";
+  static String privacyUrl = "https://bambo.social/privacy-policy";
+  static String communityUrl = "https://bambo.social/community-guidelines";
+
+  static String walk = "Walk&";
   static String findWhat = "Find What";
-  static String completsYou = "Complets You";
-  static String gather = "GATHER";
-  static String authScreen1 = "By clicking “Sign up”, you agree with our ";
+  static String completesYou = "Completes You";
+  static String bambo = "BAMBO";
+  static String authScreen1 = "By clicking “use your phone number”, you agree with our ";
   static String terms = "Terms. ";
   static String authText2 = "Learn how we process your data in our ";
   static String privacyPolicy = "Privacy Policy ";
   static String and = "and ";
-  static String cookissPolicy = "Cookies Policy";
+  static String communityGuidelines = "Community Guidelines";
   static String signUpWithphoneNumber = "Sign up with phone number";
-  static String signInWithphoneNumber = "Sign In with phone number";
+  static String signInWithphoneNumber = "Use your phone number";
   static String termsOfUseAndPrivacyPolice = "Terms of Use and Privacy Policy";
   static String referralNumber =
       "Do you have a referral number from a friend ?";
@@ -153,14 +158,17 @@ class AppMessages {
   static String exercise = "Exercise";
   static String languages = "Languages I know";
   static String whatLanguageKnow = "What languages do you know ?";
-  static String whatLanguageKnowDescription = "We'll show these on your profile and use them to connect you with great matches who know your languages .";
+  static String whatLanguageKnowDescription =
+      "We'll show these on your profile and use them to connect you with great matches who know your languages .";
   static String profilePrompts = "Profile Prompts";
   static String pickProfilePrompts = "Pick a Profile Prompt";
-  static String pickProfilePromptsDescription = "It's the perfect opportunity to show a little more of your personality";
+  static String pickProfilePromptsDescription =
+      "It's the perfect opportunity to show a little more of your personality";
   static String workHeaderText = "Work";
   static String educationHeaderText = "Education";
   static String homeTownHeaderText = "Home Town";
   static String lookingFor = "Looking for";
+
   // This is client token - don't remove it
   // static String token = "96e8451a018e5558d9af7979302cc85b";
   // static String token = "46848b9868ab080b9180fba089b04032"; //+619662298453

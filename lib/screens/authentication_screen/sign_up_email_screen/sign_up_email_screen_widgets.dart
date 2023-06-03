@@ -30,7 +30,7 @@ class SignUpEmailScreenWidgets extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             color: AppColors.whiteColor2,
             image: const DecorationImage(
-              image: AssetImage(AppImages.locationImage),
+              image: AssetImage(AppImages.appIcon),
               fit: BoxFit.fitHeight,
             ),
           ),

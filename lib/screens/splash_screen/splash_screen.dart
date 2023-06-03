@@ -1,5 +1,6 @@
 import 'package:dater/constants/app_images.dart';
 import 'package:dater/constants/colors.dart';
+import 'package:dater/constants/font_family.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/controller/splash_screen_controller.dart';
 import 'package:dater/utils/extensions.dart';
@@ -22,8 +23,8 @@ class SplashScreen extends StatelessWidget {
             height: Get.height,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(AppImages.splashBackgroundImage),
-                fit: BoxFit.fill,
+                image: AssetImage(AppImages.splashBackgroundImage2),
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -31,42 +32,43 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  textAlign: TextAlign.center,
-                  AppMessages.findWhat,
-                  style: TextStyleConfig.textStyle(
-                    fontFamily: "lucidaCalligraphyItalic",
-                    textColor: AppColors.whiteColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 30,
-                  ),
-                ),
-                Text(
-                  textAlign: TextAlign.center,
-                  AppMessages.completsYou,
-                  style: TextStyleConfig.textStyle(
-                    fontFamily: "lucidaCalligraphyItalic",
-                    textColor: AppColors.whiteColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 30,
-                  ),
-                ),
-                SizedBox(height: 25.h),
+                SizedBox(height: 14.h),
                 SizedBox(
                   width: 90,
                   height: 90,
-                  child: Image.asset(AppImages.locationImage),
+                  child: Image.asset(AppImages.appIcon),
                 ),
                 SizedBox(height: 1.h),
                 Text(
                   textAlign: TextAlign.center,
-                  AppMessages.gather,
+                  AppMessages.bambo,
                   style: TextStyleConfig.textStyle(
                     textColor: AppColors.whiteColor,
                     fontFamily: "SFProDisplayRegular",
                     fontSize: 23.sp,
                   ),
-                )
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  textAlign: TextAlign.center,
+                  AppMessages.findWhat,
+                  style: TextStyleConfig.textStyle(
+                    fontFamily: FontFamilyText.bullpen3D,
+                    textColor: AppColors.whiteColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 30,
+                  ),
+                ),
+                Text(
+                  textAlign: TextAlign.center,
+                  AppMessages.completesYou,
+                  style: TextStyleConfig.textStyle(
+                    fontFamily: FontFamilyText.bullpen3D,
+                    textColor: AppColors.whiteColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 30,
+                  ),
+                ),
               ],
             ).commonOnlyPadding(top: 30),
           ),

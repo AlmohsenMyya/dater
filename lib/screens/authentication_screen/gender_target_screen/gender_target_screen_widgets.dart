@@ -4,6 +4,7 @@ import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../constants/colors.dart';
 import '../../../constants/font_family.dart';
 import '../../../model/authentication_model/gender_select_screen_model/get_gender_model.dart';
@@ -11,13 +12,15 @@ import '../../../utils/style.dart';
 
 class GenderTargetRadioButtonModule extends StatelessWidget {
   GenderTargetRadioButtonModule({super.key});
+
   final genderTargetScreenController = Get.find<GenderTargetScreenController>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.grey.shade200,  
+        color: Colors.grey.shade200,
         border: Border.all(
           color: AppColors.grey300Color,
           width: 2,
@@ -37,16 +40,17 @@ class GenderTargetRadioButtonModule extends StatelessWidget {
               ),
             ],
           ),
+
           ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: genderTargetScreenController.targetGenderList.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: genderTargetScreenController.mainGenderList.length,
             itemBuilder: (context, index) {
               return Row(
                 children: [
                   Expanded(
                     child: Text(
-                      genderTargetScreenController.targetGenderList[index].name,
+                      genderTargetScreenController.mainGenderList[index].name,
                       style: TextStyleConfig.textStyle(
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 15.sp,
@@ -56,15 +60,38 @@ class GenderTargetRadioButtonModule extends StatelessWidget {
                   ),
                   Radio<Msg>(
                     activeColor: AppColors.darkOrangeColor,
-                    value: genderTargetScreenController.targetGenderList[index],
+                    value: genderTargetScreenController.mainGenderList[index],
                     groupValue:
-                        genderTargetScreenController.targetGenderSelectedValue,
+                        genderTargetScreenController.selectedGenderValue,
                     onChanged: (val) => genderTargetScreenController
                         .radioButtonOnChangeFunction(val!),
                   ),
                 ],
               );
             },
+          ),
+          DropdownButton<Msg>(
+            hint: const Text("Add more about your gender"),
+            value: !genderTargetScreenController.nonBinaryGenderList
+                    .contains(genderTargetScreenController.selectedGenderValue)
+                ? null
+                : genderTargetScreenController.selectedGenderValue,
+            onChanged: (Msg? val) =>
+                genderTargetScreenController.radioButtonOnChangeFunction(val!),
+            items: genderTargetScreenController.nonBinaryGenderList
+                .map((Msg gender) {
+              return DropdownMenuItem<Msg>(
+                value: gender,
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      gender.name,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
           ),
         ],
       ).commonSymmetricPadding(horizontal: 25, vertical: 10),

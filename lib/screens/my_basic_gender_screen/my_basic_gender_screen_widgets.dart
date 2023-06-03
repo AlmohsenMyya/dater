@@ -38,16 +38,43 @@ class BasicGenderRadioButtonModule extends StatelessWidget {
               ),
             ],
           ),
+          // ListView.builder(
+          //   shrinkWrap: true,
+          //   physics: const NeverScrollableScrollPhysics(),
+          //   itemCount: screenController.genderList.length,
+          //   itemBuilder: (context, index) {
+          //     return Row(
+          //       children: [
+          //         Expanded(
+          //           child: Text(
+          //             screenController.genderList[index].name,
+          //             style: TextStyleConfig.textStyle(
+          //               fontFamily: FontFamilyText.sFProDisplayRegular,
+          //               fontSize: 15.sp,
+          //               textColor: AppColors.grey600Color,
+          //             ),
+          //           ),
+          //         ),
+          //         Radio<Msg>(
+          //           activeColor: AppColors.darkOrangeColor,
+          //           value: screenController.genderList[index],
+          //           groupValue: screenController.selectedSexualityValue,
+          //           onChanged: (val) => screenController.radioButtonChangeFunction(val!),
+          //         ),
+          //       ],
+          //     );
+          //   },
+          // ),
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: screenController.sexualityList.length,
+            itemCount: screenController.mainGenderList.length,
             itemBuilder: (context, index) {
               return Row(
                 children: [
                   Expanded(
                     child: Text(
-                      screenController.sexualityList[index].name,
+                      screenController.mainGenderList[index].name,
                       style: TextStyleConfig.textStyle(
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 15.sp,
@@ -57,13 +84,38 @@ class BasicGenderRadioButtonModule extends StatelessWidget {
                   ),
                   Radio<Msg>(
                     activeColor: AppColors.darkOrangeColor,
-                    value: screenController.sexualityList[index],
-                    groupValue: screenController.selectedSexualityValue,
-                    onChanged: (val) => screenController.radioButtonChangeFunction(val!),
+                    value: screenController.mainGenderList[index],
+                    groupValue:
+                    screenController.selectedSexualityValue,
+                    onChanged: (val) => screenController
+                        .radioButtonChangeFunction(val!),
                   ),
                 ],
               );
             },
+          ),
+          DropdownButton<Msg>(
+            hint: const Text("Add more about your gender"),
+            value: !screenController.nonBinaryGenderList
+                .contains(screenController.selectedSexualityValue)
+                ? null
+                : screenController.selectedSexualityValue,
+            onChanged: (Msg? val) =>
+                screenController.radioButtonChangeFunction(val!),
+            items: screenController.nonBinaryGenderList
+                .map((Msg gender) {
+              return DropdownMenuItem<Msg>(
+                value: gender,
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      gender.name,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
           ),
         ],
       ).commonSymmetricPadding(horizontal: 25, vertical: 10),

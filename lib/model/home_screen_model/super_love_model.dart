@@ -15,10 +15,12 @@ class SuperLoveModel {
     required this.msg,
     required this.token,
     required this.statusCode,
+    required this.isMatch,
   });
 
   String response;
   String msg;
+  bool isMatch;
   String token;
   int statusCode;
 
@@ -27,6 +29,7 @@ class SuperLoveModel {
         msg: json["msg"] ?? "",
         token: json["token"] ?? "",
         statusCode: json["status_code"],
+        isMatch: json["is_match"] == 'true' ? true : false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -34,5 +37,6 @@ class SuperLoveModel {
         "msg": msg,
         "token": token,
         "status_code": statusCode,
+        "is_match": isMatch,
       };
 }

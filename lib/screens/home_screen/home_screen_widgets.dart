@@ -6,6 +6,8 @@ import 'package:dater/constants/messages.dart';
 import 'package:dater/screens/home_screen/widgets/basic_information_module.dart';
 import 'package:dater/screens/home_screen/widgets/interests_information_module.dart';
 import 'package:dater/screens/home_screen/widgets/languages_information_module.dart';
+import 'package:dater/screens/home_screen/widgets/match_dialog.dart';
+import 'package:dater/screens/home_screen/widgets/reports_dialog.dart';
 import 'package:dater/screens/home_screen/widgets/user_image_show_module.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ import 'widgets/location_information_module.dart';
 /// New Widget
 class SwipeUserModule extends StatelessWidget {
   SwipeUserModule({Key? key}) : super(key: key);
-  final homeScreenController = Get.find<HomeScreenController>();
+  final homeScreenController = Get.put(HomeScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -366,13 +368,37 @@ class SwipeUserModule extends StatelessWidget {
                                     if (homeScreenController.bio.value !=
                                         '') ...[
                                       Container(height: 2.h),
-                                      Text(
-                                        AppMessages.aboutMe,
-                                        style: TextStyleConfig.textStyle(
-                                          fontSize: 16.sp,
-                                          fontFamily: FontFamilyText
-                                              .sFProDisplaySemibold,
-                                          textColor: AppColors.grey800Color,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.dialog(
+                                            MatchDialog(
+                                              tName: homeScreenController
+                                                  .name.value,
+                                              tWork: homeScreenController
+                                                  .work.value,
+                                              tDistance: homeScreenController
+                                                  .distance.value,
+                                              name: homeScreenController
+                                                  .profileCont.userName.value,
+                                              work: homeScreenController
+                                                  .profileCont.userWork.value,
+                                              tImage: homeScreenController
+                                                  .userImageList[0].imageUrl,
+                                              image: homeScreenController
+                                                  .profileCont
+                                                  .userImages[0]
+                                                  .imageUrl,
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          AppMessages.aboutMe,
+                                          style: TextStyleConfig.textStyle(
+                                            fontSize: 16.sp,
+                                            fontFamily: FontFamilyText
+                                                .sFProDisplaySemibold,
+                                            textColor: AppColors.grey800Color,
+                                          ),
                                         ),
                                       ),
                                       SizedBox(height: 0.5.h),
@@ -609,14 +635,29 @@ class SwipeUserModule extends StatelessWidget {
                                           ),
                                         ),
                                         Expanded(
-                                          child: Text(
-                                            'Hide and Report',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 15.sp,
-                                              color: AppColors.lightOrangeColor,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              printAll('hide and report');
+                                              Get.dialog(ReportsDialog(
+                                                reportsList:
+                                                    homeScreenController
+                                                        .reportsList,
+                                              ));
+                                              // homeScreenController.reportUser(
+                                              //     profileId: homeScreenController
+                                              //         .currentUserId.value,
+                                              //     reportReasonId: '1');
+                                            },
+                                            child: Text(
+                                              'Hide and Report',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 15.sp,
+                                                color:
+                                                    AppColors.lightOrangeColor,
+                                              ),
                                             ),
                                           ),
                                         ),

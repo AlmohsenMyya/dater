@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dater/constants/colors.dart';
 import 'package:dater/constants/font_family.dart';
 import 'package:dater/controller/auth_screen_controllers/gender_select_screen_controller.dart';
@@ -13,6 +11,7 @@ import '../../../model/authentication_model/gender_select_screen_model/get_gende
 
 class RadioButtonModule extends StatelessWidget {
   RadioButtonModule({super.key});
+
   final genderSelectScreenController = Get.find<GenderSelectScreenController>();
 
   @override
@@ -43,13 +42,13 @@ class RadioButtonModule extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: genderSelectScreenController.genderList.length,
+            itemCount: genderSelectScreenController.mainGenderList.length,
             itemBuilder: (context, index) {
               return Row(
                 children: [
                   Expanded(
                     child: Text(
-                      genderSelectScreenController.genderList[index].name,
+                      genderSelectScreenController.mainGenderList[index].name,
                       style: TextStyleConfig.textStyle(
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 15.sp,
@@ -58,15 +57,39 @@ class RadioButtonModule extends StatelessWidget {
                     ),
                   ),
                   Radio<Msg>(
-                      activeColor: AppColors.darkOrangeColor,
-                      value: genderSelectScreenController.genderList[index],
-                      groupValue: genderSelectScreenController.selectedGenderValue,
-                      onChanged: (val) => genderSelectScreenController.radioButtonOnChangeFunction(val!),
-                    ),
-
+                    activeColor: AppColors.darkOrangeColor,
+                    value: genderSelectScreenController.mainGenderList[index],
+                    groupValue:
+                    genderSelectScreenController.selectedGenderValue,
+                    onChanged: (val) => genderSelectScreenController
+                        .radioButtonOnChangeFunction(val!),
+                  ),
                 ],
               );
             },
+          ),
+          DropdownButton<Msg>(
+            hint: const Text("Add more about your gender"),
+            value: !genderSelectScreenController.nonBinaryGenderList
+                .contains(genderSelectScreenController.selectedGenderValue)
+                ? null
+                : genderSelectScreenController.selectedGenderValue,
+            onChanged: (Msg? val) =>
+                genderSelectScreenController.radioButtonOnChangeFunction(val!),
+            items: genderSelectScreenController.nonBinaryGenderList
+                .map((Msg gender) {
+              return DropdownMenuItem<Msg>(
+                value: gender,
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      gender.name,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
           ),
         ],
       ).commonSymmetricPadding(horizontal: 25, vertical: 10),

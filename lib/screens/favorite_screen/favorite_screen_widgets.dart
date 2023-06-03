@@ -94,7 +94,7 @@ class FavoriteGridViewBuilderModule extends StatelessWidget {
                               topRight: Radius.circular(20),
                             ),
                             child: Image.asset(
-                              AppImages.locationImage,
+                              AppImages.appIcon,
                             ).commonAllSidePadding(30),
                           ),
                   ),

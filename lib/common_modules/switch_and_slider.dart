@@ -13,6 +13,7 @@ class ToggleSwitchCustomModule extends StatelessWidget {
   String labelText;
   Function(bool) onToggle;
   RxBool onTogglevalue;
+
   ToggleSwitchCustomModule({
     Key? key,
     required this.labelText,
@@ -93,12 +94,17 @@ class ToggleSwitchCustomModule extends StatelessWidget {
 class RangeSliderModule extends StatelessWidget {
   RangeValues rangeValues;
   RxString text;
+  double min;
+  double max;
   Function(RangeValues) sliderOnChanged;
+
   RangeSliderModule({
     Key? key,
     required this.rangeValues,
     required this.text,
     required this.sliderOnChanged,
+    required this.min,
+    required this.max,
   }) : super(key: key);
   final filterScreenController = Get.find<FilterScreenController>();
 
@@ -127,8 +133,8 @@ class RangeSliderModule extends StatelessWidget {
           child: RangeSlider(
               activeColor: AppColors.lightOrangeColor,
               inactiveColor: AppColors.darkGreyColor,
-              min: 0,
-              max: 100,
+              min: min,
+              max: max,
               values: rangeValues,
               onChanged: sliderOnChanged),
         ),

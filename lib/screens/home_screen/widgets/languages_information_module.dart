@@ -50,13 +50,13 @@ class LanguagesInformationModule extends StatelessWidget {
                     // "English",
                     style: TextStyleConfig.textStyle(
                       fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.grey600Color,
+                      textColor: AppColors.blackColor,
                       fontSize: 16,
                     ),
                   ),
-                  selected: false,
-                  selectedColor: AppColors.darkOrangeColor,
-                  backgroundColor: AppColors.lightOrangeColor,
+                  selected: true,
+                  selectedColor: AppColors.lightOrange2Color,
+                  backgroundColor: Colors.white,
                   shape: const StadiumBorder(
                     side: BorderSide(
                       color: AppColors.grey400Color,

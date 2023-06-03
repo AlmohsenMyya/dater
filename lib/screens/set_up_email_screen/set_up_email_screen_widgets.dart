@@ -22,56 +22,58 @@ class SetUpEmailScreenWidgets extends StatelessWidget {
   final setUpEmailScreenController = Get.find<SetUpEmailScreenController>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 10.5.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: AppColors.whiteColor2,
-            image: const DecorationImage(
-              image: AssetImage(AppImages.locationImage),
-              fit: BoxFit.fitHeight,
+    return SingleChildScrollView(
+      controller: ScrollController(),
+      physics: const NeverScrollableScrollPhysics(),
+      child: Column(
+        children: [
+          Container(
+            height: 10.5.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.whiteColor2,
+              image: const DecorationImage(
+                image: AssetImage(AppImages.appIcon),
+                fit: BoxFit.fitHeight,
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 2.h),
-        Text(
-          AppMessages.whatsYourEmail,
-          style: TextStyleConfig.textStyle(
-            fontFamily: FontFamilyText.sFProDisplayRegular,
-            textColor: AppColors.grey800Color,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.sp,
-          ),
-        ),
-        SizedBox(height: 2.h),
-        RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            text: AppMessages.donTLoseAccessToYourAccount,
+          SizedBox(height: 2.h),
+          Text(
+            AppMessages.whatsYourEmail,
             style: TextStyleConfig.textStyle(
               fontFamily: FontFamilyText.sFProDisplayRegular,
-              textColor: AppColors.grey600Color,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
+              textColor: AppColors.grey800Color,
+              fontWeight: FontWeight.bold,
+              fontSize: 20.sp,
             ),
           ),
-        ),
-        SizedBox(height: 2.h),
-        Form(
-          key: setUpEmailScreenController.formKey,
-          child: noShadowTextFormFiledCustom(
-            fieldController: setUpEmailScreenController.emailTextFieldController,
-            hintText: AppMessages.enterYourEmail,
-            keyboardType: TextInputType.text,
-            fillColor: AppColors.whiteColor2,
-            validate: (value)=> FieldValidator().validateEmail(value!),
-          ).commonSymmetricPadding(horizontal: 10),
-        ),
-        SizedBox(height: 2.h),
-
-      ],
+          SizedBox(height: 2.h),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: AppMessages.donTLoseAccessToYourAccount,
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayRegular,
+                textColor: AppColors.grey600Color,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          SizedBox(height: 2.h),
+          Form(
+            key: setUpEmailScreenController.formKey,
+            child: noShadowTextFormFiledCustom(
+              fieldController: setUpEmailScreenController.emailTextFieldController,
+              hintText: AppMessages.enterYourEmail,
+              keyboardType: TextInputType.text,
+              fillColor: AppColors.whiteColor2,
+              validate: (value)=> FieldValidator().validateEmail(value!),
+            ).commonSymmetricPadding(horizontal: 10),
+          ),
+        ],
+      ),
     );
   }
 }

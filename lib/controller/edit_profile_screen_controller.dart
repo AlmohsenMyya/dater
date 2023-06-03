@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:dater/model/star_sign_screen_model/save_star_sign_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+
 import '../constants/api_url.dart';
 import '../constants/enums.dart';
 import '../constants/messages.dart';
@@ -28,12 +30,12 @@ class EditProfileScreenController extends GetxController {
   RxInt successStatus = 0.obs;
   final ImagePicker imagePicker = ImagePicker();
 
-  MoreAboutMe exerciseValue = MoreAboutMe.no;
-  MoreAboutMe drinkingValue = MoreAboutMe.no;
-  MoreAboutMe smokingValue = MoreAboutMe.no;
-  MoreAboutMe kidsValue = MoreAboutMe.no;
+  MoreAboutMe exerciseValue = MoreAboutMe.hidden;
+  MoreAboutMe drinkingValue = MoreAboutMe.hidden;
+  MoreAboutMe smokingValue = MoreAboutMe.hidden;
+  MoreAboutMe kidsValue = MoreAboutMe.hidden;
 
-  List<String> interestList = [];
+  List<Interest> interestList = [];
   List<String> languageList = [];
 
   String politics = "";
@@ -47,7 +49,6 @@ class EditProfileScreenController extends GetxController {
   int userPercentage = 0;
   TextEditingController profilePromptsController = TextEditingController();
   TextEditingController myBioController = TextEditingController();
-
 
   TextEditingController myNameController = TextEditingController();
 
@@ -143,6 +144,7 @@ class EditProfileScreenController extends GetxController {
     log('Bio : $bio');
     await updateUserProfileFunction(key: AppMessages.bioApiText, value: bio);
   }
+
   Future<void> setUserNameFunction() async {
     await userPreference.setStringValueInPrefs(
         key: UserPreference.nameKey, value: myNameController.text.trim());
@@ -169,7 +171,9 @@ class EditProfileScreenController extends GetxController {
         ? "no"
         : selectedValue == MoreAboutMe.yes
             ? "yes"
-            : "sometimes";
+            : selectedValue == MoreAboutMe.sometimes
+                ? "sometimes"
+                : "hidden";
     await userPreference.setStringValueInPrefs(
         key: UserPreference.exerciseKey, value: value);
     await updateUserProfileFunction(
@@ -182,7 +186,10 @@ class EditProfileScreenController extends GetxController {
         ? "no"
         : selectedValue == MoreAboutMe.yes
             ? "yes"
-            : "socially";
+            : selectedValue == MoreAboutMe.sometimes
+                ? "socially"
+                : "hidden";
+
     await userPreference.setStringValueInPrefs(
         key: UserPreference.drinkingKey, value: value);
     await updateUserProfileFunction(
@@ -195,7 +202,9 @@ class EditProfileScreenController extends GetxController {
         ? "no"
         : selectedValue == MoreAboutMe.yes
             ? "yes"
-            : "socially";
+            : selectedValue == MoreAboutMe.sometimes
+                ? "socially"
+                : "hidden";
     await userPreference.setStringValueInPrefs(
         key: UserPreference.smokingKey, value: value);
 
@@ -209,7 +218,9 @@ class EditProfileScreenController extends GetxController {
         ? "no"
         : selectedValue == MoreAboutMe.yes
             ? "yes"
-            : "want someday";
+            : selectedValue == MoreAboutMe.sometimes
+                ? "Someday"
+                : "hidden";
     await userPreference.setStringValueInPrefs(
         key: UserPreference.kidsKey, value: value);
     await updateUserProfileFunction(
@@ -286,11 +297,12 @@ class EditProfileScreenController extends GetxController {
           lookingFor = userDetails!.basic.lookingFor;
 
           promptsList.clear();
-          if(loggedInUserDetailsModel.msg[0].prompts.isNotEmpty) {
+          if (loggedInUserDetailsModel.msg[0].prompts.isNotEmpty) {
             promptsList.addAll(loggedInUserDetailsModel.msg[0].prompts);
           }
 
           captureImageList.clear();
+
           /// Set User Network Images
           for (var value in userDetails!.images) {
             captureImageList.add(UploadUserImage(
@@ -301,8 +313,8 @@ class EditProfileScreenController extends GetxController {
 
           /// Set User Interest
           interestList.clear();
-          for (var value in userDetails!.interest) {
-            interestList.add(value.name);
+          for (Interest value in userDetails!.interest) {
+            interestList.add(value);
           }
           // profilePromptsController.text = userDetails!.profilePrompts!;
           myBioController.text = userDetails!.bio;
@@ -399,7 +411,8 @@ class EditProfileScreenController extends GetxController {
   }
 
   /// Delete Prompts
-  Future<void> deletePromptsFunction({required String promptsId, required int index}) async {
+  Future<void> deletePromptsFunction(
+      {required String promptsId, required int index}) async {
     isLoading(true);
     String url = ApiUrl.setPromptsApi;
     log('deletePromptsFunction Api Url :$url');
@@ -417,25 +430,23 @@ class EditProfileScreenController extends GetxController {
 
       response.stream.transform(utf8.decoder).listen((value1) async {
         log('value1 : $value1');
-        SaveStarSignModel deletePromptsModel = SaveStarSignModel.fromJson(json.decode(value1));
+        SaveStarSignModel deletePromptsModel =
+            SaveStarSignModel.fromJson(json.decode(value1));
 
         successStatus.value = deletePromptsModel.statusCode;
 
-        if(successStatus.value == 200) {
+        if (successStatus.value == 200) {
           promptsList.removeAt(index);
           Get.back();
           loadUI();
         } else {
           log('deletePromptsFunction Else');
         }
-
       });
-
-    } catch(e){
+    } catch (e) {
       log('deletePromptsFunction Error :$e');
       rethrow;
     }
-
   }
 
   /// Set Cover Image Function
@@ -457,19 +468,18 @@ class EditProfileScreenController extends GetxController {
       response.stream.transform(utf8.decoder).listen((value1) async {
         log('setUserCoverImageFunction value1 : $value1');
 
-        SavedDataModel savedDataModel = SavedDataModel.fromJson(json.decode(value1));
+        SavedDataModel savedDataModel =
+            SavedDataModel.fromJson(json.decode(value1));
         successStatus.value = savedDataModel.statusCode;
 
-        if(successStatus.value == 200) {
+        if (successStatus.value == 200) {
           Fluttertoast.showToast(msg: savedDataModel.msg);
           await getUserDetailsFunction();
         } else {
           log('setUserCoverImageFunction Else');
         }
-
       });
-
-    } catch(e) {
+    } catch (e) {
       log('setUserCoverImageFunction Error :$e');
       rethrow;
     }
@@ -493,7 +503,9 @@ class EditProfileScreenController extends GetxController {
         ? MoreAboutMe.no
         : userDetails!.basic.exercise == "yes"
             ? MoreAboutMe.yes
-            : MoreAboutMe.sometimes;
+            : userDetails!.basic.exercise == "sometimes"
+                ? MoreAboutMe.sometimes
+                : MoreAboutMe.hidden;
   }
 
   void getAndSetDrinkingValue() {
@@ -501,7 +513,9 @@ class EditProfileScreenController extends GetxController {
         ? MoreAboutMe.no
         : userDetails!.basic.drinking == "yes"
             ? MoreAboutMe.yes
-            : MoreAboutMe.sometimes;
+            : userDetails!.basic.drinking == "socially"
+                ? MoreAboutMe.sometimes
+                : MoreAboutMe.hidden;
   }
 
   void getAndSetSmokingValue() {
@@ -509,7 +523,9 @@ class EditProfileScreenController extends GetxController {
         ? MoreAboutMe.no
         : userDetails!.basic.smoking == "yes"
             ? MoreAboutMe.yes
-            : MoreAboutMe.sometimes;
+            : userDetails!.basic.smoking == "socially"
+                ? MoreAboutMe.sometimes
+                : MoreAboutMe.hidden;
   }
 
   void getAndSetKidsValue() {
@@ -517,7 +533,9 @@ class EditProfileScreenController extends GetxController {
         ? MoreAboutMe.no
         : userDetails!.basic.kids == "yes"
             ? MoreAboutMe.yes
-            : MoreAboutMe.sometimes;
+            : userDetails!.basic.kids == "someday"
+                ? MoreAboutMe.sometimes
+                : MoreAboutMe.hidden;
   }
 
   Future<void> setUserImagesInPrefs() async {
@@ -546,42 +564,50 @@ class EditProfileScreenController extends GetxController {
   }
 
   Future<void> getPoliticsValueFromPrefs() async {
-    politics = await userPreference.getStringFromPrefs(key: UserPreference.politicsKey);
+    politics = await userPreference.getStringFromPrefs(
+        key: UserPreference.politicsKey);
     loadUI();
   }
 
   Future<void> getReligionValueFromPrefs() async {
-    religion = await userPreference.getStringFromPrefs(key: UserPreference.religionKey);
+    religion = await userPreference.getStringFromPrefs(
+        key: UserPreference.religionKey);
     loadUI();
   }
 
   Future<void> getStarSignValueFromPrefs() async {
-    starSign = await userPreference.getStringFromPrefs(key: UserPreference.starSignKey);
+    starSign = await userPreference.getStringFromPrefs(
+        key: UserPreference.starSignKey);
     loadUI();
   }
 
   Future<void> getMyBasicGenderValueFromPrefs() async {
-    gender = await userPreference.getStringFromPrefs(key: UserPreference.myBasicGenderValueKey);
+    gender = await userPreference.getStringFromPrefs(
+        key: UserPreference.myBasicGenderValueKey);
     loadUI();
   }
+
   Future<void> getMyBasicWorkValueFromPrefs() async {
-    work = await userPreference.getStringFromPrefs(key: UserPreference.myBasicWorkValueKey);
+    work = await userPreference.getStringFromPrefs(
+        key: UserPreference.myBasicWorkValueKey);
     loadUI();
   }
 
   Future<void> getMyBasicEducationValueFromPrefs() async {
-    education = await userPreference.getStringFromPrefs(key: UserPreference.myBasicEducationValueKey);
+    education = await userPreference.getStringFromPrefs(
+        key: UserPreference.myBasicEducationValueKey);
     loadUI();
   }
 
   Future<void> getMyBasicHomeTownValueFromPrefs() async {
-    homeTown = await userPreference.getStringFromPrefs(key: UserPreference.myBasicHomeTownValueKey);
+    homeTown = await userPreference.getStringFromPrefs(
+        key: UserPreference.myBasicHomeTownValueKey);
     loadUI();
   }
 
   Future<void> getMyBasicLookingForValueFromPrefs() async {
-    lookingFor = await userPreference.getStringFromPrefs(key: UserPreference.myBasicLookingForValueKey);
+    lookingFor = await userPreference.getStringFromPrefs(
+        key: UserPreference.myBasicLookingForValueKey);
     loadUI();
   }
-
 }

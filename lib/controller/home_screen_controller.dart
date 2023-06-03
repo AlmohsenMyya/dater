@@ -2,25 +2,30 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
-import 'package:dater/model/home_screen_model/super_love_model.dart';
-import 'package:dater/model/profile_screen_models/basic_model.dart';
-import 'package:dater/screens/index_screen/index_screen.dart';
-import 'package:dater/utils/functions.dart';
-import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/constants/app_images.dart';
+import 'package:dater/controller/profile_screen_controller.dart';
+import 'package:dater/model/home_screen_model/super_love_model.dart';
+import 'package:dater/model/profile_screen_models/basic_model.dart';
+import 'package:dater/model/profile_screen_models/report_model.dart';
 import 'package:dater/screens/location_permission_screen/location_permission_screen.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'package:swipable_stack/swipable_stack.dart';
+
 import '../constants/enums.dart';
 import '../model/home_screen_model/regather_model.dart';
 import '../model/home_screen_model/suggestions_model.dart';
+import '../model/profile_screen_models/language_save_model.dart';
 import '../model/saved_data_model/saved_data_model.dart';
+import '../screens/home_screen/widgets/match_dialog.dart';
+import '../utils/functions.dart';
 import '../utils/preferences/user_preference.dart';
-import 'package:dio/dio.dart' as dio;
 
 class HomeScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -41,10 +46,12 @@ class HomeScreenController extends GetxController {
   // RxString selectedval = ''.obs;
   RxBool selected = false.obs;
   RxBool selectedSuperLove = false.obs;
+
   // int superLoveIndex = 0;
   var scrollController = ScrollController();
   String selectedVal = "";
   RxString name = ''.obs;
+  RxString currentUserId = ''.obs;
   RxString bio = ''.obs;
   RxString age = ''.obs;
   RxString profilePrompts = ''.obs;
@@ -67,7 +74,7 @@ class HomeScreenController extends GetxController {
   SuggestionData singlePersonData = SuggestionData();
   UserPreference userPreference = UserPreference();
   List<BasicModel> basicList = [];
-  List<String> interestList = [];
+  List<Interest> interestList = [];
   List<String> languageList = [];
   List<UserImage> userImageList = [];
   RxInt currentUserIndex = 0.obs;
@@ -85,8 +92,12 @@ class HomeScreenController extends GetxController {
     AppImages.swiper2Image,
   ];
 
+  List<ReportModel> reportsList = [];
+  RxInt selectedReportIndex = 0.obs;
+
   hideSuperLoveButtonFunction(SwipeDirectionEnum swipeDirectionEnum) {
-    if(swipeDirectionEnum == SwipeDirectionEnum.left || swipeDirectionEnum == SwipeDirectionEnum.right) {
+    if (swipeDirectionEnum == SwipeDirectionEnum.left ||
+        swipeDirectionEnum == SwipeDirectionEnum.right) {
       isVisible.value = false;
     } else {
       isVisible.value = true;
@@ -132,7 +143,6 @@ class HomeScreenController extends GetxController {
     // await initMethod();
   }
 
-  // superlovefunction,
   Future<void> understandSuperLoveFunction(int index) async {
     await userPreference.setBoolValueInPrefs(
         key: UserPreference.isSuperLoveInKey, value: selectedSuperLove.value);
@@ -143,6 +153,70 @@ class HomeScreenController extends GetxController {
         likeType: LikeType.super_love,
         swipeCard: false,
         index: index);
+  }
+
+  Future<void> getListReports() async {
+    isLoading(true);
+    String url = ApiUrl.getReportsTypesApi;
+    try {
+      var response = await dioRequest.get(url);
+
+      ReportsModelMsg reportsModelMsg =
+          ReportsModelMsg.fromJson(json.decode(response.data));
+      successStatus.value = reportsModelMsg.statusCode;
+      if (successStatus.value == 200) {
+        reportsList.clear();
+        if (reportsModelMsg.msg.isNotEmpty) {
+          reportsList.addAll(reportsModelMsg.msg);
+          log('reportsList : ${reportsList.length}');
+        }
+      } else {
+        log('getListReportsError Else');
+      }
+    } catch (e) {
+      log('getListReports Error :$e');
+
+      rethrow;
+    }
+
+    isLoading(false);
+  }
+
+  Future<void> reportUser(
+      {required String profileId, required String reportReasonId}) async {
+    String url = ApiUrl.reportUser;
+
+    try {
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
+
+      var formData = dio.FormData.fromMap({
+        'token': verifyToken,
+        "profile_id": profileId,
+        "report_reason_id": reportReasonId
+      });
+
+      printAll(name: 'reported', '$profileId $reportReasonId');
+      var response = await dioRequest.post(url, data: formData);
+
+      LanguageSaveModel reportResponse =
+          LanguageSaveModel.fromJson(json.decode(response.data));
+      successStatus.value = reportResponse.statusCode;
+      // if (successStatus.value == 200) {
+      // } else {
+      //   log('reportAccountFunction Else');
+      // }
+      Fluttertoast.showToast(msg: reportResponse.msg);
+      cardController.next(
+        swipeDirection: SwipeDirection.left,
+      );
+    } catch (e) {
+      log('reportAccountFunction Error :$e');
+
+      rethrow;
+    }
+    Get.back();
+    isLoading(false);
   }
 
   /// Get Suggestions Function
@@ -156,15 +230,14 @@ class HomeScreenController extends GetxController {
           key: UserPreference.userVerifyTokenKey);
       // log('Get User Suggestion User Token : $verifyToken');
 
-      var formData = dio.FormData.fromMap({
-        'token': verifyToken
-      });
+      var formData = dio.FormData.fromMap({'token': verifyToken});
 
       var response = await dioRequest.post(url, data: formData);
       log('Suggestion Response : ${response.data}');
 
       // printAll(name: 'suggest',"${response.data}");
-      SuggestionListModel suggestionListModel = SuggestionListModel.fromJson(json.decode(response.data));
+      SuggestionListModel suggestionListModel =
+          SuggestionListModel.fromJson(json.decode(response.data));
       successStatus.value = suggestionListModel.statusCode;
 
       if (successStatus.value == 200) {
@@ -173,19 +246,12 @@ class HomeScreenController extends GetxController {
 
         if (suggestionListModel.msg.isNotEmpty) {
           suggestionList.addAll(suggestionListModel.msg);
-          // singlePersonData = suggestionList[0];
-          // setChangedUserData(0);
-
-          // log("singlePersonData :${singlePersonData.name}");
-          // log("singlePersonData :${singlePersonData.bio}");
 
           log('suggestionList1212 : ${suggestionList.length}');
         }
       } else {
         log('getUserSuggestionsFunction Else');
       }
-
-
 
       /*var request = http.MultipartRequest('POST', Uri.parse(url));
 
@@ -230,59 +296,6 @@ class HomeScreenController extends GetxController {
     // loadUI();
     // await getUserSuggestionsFunction2();
   }
-
-  /*Future<void> getUserSuggestionsFunction2() async {
-    isLoading(true);
-    String url = ApiUrl.getSuggestionApi;
-    log('Suggestion Api Url :$url');
-
-    try {
-      String verifyToken = await userPreference.getStringFromPrefs(
-          key: UserPreference.userVerifyTokenKey);
-      log('Get User Suggestion User Token : $verifyToken');
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-      request.fields['token'] = verifyToken;
-
-      var response = await request.send();
-
-      response.stream
-          .transform(utf8.decoder)
-          .listen((value) async {
-        log("Suggestion Api value :$value");
-        SuggestionListModel suggestionListModel =
-            SuggestionListModel.fromJson(json.decode(value));
-        successStatus.value = suggestionListModel.statusCode;
-        if (successStatus.value == 200) {
-          suggestionList.clear();
-
-          if (suggestionListModel.msg.isNotEmpty) {
-            suggestionList.addAll(suggestionListModel.msg);
-            singlePersonData = suggestionList[0];
-            setChangedUserData(0);
-
-            log("singlePersonData :${singlePersonData.name}");
-            log("singlePersonData :${singlePersonData.bio}");
-
-            log('suggestionList : ${suggestionList.length}');
-            isLoading(false);
-          }
-        } else {
-          log('getUserSuggestionsFunction Else');
-          isLoading(false);
-          // isLoading(false);
-        }
-      });
-    } catch (e) {
-      log('getMatchesFunction Error :$e');
-      // isLoading(false);
-      rethrow;
-    }
-    // isLoading(false);
-    // Timer(const Duration(seconds: 1), () => isLoading(false));
-
-    // isLoading(false);
-    // loadUI();
-  }*/
 
   /// Set Basic Details
   List<BasicModel> setBasicListFunction({required SuggestionData singleItem}) {
@@ -380,6 +393,19 @@ class HomeScreenController extends GetxController {
           SuperLoveModel.fromJson(json.decode(response.body));
 
       if (superLoveModel.statusCode == 200) {
+        if (superLoveModel.isMatch) {
+          Get.dialog(
+            MatchDialog(
+              tName: name.value,
+              tWork: work.value,
+              tDistance: distance.value,
+              name: profileCont.userName.value,
+              work: profileCont.userWork.value,
+              tImage: userImageList[0].imageUrl,
+              image: profileCont.userImages[0].imageUrl,
+            ),
+          );
+        }
         // Fluttertoast.showToast(msg: superLoveModel.msg);
         /// If Coming from card swipe that time not call this if condition because double time swipe the card
         /*if (swipeCard == false) {
@@ -473,40 +499,40 @@ class HomeScreenController extends GetxController {
         'liked_id': lastLikeProfileId
       });
 
-
       var response = await dioRequest.post(url, data: formData);
       log('regather Response : ${response.data}');
 
-      RegatherModel regatherModel = RegatherModel.fromJson(json.decode(response.data));
+      RegatherModel regatherModel =
+          RegatherModel.fromJson(json.decode(response.data));
       successStatus.value = regatherModel.statusCode;
 
-      if(successStatus.value == 200) {
+      if (successStatus.value == 200) {
         // Fluttertoast.cancel();
         // Fluttertoast.showToast(msg: regatherModel.msg);
 
         // cardController.rewind();
         // log('cardController.canRewind : ${cardController.canRewind}');
       } else {
-        if(regatherModel.msg.toLowerCase() == "You already regathered on this account".toLowerCase()) {
+        if (regatherModel.msg.toLowerCase() ==
+            "You already regathered on this account".toLowerCase()) {
           Fluttertoast.showToast(msg: "You already regathered on your account");
         }
 
         log('regatherFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('regatherFunction Error :$e');
       rethrow;
     }
 
     loadUI();
     // isLoading(false);
-
   }
 
   /// When swipe complete that time user data change
   setChangedUserData(int index) {
     name = suggestionList[index].name.toString().obs;
+    currentUserId = suggestionList[index].id!.obs;
     bio = suggestionList[index].bio.toString().obs;
     age = suggestionList[index].age.toString().obs;
     // profilePrompts = suggestionList[index].profilePrompts.toString().obs;
@@ -529,7 +555,7 @@ class HomeScreenController extends GetxController {
     interestList.clear();
     if (suggestionList[index].interest != []) {
       for (int i = 0; i < suggestionList[index].interest!.length; i++) {
-        interestList.add(suggestionList[index].interest![i].name);
+        interestList.add(suggestionList[index].interest![i]);
       }
     }
     log('interestList Length : ${interestList.length}');
@@ -538,7 +564,6 @@ class HomeScreenController extends GetxController {
       languageList.addAll(suggestionList[index].languages!);
     }
 
-    //todo
     userImageList.clear();
     if (suggestionList[index].images != []) {
       userImageList.addAll(suggestionList[index].images!);
@@ -553,18 +578,25 @@ class HomeScreenController extends GetxController {
     super.onInit();
   }
 
+  late ProfileScreenController profileCont;
+
   initMethod() async {
     //Size in physical pixels
+    profileCont = Get.put(ProfileScreenController());
+
     var physicalScreenSize = window.physicalSize;
     physicalDeviceWidth = physicalScreenSize.width;
     physicalDeviceHeight = physicalScreenSize.height;
     log('physicalDeviceHeight : $physicalDeviceHeight');
     log('physicalDeviceWidth : $physicalDeviceWidth');
-    selected.value = await userPreference.getBoolFromPrefs(key: UserPreference.isragatherInKey);
+    selected.value = await userPreference.getBoolFromPrefs(
+        key: UserPreference.isragatherInKey);
 
     await getLocation();
     await updateUserLocationFunction();
     await getUserSuggestionsFunction();
+    await getListReports();
+
     // await getUserSuggestionsFunction();
     // await setBasicListFunction();
 
@@ -623,20 +655,19 @@ class HomeScreenController extends GetxController {
 
       response.stream.transform(utf8.decoder).listen((value) async {
         log('Location Update value : $value');
-        SavedDataModel savedDataModel = SavedDataModel.fromJson(json.decode(value));
+        SavedDataModel savedDataModel =
+            SavedDataModel.fromJson(json.decode(value));
         successStatus.value = savedDataModel.statusCode;
 
-        if(successStatus.value == 200) {
+        if (successStatus.value == 200) {
           log('Message :${savedDataModel.msg}');
         } else {
           log('updateUserLocationFunction Else');
         }
-
       });
-    } catch(e) {
+    } catch (e) {
       log('updateUserLocationFunction Error :$e');
     }
-
   }
 
   loadUI() {

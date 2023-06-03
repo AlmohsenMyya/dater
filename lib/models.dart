@@ -1,6 +1,8 @@
 /// New Model - Update User Location Model - api/update_location
 import 'dart:convert';
 
+import 'constants/app_images.dart';
+
 UpdateLocationModel updateLocationModelFromJson(String str) => UpdateLocationModel.fromJson(json.decode(str));
 
 String updateLocationModelToJson(UpdateLocationModel data) => json.encode(data.toJson());
@@ -200,15 +202,19 @@ class SuggestionData {
 class Interest {
   Interest({
     required this.name,
+    required this.image,
   });
-
   String name;
+  String image;
 
   factory Interest.fromJson(Map<String, dynamic> json) => Interest(
     name: json["name"] ?? "",
+    image: json["image"]??AppImages.ballImage,
+
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
+    "image":image,
   };
 }

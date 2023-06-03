@@ -9,5 +9,7 @@ class FontFamilyText {
   static String sFProDisplayThin = "SFProDisplayThin";
   static String sFProDisplayUltralight = "SFProDisplayUltralight";
   static String sFProDisplayRegular = "SFProDisplayRegular";
+  static String bullpen3D = "Bullpen3D";
+  static String sitka = "Sitka";
 
 }

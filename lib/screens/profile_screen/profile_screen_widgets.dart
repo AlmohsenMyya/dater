@@ -255,7 +255,7 @@ class AboutMeAllModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool selected = true;
+    bool selected = false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -310,14 +310,15 @@ class AboutMeAllModule extends StatelessWidget {
           ),
           SizedBox(height: 2.h),
           Wrap(
-            // spacing: 3.0,
+            spacing: 0.0,
             children: List.generate(
               screenController.basicList.length,
               (int index) {
                 return (screenController.basicList[index].name != "Add" &&
-                        screenController.basicList[index].name != "")
+                        screenController.basicList[index].name != "" &&
+                        screenController.basicList[index].name != 'hidden')
                     ? Transform(
-                        transform: Matrix4.identity()..scale(0.9),
+                        transform: Matrix4.identity()..scale(0.93),
                         child: ChoiceChip(
                           avatar: CircleAvatar(
                             backgroundColor: Colors.transparent,
@@ -328,12 +329,12 @@ class AboutMeAllModule extends StatelessWidget {
                             screenController.basicList[index].name,
                             style: TextStyleConfig.textStyle(
                               fontFamily: FontFamilyText.sFProDisplaySemibold,
-                              textColor: AppColors.grey600Color,
+                              textColor: AppColors.blackColor,
                               fontSize: 16,
                             ),
                           ),
-                          selected: false,
-                          selectedColor: AppColors.darkOrangeColor,
+                          selected: true,
+                          selectedColor: AppColors.lightOrange2Color,
                           backgroundColor: Colors.white,
                           shape: const StadiumBorder(
                             side: BorderSide(
@@ -343,7 +344,7 @@ class AboutMeAllModule extends StatelessWidget {
                           ),
                           onSelected: (bool value) {},
                         ),
-                      ).commonSymmetricPadding(horizontal: 5)
+                      ).commonSymmetricPadding(horizontal: 1)
                     : const SizedBox();
               },
             ).toList(),
@@ -366,22 +367,29 @@ class AboutMeAllModule extends StatelessWidget {
             screenController.interestList.length,
             (int index) {
               return Transform(
-                transform: Matrix4.identity()..scale(0.9),
+                transform: Matrix4.identity()..scale(0.95),
                 child: ChoiceChip(
-                  avatar: CircleAvatar(
-                    backgroundImage:
-                        AssetImage(screenController.interestList[index].image),
-                  ),
+                  avatar: screenController.interestList[index].image !=
+                          AppImages.ballImage
+                      ? CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: NetworkImage(
+                              screenController.interestList[index].image),
+                        )
+                      : CircleAvatar(
+                          backgroundImage: AssetImage(
+                              screenController.interestList[index].image),
+                        ),
                   label: Text(
                     screenController.interestList[index].name,
                     style: TextStyleConfig.textStyle(
                       fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.grey600Color,
+                      textColor: AppColors.blackColor,
                       fontSize: 16,
                     ),
                   ),
-                  selected: selected,
-                  selectedColor: AppColors.darkOrangeColor,
+                  selected: true,
+                  selectedColor: AppColors.lightOrange2Color,
                   backgroundColor: Colors.white,
                   shape: const StadiumBorder(
                     side: BorderSide(
@@ -391,7 +399,7 @@ class AboutMeAllModule extends StatelessWidget {
                   ),
                   onSelected: (bool value) {},
                 ),
-              ).commonSymmetricPadding(horizontal: 5);
+              ).commonSymmetricPadding(horizontal: 1);
             },
           ).toList(),
         ),
@@ -424,12 +432,12 @@ class AboutMeAllModule extends StatelessWidget {
                       screenController.languageList[index],
                       style: TextStyleConfig.textStyle(
                         fontFamily: FontFamilyText.sFProDisplaySemibold,
-                        textColor: AppColors.grey600Color,
+                        textColor: AppColors.blackColor,
                         fontSize: 16,
                       ),
                     ),
-                    selected: selected,
-                    selectedColor: AppColors.darkOrangeColor,
+                    selected: true,
+                    selectedColor: AppColors.lightOrange2Color,
                     backgroundColor: Colors.white,
                     shape: const StadiumBorder(
                       side: BorderSide(

@@ -67,13 +67,13 @@ class InterestsWidgetModule extends StatelessWidget {
                           textColor: interestsScreenController
                                   .categoryList[i].options[index].isSelected
                               ? AppColors.blackDarkColor
-                              : AppColors.grey600Color,
+                              : AppColors.blackColor,
                           fontSize: 16,
                         ),
                       ),
                       selected: interestsScreenController
                           .categoryList[i].options[index].isSelected,
-                      selectedColor: AppColors.darkOrangeColor,
+                      selectedColor: AppColors.lightOrange2Color,
                       backgroundColor: Colors.white,
                       shape: const StadiumBorder(
                         side: BorderSide(

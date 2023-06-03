@@ -10,6 +10,8 @@ class AppColors {
   static const Color darkOrange1Color = Color.fromARGB(255, 140, 58, 0);
   static const Color darkOrangeColor = Color(0xffFF6900);
   static const Color lightOrangeColor = Color(0xffFF8733);
+  static const Color lightOrange2Color = Color(0xb2fc8736);
+  static const Color lightOrangeBackGround = Color(0xc5ffe8d7);
   static const Color gray50Color = Color(0xffFAFAFA);
   static const Color gray100Color = Color(0xffF5F5F5);
   static const Color grey200Color = Color(0xffEEEEEE);

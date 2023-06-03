@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/screens/settings_screen/settings_screen.dart';
+import 'package:dater/utils/functions.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,8 +22,7 @@ class ShowMeGenderScreenController extends GetxController {
   List<Msg> genderList = [];
   List<Msg> mainGenderList = [];
   List<Msg> nonBinaryGenderList = [];
-  Msg selectedGenderValue = Msg(id: "1", name: "Female");
-  String selectedGenderValueId = "";
+  Msg selectedGenderValue = Msg(id: "1", name: "Woman");
 
   SignUpPreference signUpPreference = SignUpPreference();
 
@@ -32,7 +32,7 @@ class ShowMeGenderScreenController extends GetxController {
 
   Future<void> getGenderFunction() async {
     isLoading(true);
-    String url = ApiUrl.getTargetGenderApi;
+    String url = ApiUrl.getGenderApi;
     log("geGenderFunction get url: $url");
 
     try {
@@ -48,7 +48,7 @@ class ShowMeGenderScreenController extends GetxController {
 
         for (var element in genderList) {
 
-          if(element.name == "Female" || element.name == "Male") {
+          if(element.name == "Woman" || element.name == "Man"||element.name=="Non-Binary") {
             mainGenderList.add(element);
           } else {
             nonBinaryGenderList.add(element);
@@ -116,6 +116,7 @@ class ShowMeGenderScreenController extends GetxController {
 
   void radioButtonChangeFunction(Msg selectedValue) {
     isLoading(true);
+    //TODO:edit gender on server
     selectedGenderValue = selectedValue;
     isLoading(false);
   }

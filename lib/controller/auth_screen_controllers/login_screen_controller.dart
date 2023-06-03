@@ -1,7 +1,7 @@
-import 'dart:developer';
-
+import 'package:dater/utils/functions.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/preferences/signup_preference.dart';
 
@@ -19,6 +19,14 @@ class LoginInScreenController extends GetxController {
     // isUserFirstTime.value = false;
     await fetchLocation();
     isLoading(false);
+  }
+
+  Future<void> urlLauncher(String urlStr) async {
+    final Uri _url = Uri.parse(urlStr);
+    printAll('log');
+    if (await canLaunchUrl(_url)) {
+      await launchUrl(_url);
+    }
   }
 
   fetchLocation() async {
@@ -60,6 +68,7 @@ class LoginInScreenController extends GetxController {
     //   });
     // }
   }
+
   //  Future<bool> handleLocationPermission() async {
   //   bool serviceEnabled;
   //   LocationPermission permission;

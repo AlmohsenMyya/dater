@@ -1,6 +1,8 @@
 class AppImages {
   static const rootPath = "assets/images";
   static const splashBackgroundImage = "$rootPath/splash_background.jpg";
+  static const splashBackgroundImage2 = "$rootPath/splash_screen2.png";
+  static const appIcon = "$rootPath/icon.png";
   static const locationImage = "$rootPath/location.png";
   static const posterImage = "$rootPath/poster.png";
   static const colorImage = "$rootPath/color.png";
@@ -57,5 +59,7 @@ class AppImages {
   static const selfieImage = '$rootPath/selfie_image.png';
   static const workWhiteImage = "$rootPath/work_white_icon.png";
   static const educationWhiteImage = "$rootPath/education_white_icon.png";
+  static const matchDialogSVG = "$rootPath/Path-2922.svg";
+
 
 }

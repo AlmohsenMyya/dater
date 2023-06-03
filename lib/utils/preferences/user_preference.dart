@@ -28,6 +28,8 @@ class UserPreference {
   static String ageKey = "ageKey"; // String
   static String activeTimeKey = "activeTimeKey"; // String
   static String genderKey = "genderKey"; // String
+  static String myBasicGenderValueKey = "myBasicGenderValueKey";
+  static String isShowMeGenderKey = "isShowMeGenderKey";
   static String workKey = "workKey"; // String
   static String educationKey = "educationKey"; // String
   static String heightKey = "heightKey"; // String
@@ -40,11 +42,9 @@ class UserPreference {
   static String kidsKey = "kidsKey"; // String
   static String interestKey = "interestKey"; // String
   static String imagesKey = "imagesKey"; // String
-  static String editImagesKey = "editImagesKey"; // String
-  static String myBasicGenderValueKey = "myBasicGenderValueKey";
   static String listOfImageKey = "listOfImageKey";
   static String listOfLanguageKey = "listOfLanguageKey";
-  static String isShowMeGenderKey = "isShowMeGenderKey";
+  static String editImagesKey = "editImagesKey"; // String
   static String myBasicWorkValueKey = "myBasicWorkValueKey";
   static String myBasicEducationValueKey = "myBasicEducationValueKey";
   static String myBasicHomeTownValueKey = "myBasicHomeTownValueKey";

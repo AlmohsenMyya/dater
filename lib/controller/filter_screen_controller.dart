@@ -9,12 +9,12 @@ class FilterScreenController extends GetxController {
 
 
   RxDouble startValAge = 18.0.obs;
-  RxDouble endValAge = 60.0.obs;
+  RxDouble endValAge = 100.0.obs;
 
 
 
-RxDouble startValDistance = 18.0.obs;
-  RxDouble endValDistance = 60.0.obs;
+RxDouble startValDistance = 1.0.obs;
+  RxDouble endValDistance = 300.0.obs;
 
 
 

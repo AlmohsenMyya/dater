@@ -170,6 +170,8 @@ class Interest {
 
 import 'dart:convert';
 
+import '../../constants/app_images.dart';
+
 SuggestionListModel suggestionListModelFromJson(String str) =>
     SuggestionListModel.fromJson(json.decode(str));
 
@@ -228,6 +230,7 @@ class SuggestionData {
   String? name;
   String? sexualityGet;
   String? targetGenderGet;
+
   // String? profilePrompts;
   List<Prompt>? prompts;
   String? bio;
@@ -248,12 +251,14 @@ class SuggestionData {
         name: json["name"] ?? "",
         sexualityGet: json["sexuality_get"] ?? "",
         targetGenderGet: json["target_gender_get"] ?? "",
-        prompts: List<Prompt>.from((json["prompts"] ?? []).map((x) => Prompt.fromJson(x))),
+        prompts: List<Prompt>.from(
+            (json["prompts"] ?? []).map((x) => Prompt.fromJson(x))),
         // profilePrompts: json["profile_prompts"] ?? "Life is simple Don't overthink it",
         bio: json["bio"] ?? "",
         homeTown: json["home_town"] ?? "",
-        languages: json["languages"] == null ? [] :
-            List<String>.from((json["languages"] ?? []).map((x) => x ?? "")),
+        languages: json["languages"] == null
+            ? []
+            : List<String>.from((json["languages"] ?? []).map((x) => x ?? "")),
         verified: json["verified"] ?? "",
         distance: (json["distance"] ?? 0).toString(),
         age: json["age"].toString().toLowerCase() ==
@@ -262,13 +267,15 @@ class SuggestionData {
             ? "23"
             : json["age"].toString(),
         activeTime: json["active_time"] ?? "",
-    interest: List<Interest>.from((json["interest"] ?? []).map((x) => Interest.fromJson(x ?? {}))),
+        interest: List<Interest>.from(
+            (json["interest"] ?? []).map((x) => Interest.fromJson(x ?? {}))),
         basic: Basic.fromJson(json["basic"] ?? {}),
-    images: json["images"] == null
-        ? []
-        : List<UserImage>.from((json["images"] ?? []).map((x) => UserImage.fromJson(x ?? {}))),
-    percentage: json["percentage"] ?? 0,
-    country: json["country"] ?? "",
+        images: json["images"] == null
+            ? []
+            : List<UserImage>.from(
+                (json["images"] ?? []).map((x) => UserImage.fromJson(x ?? {}))),
+        percentage: json["percentage"] ?? 0,
+        country: json["country"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -286,7 +293,7 @@ class SuggestionData {
         "active_time": activeTime,
         "interest": List<Interest>.from(interest!.map((x) => x)),
         "basic": basic!.toJson(),
-    "images": List<dynamic>.from(images!.map((x) => x.toJson())),
+        "images": List<dynamic>.from(images!.map((x) => x.toJson())),
       };
 }
 
@@ -302,16 +309,16 @@ class Prompt {
   });
 
   factory Prompt.fromJson(Map<String, dynamic> json) => Prompt(
-    question: json["question"] ?? "",
-    promptId: json["prompt_id"] ?? "",
-    answer: json["answer"] ?? "",
-  );
+        question: json["question"] ?? "",
+        promptId: json["prompt_id"] ?? "",
+        answer: json["answer"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "question": question,
-    "prompt_id": promptId,
-    "answer": answer,
-  };
+        "question": question,
+        "prompt_id": promptId,
+        "answer": answer,
+      };
 }
 
 class UserImage {
@@ -324,14 +331,14 @@ class UserImage {
   });
 
   factory UserImage.fromJson(Map<String, dynamic> json) => UserImage(
-    id: json["id"] ?? "",
-    imageUrl: json["image_url"] ?? "",
-  );
+        id: json["id"] ?? "",
+        imageUrl: json["image_url"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "image_url": imageUrl,
-  };
+        "id": id,
+        "image_url": imageUrl,
+      };
 }
 
 class Basic {
@@ -389,15 +396,19 @@ class Basic {
 class Interest {
   Interest({
     required this.name,
+    required this.image,
   });
 
   String name;
+  String image;
 
   factory Interest.fromJson(Map<String, dynamic> json) => Interest(
         name: json["name"] ?? "",
+        image: json["image"] ?? AppImages.ballImage,
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
+        "image": image,
       };
 }

@@ -546,7 +546,6 @@ class EditProfileScreenWidgets extends StatelessWidget {
               : editProfileScreenController.lookingFor,
         ),
 
-
         /// Height Module
         SizedBox(height: 1.h),
         Row(
@@ -632,6 +631,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
           text1: "No",
           text2: "Sometimes",
           text3: "Yes",
+          text4: "hidden",
           containerColor1:
               editProfileScreenController.exerciseValue == MoreAboutMe.no
                   ? AppColors.lightOrangeColor
@@ -642,6 +642,10 @@ class EditProfileScreenWidgets extends StatelessWidget {
                   : AppColors.grey500Color,
           containerColor3:
               editProfileScreenController.exerciseValue == MoreAboutMe.yes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
+          containerColor4:
+              editProfileScreenController.exerciseValue == MoreAboutMe.hidden
                   ? AppColors.lightOrangeColor
                   : AppColors.grey500Color,
           gesOnTap1: () {
@@ -662,6 +666,12 @@ class EditProfileScreenWidgets extends StatelessWidget {
                 .setExerciseFunction(editProfileScreenController.exerciseValue);
             editProfileScreenController.loadUI();
           },
+          gesOnTap4: () {
+            editProfileScreenController.exerciseValue = MoreAboutMe.hidden;
+            editProfileScreenController
+                .setExerciseFunction(editProfileScreenController.exerciseValue);
+            editProfileScreenController.loadUI();
+          },
         ),
         // Drinking
         FilterRowmodule(
@@ -670,6 +680,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
           text1: "No",
           text2: "Socially",
           text3: "Yes",
+          text4: "hidden",
           containerColor1:
               editProfileScreenController.drinkingValue == MoreAboutMe.no
                   ? AppColors.lightOrangeColor
@@ -680,6 +691,10 @@ class EditProfileScreenWidgets extends StatelessWidget {
                   : AppColors.grey500Color,
           containerColor3:
               editProfileScreenController.drinkingValue == MoreAboutMe.yes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
+          containerColor4:
+              editProfileScreenController.drinkingValue == MoreAboutMe.hidden
                   ? AppColors.lightOrangeColor
                   : AppColors.grey500Color,
           gesOnTap1: () {
@@ -700,6 +715,12 @@ class EditProfileScreenWidgets extends StatelessWidget {
                 .setDrinkingFunction(editProfileScreenController.drinkingValue);
             editProfileScreenController.loadUI();
           },
+          gesOnTap4: () {
+            editProfileScreenController.drinkingValue = MoreAboutMe.hidden;
+            editProfileScreenController
+                .setDrinkingFunction(editProfileScreenController.drinkingValue);
+            editProfileScreenController.loadUI();
+          },
         ),
         // Smoking
         FilterRowmodule(
@@ -708,6 +729,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
           text1: "No",
           text2: "Socially",
           text3: "Yes",
+          text4: "hidden",
           containerColor1:
               editProfileScreenController.smokingValue == MoreAboutMe.no
                   ? AppColors.lightOrangeColor
@@ -718,6 +740,10 @@ class EditProfileScreenWidgets extends StatelessWidget {
                   : AppColors.grey500Color,
           containerColor3:
               editProfileScreenController.smokingValue == MoreAboutMe.yes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
+          containerColor4:
+              editProfileScreenController.smokingValue == MoreAboutMe.hidden
                   ? AppColors.lightOrangeColor
                   : AppColors.grey500Color,
           gesOnTap1: () {
@@ -738,14 +764,21 @@ class EditProfileScreenWidgets extends StatelessWidget {
                 .setSmokingFunction(editProfileScreenController.smokingValue);
             editProfileScreenController.loadUI();
           },
+          gesOnTap4: () {
+            editProfileScreenController.smokingValue = MoreAboutMe.hidden;
+            editProfileScreenController
+                .setSmokingFunction(editProfileScreenController.smokingValue);
+            editProfileScreenController.loadUI();
+          },
         ),
         // Kids
         FilterRowmodule(
           image: AppImages.kidsImage,
           lableText: "Kids",
           text1: "No",
-          text2: "Want someday",
+          text2: "someday",
           text3: "Yes",
+          text4: "hidden",
           containerColor1:
               editProfileScreenController.kidsValue == MoreAboutMe.no
                   ? AppColors.lightOrangeColor
@@ -756,6 +789,10 @@ class EditProfileScreenWidgets extends StatelessWidget {
                   : AppColors.grey500Color,
           containerColor3:
               editProfileScreenController.kidsValue == MoreAboutMe.yes
+                  ? AppColors.lightOrangeColor
+                  : AppColors.grey500Color,
+          containerColor4:
+              editProfileScreenController.kidsValue == MoreAboutMe.hidden
                   ? AppColors.lightOrangeColor
                   : AppColors.grey500Color,
           gesOnTap1: () {
@@ -772,6 +809,12 @@ class EditProfileScreenWidgets extends StatelessWidget {
           },
           gesOnTap3: () {
             editProfileScreenController.kidsValue = MoreAboutMe.yes;
+            editProfileScreenController
+                .setKidsFunction(editProfileScreenController.kidsValue);
+            editProfileScreenController.loadUI();
+          },
+          gesOnTap4: () {
+            editProfileScreenController.kidsValue = MoreAboutMe.hidden;
             editProfileScreenController
                 .setKidsFunction(editProfileScreenController.kidsValue);
             editProfileScreenController.loadUI();
@@ -877,19 +920,30 @@ class EditProfileScreenWidgets extends StatelessWidget {
                 return Transform(
                   transform: Matrix4.identity()..scale(0.95),
                   child: ChoiceChip(
-                    avatar: const CircleAvatar(
-                      backgroundImage: AssetImage(AppImages.ballImage),
-                    ),
+                    avatar:
+                        editProfileScreenController.interestList[index].image !=
+                                AppImages.ballImage
+                            ? CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: NetworkImage(
+                                    editProfileScreenController
+                                        .interestList[index].image),
+                              )
+                            : CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    editProfileScreenController
+                                        .interestList[index].image),
+                              ),
                     label: Text(
-                      editProfileScreenController.interestList[index],
+                      editProfileScreenController.interestList[index].name,
                       style: TextStyleConfig.textStyle(
                         fontFamily: FontFamilyText.sFProDisplaySemibold,
-                        textColor: AppColors.grey600Color,
+                        textColor: AppColors.blackColor,
                         fontSize: 16,
                       ),
                     ),
-                    selected: selected,
-                    selectedColor: AppColors.darkOrangeColor,
+                    selected: true,
+                    selectedColor: AppColors.lightOrange2Color,
                     backgroundColor: Colors.white,
                     shape: const StadiumBorder(
                       side: BorderSide(
@@ -966,12 +1020,12 @@ class EditProfileScreenWidgets extends StatelessWidget {
                         editProfileScreenController.languageList[index],
                         style: TextStyleConfig.textStyle(
                           fontFamily: FontFamilyText.sFProDisplaySemibold,
-                          textColor: AppColors.grey600Color,
+                          textColor: AppColors.blackColor,
                           fontSize: 16,
                         ),
                       ),
-                      selected: selected,
-                      selectedColor: AppColors.darkOrangeColor,
+                      selected: true,
+                      selectedColor: AppColors.lightOrange2Color,
                       backgroundColor: Colors.white,
                       shape: const StadiumBorder(
                         side: BorderSide(
@@ -1282,12 +1336,15 @@ class FilterRowmodule extends StatelessWidget {
   String text1;
   String text2;
   String text3;
+  String text4;
   Function() gesOnTap1;
   Function() gesOnTap2;
   Function() gesOnTap3;
+  Function() gesOnTap4;
   Color containerColor1;
   Color containerColor2;
   Color containerColor3;
+  Color containerColor4;
 
   FilterRowmodule({
     Key? key,
@@ -1296,12 +1353,15 @@ class FilterRowmodule extends StatelessWidget {
     required this.text1,
     required this.text2,
     required this.text3,
+    required this.text4,
     required this.gesOnTap1,
     required this.gesOnTap2,
     required this.gesOnTap3,
+    required this.gesOnTap4,
     required this.containerColor1,
     required this.containerColor2,
     required this.containerColor3,
+    required this.containerColor4,
   }) : super(key: key);
   final editProfileScreenController = Get.find<EditProfileScreenController>();
 
@@ -1312,7 +1372,7 @@ class FilterRowmodule extends StatelessWidget {
         Image.asset(
           image,
         ),
-        SizedBox(width: 3.w),
+        SizedBox(width: 1.w),
         Text(
           lableText,
           style: TextStyleConfig.textStyle(
@@ -1326,7 +1386,7 @@ class FilterRowmodule extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SizedBox(
-              width: 12.w,
+              width: 10.w,
               child: Column(
                 children: [
                   Text(
@@ -1352,7 +1412,8 @@ class FilterRowmodule extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 28.w,
+              // width: lableText=='Kids'?28.w:22.w,
+              width: 22.w,
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -1398,6 +1459,32 @@ class FilterRowmodule extends StatelessWidget {
                       width: 18,
                       decoration: BoxDecoration(
                         color: containerColor3,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 16.w,
+              child: Column(
+                children: [
+                  Text(
+                    text4,
+                    style: TextStyleConfig.textStyle(
+                      fontFamily: FontFamilyText.sFProDisplayRegular,
+                      textColor: AppColors.grey600Color,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: gesOnTap4,
+                    child: Container(
+                      height: 18,
+                      width: 18,
+                      decoration: BoxDecoration(
+                        color: containerColor4,
                         shape: BoxShape.circle,
                       ),
                     ),

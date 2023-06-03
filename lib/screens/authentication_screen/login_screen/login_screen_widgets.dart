@@ -6,6 +6,7 @@ import 'package:dater/constants/messages.dart';
 import 'package:dater/screens/authentication_screen/my_number_inner_screen/my_number_inner_screen.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dater/utils/style.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -15,6 +16,7 @@ import '../../../controller/auth_screen_controllers/login_screen_controller.dart
 
 class ColumnWidgets extends StatelessWidget {
   ColumnWidgets({super.key});
+
   final screenController = Get.find<LoginInScreenController>();
 
   @override
@@ -31,84 +33,54 @@ class ColumnWidgets extends StatelessWidget {
                     SizedBox(
                       height: 28.w,
                       width: 28.w,
-                      child: Image.asset(AppImages.locationImage),
+                      child: Image.asset(AppImages.appIcon),
                     ),
                   ],
                 ),
-                SizedBox(height: 2.h),
+                // SizedBox(height: 0.5.h),
                 Text(
-                  AppMessages.gather,
+                  AppMessages.bambo,
                   style: TextStyleConfig.textStyle(
-                    fontSize: 25.sp,
-                    textColor: AppColors.lightOrangeColor,
-                  ),
+                      fontSize: 18.sp,
+                      textColor: AppColors.darkOrangeColor,
+                      fontWeight: FontWeight.w300),
                 ),
+                SizedBox(
+                  height: 3.h,
+                ),
+                Text(
+                    textAlign: TextAlign.center,
+                    AppMessages.walk,
+                    style: TextStyleConfig.textStyle(
+                      fontFamily: FontFamilyText.bullpen3D,
+                      textColor: AppColors.darkOrangeColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 32,
+                    )),
+                Text(
+                    textAlign: TextAlign.center,
+                    AppMessages.findWhat,
+                    style: TextStyleConfig.textStyle(
+                      fontFamily: FontFamilyText.bullpen3D,
+                      textColor: AppColors.darkOrangeColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 32,
+                    )),
+                Text(
+                    textAlign: TextAlign.center,
+                    AppMessages.completesYou,
+                    style: TextStyleConfig.textStyle(
+                      fontFamily: FontFamilyText.bullpen3D,
+                      textColor: AppColors.darkOrangeColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 32,
+                    )),
               ],
             )),
         Expanded(
-          flex: 55,
+          flex: 20,
           child: Column(
             children: [
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: AppMessages.authScreen1,
-                      style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
-                        fontSize: 11.5.sp,
-                      ),
-                    ),
-                    TextSpan(
-                      text: AppMessages.terms,
-                      style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
-                        fontSize: 11.5.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text: AppMessages.authText2,
-                      style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
-                        fontSize: 11.5.sp,
-                      ),
-                    ),
-                    TextSpan(
-                      text: AppMessages.privacyPolicy,
-                      style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
-                        fontSize: 11.5.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text: AppMessages.and,
-                      style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
-                        fontSize: 11.5.sp,
-                      ),
-                    ),
-                    TextSpan(
-                      text: AppMessages.cookissPolicy,
-                      style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
-                        fontSize: 11.5.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 7.h),
-
               /*screenController.isUserFirstTime.value
               ? Column(
                 children: [
@@ -166,24 +138,24 @@ class ColumnWidgets extends StatelessWidget {
               ),*/
 
               /// Register Button
-              screenController.isUserFirstTime.value
-              ? ButtonCustomLoginAndSignUp(
-                image: AppImages.mobileImage,
-                onPressed: () {
-                  Get.to(
-                    () => MyNumberInnerScreen(),
-                    arguments: [AuthAs.register],
-                  );
-                },
-                text: AppMessages.signUpWithphoneNumber,
-                textsize: 12.sp,
-                textColor: AppColors.grey700Color,
-              )
-              : Container(),
-              /*screenController.isUserFirstTime.value
-              ?*/ SizedBox(height: 2.h)/* : Container()*/,
-              screenController.isUserFirstTime.value
-              ? Container() : Spacer(),
+              // screenController.isUserFirstTime.value
+              // ? ButtonCustomLoginAndSignUp(
+              //   image: AppImages.mobileImage,
+              //   onPressed: () {
+              //     Get.to(
+              //       () => MyNumberInnerScreen(),
+              //       arguments: [AuthAs.register],
+              //     );
+              //   },
+              //   text: AppMessages.signUpWithphoneNumber,
+              //   textsize: 12.sp,
+              //   textColor: AppColors.grey700Color,
+              // )
+              // : Container(),
+              // /*screenController.isUserFirstTime.value
+              // ?*/ SizedBox(height: 2.h)/* : Container()*/,
+              // screenController.isUserFirstTime.value
+              // ? Container() : Spacer(),
               /// Login Button
               ButtonCustomLoginAndSignUp(
                 image: AppImages.mobileImage,
@@ -198,28 +170,94 @@ class ColumnWidgets extends StatelessWidget {
                 textColor: AppColors.grey700Color,
               ),
 
-
               SizedBox(height: 6.h),
 
-
-              Text(
+              RichText(
                 textAlign: TextAlign.center,
-                AppMessages.referralNumber,
-                style: TextStyleConfig.textStyle(
-                    textColor: AppColors.grey800Color,
-                    fontSize: 13.sp,
-                    fontFamily: "SFProDisplayBold"),
-              ).commonSymmetricPadding(horizontal: 15),
-              const Spacer(),
-              Text(
-                AppMessages.termsOfUseAndPrivacyPolice,
-                style: TextStyleConfig.textStyle(
-                  textColor: AppColors.whiteColor,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: AppMessages.authScreen1,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.darkOrangeColor,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 11.5.sp,
+                      ),
+                    ),
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () =>
+                            screenController.urlLauncher(AppMessages.termsUrl),
+                      text: AppMessages.terms,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.darkOrangeColor,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 11.5.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: AppMessages.authText2,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.darkOrangeColor,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 11.5.sp,
+                      ),
+                    ),
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => screenController
+                            .urlLauncher(AppMessages.privacyUrl),
+                      text: AppMessages.privacyPolicy,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.darkOrangeColor,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 11.5.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: AppMessages.and,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.darkOrangeColor,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 11.5.sp,
+                      ),
+                    ),
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => screenController
+                            .urlLauncher(AppMessages.communityUrl),
+                      text: AppMessages.communityGuidelines,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.darkOrangeColor,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 11.5.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              )
+              ),
+              // Text(
+              //   textAlign: TextAlign.center,
+              //   AppMessages.referralNumber,
+              //   style: TextStyleConfig.textStyle(
+              //       textColor: AppColors.grey800Color,
+              //       fontSize: 13.sp,
+              //       fontFamily: "SFProDisplayBold"),
+              // ).commonSymmetricPadding(horizontal: 15),
+              // const Spacer(),
+              // Text(
+              //   AppMessages.termsOfUseAndPrivacyPolice,
+              //   style: TextStyleConfig.textStyle(
+              //     textColor: AppColors.whiteColor,
+              //   ),
+              // )
             ],
           ).commonSymmetricPadding(horizontal: 10),
-        )
+        ),
+        // SizedBox(height: .h),
       ],
     );
   }

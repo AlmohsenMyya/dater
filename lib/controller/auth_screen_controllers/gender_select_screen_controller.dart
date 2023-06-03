@@ -14,8 +14,9 @@ class GenderSelectScreenController extends GetxController {
   RxBool isSuccessStatus = false.obs;
 
   List<Msg> genderList = [];
+  List<Msg> mainGenderList = [];
+  List<Msg> nonBinaryGenderList = [];
   Msg selectedGenderValue = Msg(id: "1", name: "Female");
-  String selectedGenderValueId = "";
 
   SignUpPreference signUpPreference = SignUpPreference();
 
@@ -30,10 +31,22 @@ class GenderSelectScreenController extends GetxController {
 
       if (response.statusCode == 200) {
 
-        // Set api list in local list
         genderList = getGenderModel.msg;
         // Set Initial Value from api in local variable
         genderList.isNotEmpty ? selectedGenderValue = genderList[0] : null;
+        for (var element in genderList) {
+
+          if(element.name == "Woman" || element.name == "Man"||element.name=="Non-Binary") {
+            mainGenderList.add(element);
+          } else {
+            nonBinaryGenderList.add(element);
+          }
+        }
+
+        log('mainGenderList :${mainGenderList.length}');
+        log('nonBinaryGenderList :${nonBinaryGenderList.length}');
+
+        log("selectedGenderValue: $selectedGenderValue");
 
         log("selectedGenderValue: $selectedGenderValue");
         // log("selectedGenderValueId: $selectedGenderValueId");

@@ -33,7 +33,7 @@ class LocationPermissionScreen extends StatelessWidget {
           children: [
             Center(
               child: Image.asset(
-                AppImages.locationImage,
+                AppImages.appIcon,
                 height: 200,
               ),
             ),

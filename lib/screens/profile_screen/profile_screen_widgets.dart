@@ -321,6 +321,7 @@ class AboutMeAllModule extends StatelessWidget {
                         transform: Matrix4.identity()..scale(0.93),
                         child: ChoiceChip(
                           avatar: CircleAvatar(
+                            radius: 9.0,
                             backgroundColor: Colors.transparent,
                             backgroundImage: AssetImage(
                                 screenController.basicList[index].image),
@@ -425,6 +426,7 @@ class AboutMeAllModule extends StatelessWidget {
                   transform: Matrix4.identity()..scale(0.9),
                   child: ChoiceChip(
                     avatar: const CircleAvatar(
+                      radius: 9.0,
                       backgroundImage: AssetImage(AppImages.languageImage),
                       backgroundColor: Colors.transparent,
                     ),

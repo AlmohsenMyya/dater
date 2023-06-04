@@ -704,9 +704,11 @@ class LikerBasicInFormationModule extends StatelessWidget {
             basicList.length,
             (int index) {
               return Transform(
-                transform: Matrix4.identity()..scale(0.9),
+                transform: Matrix4.identity()..scale(0.93),
                 child: ChoiceChip(
                   avatar: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 9.0,
                     backgroundImage: AssetImage(
                       basicList[index].image,
                     ),

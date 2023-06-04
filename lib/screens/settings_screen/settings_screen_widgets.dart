@@ -9,6 +9,7 @@ import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../common_modules/custom_alertdialog.dart';
 import '../../common_modules/custom_button.dart';
 import '../../constants/app_images.dart';
@@ -138,36 +139,49 @@ class VerifyAccountModule extends StatelessWidget {
           //SizedBox(height: 1.h,),
           GestureDetector(
             onTap: () {
-              if(screenController.userVerified != "1") {
-                Get.to(
-                      () => VerifyYourAccountScreen(),
-                );
-              }
+              // if (screenController.userVerified != "1") {
+              //   Get.to(
+              //     () => VerifyYourAccountScreen(),
+              //   );
+              // }
             },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  screenController.userVerified == "1" ? AppMessages.verified : AppMessages.notVerified,
-                  style: TextStyleConfig.textStyle(
-                    fontFamily: FontFamilyText.sFProDisplaySemibold,
-                    textColor: AppColors.grey600Color,
-                    fontSize: 14.sp,
+            child: InkWell(
+              onTap: () {
+                if (screenController.userVerified != "1") {
+                  Get.to(
+                    () => VerifyYourAccountScreen(),
+                  );
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    screenController.userVerified == "1"
+                        ? AppMessages.verified
+                        : AppMessages.notVerified,
+                    style: TextStyleConfig.textStyle(
+                      fontFamily: FontFamilyText.sFProDisplaySemibold,
+                      textColor: AppColors.grey600Color,
+                      fontSize: 14.sp,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    //   Get.to(
-                    //   () => VerifyYourAccountScreen(),
-                    // );
-                  },
-                  icon: const Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    color: AppColors.grey600Color,
-                    size: 20,
+                  IconButton(
+                    onPressed: () {
+                      if (screenController.userVerified != "1") {
+                        Get.to(
+                          () => VerifyYourAccountScreen(),
+                        );
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: AppColors.grey600Color,
+                      size: 20,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

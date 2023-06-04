@@ -25,6 +25,7 @@ class MyNumberInnerScreenController extends GetxController {
   TextEditingController countryCodeController = TextEditingController();
   TextEditingController searchController = TextEditingController();
 
+  TextEditingController referralNumber = TextEditingController();
   List<CountryData> searchCountryCodeList = [];
   List<CountryData> countryCodeList = [];
   CountryData selectCountryCodeValue = CountryData();

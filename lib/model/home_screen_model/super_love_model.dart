@@ -29,7 +29,7 @@ class SuperLoveModel {
         msg: json["msg"] ?? "",
         token: json["token"] ?? "",
         statusCode: json["status_code"],
-        isMatch: json["is_match"] == 'true' ? true : false,
+        isMatch: json["is_match"]??false,
       );
 
   Map<String, dynamic> toJson() => {

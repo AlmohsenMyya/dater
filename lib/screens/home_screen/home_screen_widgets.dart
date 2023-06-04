@@ -486,7 +486,7 @@ class SwipeUserModule extends StatelessWidget {
                                                   fontFamily: FontFamilyText
                                                       .sFProDisplaySemibold,
                                                   textColor:
-                                                      AppColors.grey300Color,
+                                                      AppColors.grey700Color,
                                                   //fontWeight: FontWeight.w500,
                                                   fontSize: 16.sp,
                                                 ),
@@ -513,7 +513,7 @@ class SwipeUserModule extends StatelessWidget {
                                                     fontFamily: FontFamilyText
                                                         .sFProDisplaySemibold,
                                                     textColor:
-                                                        AppColors.grey600Color,
+                                                        AppColors.blackColor,
                                                     //fontWeight: FontWeight.w500,
                                                     fontSize: 12.sp,
                                                   ),

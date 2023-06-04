@@ -40,11 +40,13 @@ class LanguagesInformationModule extends StatelessWidget {
             languageList.length,
             (int index) {
               return Transform(
-                transform: Matrix4.identity()..scale(0.93),
+                transform: Matrix4.identity()..scale(0.94),
                 child: ChoiceChip(
                   avatar: const CircleAvatar(
+                    radius: 9.0,
+                    backgroundColor: Colors.transparent,
                     backgroundImage: AssetImage(AppImages.languageImage),
-                  ).commonOnlyPadding(left: 2),
+                  ),
                   label: Text(
                     languageList[index],
                     // "English",

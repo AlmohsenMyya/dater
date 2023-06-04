@@ -152,6 +152,7 @@ class EditProfileScreenController extends GetxController {
         await userPreference.getStringFromPrefs(key: UserPreference.nameKey);
     log('My Name : $name');
     await updateUserProfileFunction(key: AppMessages.fNameApiText, value: name);
+    userDetails?.name = name;
   }
 
   /// Set User height in Prefs
@@ -285,7 +286,6 @@ class EditProfileScreenController extends GetxController {
         // log("politics $politics");
         if (successStatus.value == 200) {
           userDetails = loggedInUserDetailsModel.msg[0];
-
           politics = userDetails!.basic.politics;
           religion = userDetails!.basic.religion;
           education = userDetails!.basic.education;
@@ -318,6 +318,7 @@ class EditProfileScreenController extends GetxController {
           }
           // profilePromptsController.text = userDetails!.profilePrompts!;
           myBioController.text = userDetails!.bio;
+          myNameController.text = userDetails!.name;
           endVal.value = double.parse(userDetails!.basic.height);
 
           languageList.clear();

@@ -66,7 +66,7 @@ class ChatScreenWidgets extends StatelessWidget {
         ),
         SizedBox(height: 1.h),
         Text(
-          "You’re friends on Gather",
+          "You’re friends on Bambo",
           style: TextStyleConfig.textStyle(
             fontFamily: FontFamilyText.sFProDisplayMedium,
             textColor: AppColors.grey600Color,
@@ -85,7 +85,7 @@ class ChatScreenWidgets extends StatelessWidget {
         screenController.chatList.isEmpty ? SizedBox(height: 4.h) : Container(),
         screenController.chatList.isEmpty
             ? Text(
-                "Say hi to your new Gather friend, ${screenController.personData.name}.",
+                "Say hi to your new Bambo friend, ${screenController.personData.name}.",
                 style: TextStyleConfig.textStyle(
                   fontFamily: FontFamilyText.sFProDisplayMedium,
                   textColor: AppColors.grey600Color,

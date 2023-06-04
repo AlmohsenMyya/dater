@@ -24,9 +24,9 @@ class LoginInScreenController extends GetxController {
   Future<void> urlLauncher(String urlStr) async {
     final Uri _url = Uri.parse(urlStr);
     printAll('log');
-    if (await canLaunchUrl(_url)) {
-      await launchUrl(_url);
-    }
+    // if ( canLaunchUrl(_url)) {
+    await launchUrl(_url);
+    // }
   }
 
   fetchLocation() async {

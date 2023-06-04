@@ -20,7 +20,6 @@ import '../../common_modules/custom_button.dart';
 import '../../constants/enums.dart';
 import '../../controller/edit_profile_screen_controller.dart';
 import '../../model/profile_screen_models/upload_image_model.dart';
-import '../../utils/functions.dart';
 import '../looking_for_screen/looking_for_screen.dart';
 import '../my_basic_education_screen/my_basic_education_screen.dart';
 import '../my_basic_gender_screen/my_basic_gender_screen.dart';
@@ -316,7 +315,6 @@ class EditProfileScreenWidgets extends StatelessWidget {
             maxLines: 1,
             controller: editProfileScreenController.myNameController,
             onEditingComplete: () async {
-              printAll('done', name: 'name');
               await editProfileScreenController.setUserNameFunction();
             },
             decoration: InputDecoration(
@@ -1013,6 +1011,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
                     transform: Matrix4.identity()..scale(0.9),
                     child: ChoiceChip(
                       avatar: const CircleAvatar(
+                        radius: 9.0,
                         backgroundColor: Colors.transparent,
                         backgroundImage: AssetImage(AppImages.languageImage),
                       ),
@@ -1115,7 +1114,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
                                   style: TextStyleConfig.textStyle(
                                     fontFamily:
                                         FontFamilyText.sFProDisplaySemibold,
-                                    textColor: AppColors.grey400Color,
+                                    textColor: AppColors.grey700Color,
                                     fontSize: 12.sp,
                                   ),
                                 ),

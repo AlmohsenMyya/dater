@@ -9,9 +9,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
   final splashScreenController = Get.put(SplashScreenController());
+
+  @override
+  _SplashState createState() => _SplashState();
+}
+
+class _SplashState extends State<SplashScreen> {
+  @override
+  void didChangeDependencies() {
+    precacheImage(AssetImage(AppImages.appIcon), context);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +47,9 @@ class SplashScreen extends StatelessWidget {
                 SizedBox(
                   width: 90,
                   height: 90,
-                  child: Image.asset(AppImages.appIcon),
+                  child: Image(
+                    image: AssetImage(AppImages.appIcon),
+                  ),
                 ),
                 SizedBox(height: 1.h),
                 Text(

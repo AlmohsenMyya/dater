@@ -392,7 +392,10 @@ class HomeScreenController extends GetxController {
       SuperLoveModel superLoveModel =
           SuperLoveModel.fromJson(json.decode(response.body));
 
+      //liked_id
       if (superLoveModel.statusCode == 200) {
+        printAll(name: 'match', superLoveModel.isMatch);
+        //todo get profile form liked id
         if (superLoveModel.isMatch) {
           Get.dialog(
             MatchDialog(

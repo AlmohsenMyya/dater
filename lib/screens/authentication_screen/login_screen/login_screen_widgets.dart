@@ -42,7 +42,7 @@ class ColumnWidgets extends StatelessWidget {
                   AppMessages.bambo,
                   style: TextStyleConfig.textStyle(
                       fontSize: 18.sp,
-                      textColor: AppColors.darkOrangeColor,
+                      textColor: AppColors.whiteColor,
                       fontWeight: FontWeight.w300),
                 ),
                 SizedBox(
@@ -53,7 +53,7 @@ class ColumnWidgets extends StatelessWidget {
                     AppMessages.walk,
                     style: TextStyleConfig.textStyle(
                       fontFamily: FontFamilyText.bullpen3D,
-                      textColor: AppColors.darkOrangeColor,
+                      textColor: AppColors.whiteColor,
                       fontWeight: FontWeight.w500,
                       fontSize: 32,
                     )),
@@ -62,7 +62,7 @@ class ColumnWidgets extends StatelessWidget {
                     AppMessages.findWhat,
                     style: TextStyleConfig.textStyle(
                       fontFamily: FontFamilyText.bullpen3D,
-                      textColor: AppColors.darkOrangeColor,
+                      textColor: AppColors.whiteColor,
                       fontWeight: FontWeight.w500,
                       fontSize: 32,
                     )),
@@ -71,7 +71,7 @@ class ColumnWidgets extends StatelessWidget {
                     AppMessages.completesYou,
                     style: TextStyleConfig.textStyle(
                       fontFamily: FontFamilyText.bullpen3D,
-                      textColor: AppColors.darkOrangeColor,
+                      textColor: AppColors.whiteColor,
                       fontWeight: FontWeight.w500,
                       fontSize: 32,
                     )),
@@ -179,7 +179,7 @@ class ColumnWidgets extends StatelessWidget {
                     TextSpan(
                       text: AppMessages.authScreen1,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.darkOrangeColor,
+                        textColor: AppColors.whiteColor,
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 11.5.sp,
                       ),
@@ -190,7 +190,7 @@ class ColumnWidgets extends StatelessWidget {
                             screenController.urlLauncher(AppMessages.termsUrl),
                       text: AppMessages.terms,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.darkOrangeColor,
+                        textColor: AppColors.whiteColor,
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 11.5.sp,
                         fontWeight: FontWeight.bold,
@@ -199,7 +199,7 @@ class ColumnWidgets extends StatelessWidget {
                     TextSpan(
                       text: AppMessages.authText2,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.darkOrangeColor,
+                        textColor: AppColors.whiteColor,
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 11.5.sp,
                       ),
@@ -210,7 +210,7 @@ class ColumnWidgets extends StatelessWidget {
                             .urlLauncher(AppMessages.privacyUrl),
                       text: AppMessages.privacyPolicy,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.darkOrangeColor,
+                        textColor: AppColors.whiteColor,
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 11.5.sp,
                         fontWeight: FontWeight.bold,
@@ -219,7 +219,7 @@ class ColumnWidgets extends StatelessWidget {
                     TextSpan(
                       text: AppMessages.and,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.darkOrangeColor,
+                        textColor: AppColors.whiteColor,
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 11.5.sp,
                       ),
@@ -230,7 +230,7 @@ class ColumnWidgets extends StatelessWidget {
                             .urlLauncher(AppMessages.communityUrl),
                       text: AppMessages.communityGuidelines,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.darkOrangeColor,
+                        textColor: AppColors.whiteColor,
                         fontFamily: FontFamilyText.sFProDisplayRegular,
                         fontSize: 11.5.sp,
                         fontWeight: FontWeight.bold,

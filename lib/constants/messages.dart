@@ -33,7 +33,7 @@ class AppMessages {
       "You can choose up to 8 things you love,it will help you find your soulmate .";
   static String myCodeIs = "My code is";
   static String myNumberScreenInformationText =
-      "When you tap “Continue”, Gather will send \nyou\n a text with verification code, The verified phone number can be used to log in.";
+      "When you tap “Continue”, Bambo will send \nyou\n a text with verification code, The verified phone number can be used to log in.";
   static String resend = "Resend";
   static String verificationCodeText =
       "Please enter the 4-digit code sent to you at +1 354 112 2376";
@@ -85,7 +85,7 @@ class AppMessages {
   static String doTheyExercise = "Do they exercise ?";
   static String doTheyDrink = "Do they drink ?";
   static String doTheySmoke = "Do they smoke ?";
-  static String whatYourGatherDate = "What do you want from your Gather date ?";
+  static String whatYourGatherDate = "What do you want from your Bambo date ?";
   static String underStand = "UnderStand";
   static String getMoreCoins = "Get more coins";
   static String dontshowagain = "don't show again";

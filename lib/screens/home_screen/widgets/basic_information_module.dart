@@ -52,6 +52,7 @@ class BasicInFormationModule extends StatelessWidget {
                         transform: Matrix4.identity()..scale(0.93),
                         child: ChoiceChip(
                           avatar: CircleAvatar(
+                            radius: 9.0,
                             backgroundColor: Colors.transparent,
                             backgroundImage: AssetImage(
                               basicList[index].image,

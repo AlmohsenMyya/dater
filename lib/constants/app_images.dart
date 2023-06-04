@@ -2,7 +2,7 @@ class AppImages {
   static const rootPath = "assets/images";
   static const splashBackgroundImage = "$rootPath/splash_background.jpg";
   static const splashBackgroundImage2 = "$rootPath/splash_screen2.png";
-  static const appIcon = "$rootPath/icon.png";
+  static const appIcon = "$rootPath/small-icon2.png";
   static const locationImage = "$rootPath/location.png";
   static const posterImage = "$rootPath/poster.png";
   static const colorImage = "$rootPath/color.png";

@@ -29,15 +29,12 @@ class LoginInScreen extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            color: AppColors.lightOrangeBackGround,
-            child: SafeArea(
-              child: Obx(
-                () => loginInScreenController.isLoading.value
-                    ? const CustomLoader()
-                    : ColumnWidgets().commonOnlyPadding(
-                        top: 5.h, right: 15, left: 15, bottom: 20),
-              ),
+          SafeArea(
+            child: Obx(
+              () => loginInScreenController.isLoading.value
+                  ? const CustomLoader()
+                  : ColumnWidgets().commonOnlyPadding(
+                      top: 5.h, right: 15, left: 15, bottom: 20),
             ),
           ),
         ],

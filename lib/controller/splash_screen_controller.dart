@@ -17,10 +17,13 @@ class SplashScreenController extends GetxController {
       const Duration(milliseconds: 1500),
       () async {
         // Get User loggedIn or not
-        bool isUserLoggedIn = await userPreference.getUserLoggedInFromPrefs(
-          key: UserPreference.isUserLoggedInKey,
+        // bool isUserLoggedIn = await userPreference.getUserLoggedInFromPrefs(
+        //   key: UserPreference.isUserLoggedInKey,
+        // );
+        bool isCompleteRegister = await userPreference.getUserLoggedInFromPrefs(
+          key: UserPreference.completeRegister,
         );
-        if (isUserLoggedIn == true) {
+        if (isCompleteRegister== true) {
           Get.offAll(() => IndexScreen());
         } else {
           Get.off(() => LoginInScreen());

@@ -111,7 +111,6 @@ class SettingsScreenController extends GetxController {
   }
 
   Future<void> getShowMeGenderValueFromPrefs() async {
-    //todo
     showMeGender = await userPreference.getStringFromPrefs(
         key: UserPreference.isShowMeGenderKey);
     isLoading(true);

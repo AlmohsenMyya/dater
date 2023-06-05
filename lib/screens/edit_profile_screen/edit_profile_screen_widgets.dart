@@ -8,6 +8,7 @@ import 'package:dater/constants/colors.dart';
 import 'package:dater/constants/font_family.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/model/profile_screen_models/logged_in_user_details_model.dart';
+import 'package:dater/screens/edit_profile_screen/edit_enterests.dart';
 import 'package:dater/screens/language_select_screen/language_select_screen.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dater/utils/style.dart';
@@ -899,61 +900,67 @@ class EditProfileScreenWidgets extends StatelessWidget {
           ],
         ),
         SizedBox(height: 5.h),
-        Container(
-          width: Get.width,
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(
-              color: AppColors.grey300Color,
-              width: 3,
+        GestureDetector(
+          onTap: () {
+            Get.to(
+              EditInterests(),
+            );
+          },
+          child: Container(
+            width: Get.width,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                color: AppColors.grey300Color,
+                width: 3,
+              ),
             ),
-          ),
-          child: Wrap(
-            // spacing: 3.0,
-            children: List.generate(
-              editProfileScreenController.interestList.length,
-              (int index) {
-                bool selected = true;
-                return Transform(
-                  transform: Matrix4.identity()..scale(0.95),
-                  child: ChoiceChip(
-                    avatar:
-                        editProfileScreenController.interestList[index].image !=
-                                AppImages.ballImage
-                            ? CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                backgroundImage: NetworkImage(
-                                    editProfileScreenController
-                                        .interestList[index].image),
-                              )
-                            : CircleAvatar(
-                                backgroundImage: AssetImage(
-                                    editProfileScreenController
-                                        .interestList[index].image),
-                              ),
-                    label: Text(
-                      editProfileScreenController.interestList[index].name,
-                      style: TextStyleConfig.textStyle(
-                        fontFamily: FontFamilyText.sFProDisplaySemibold,
-                        textColor: AppColors.blackColor,
-                        fontSize: 16,
+            child: Wrap(
+              // spacing: 3.0,
+              children: List.generate(
+                editProfileScreenController.interestList.length,
+                (int index) {
+                  return Transform(
+                    transform: Matrix4.identity()..scale(0.95),
+                    child: ChoiceChip(
+                      avatar: editProfileScreenController
+                                  .interestList[index].image !=
+                              AppImages.ballImage
+                          ? CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: NetworkImage(
+                                  editProfileScreenController
+                                      .interestList[index].image),
+                            )
+                          : CircleAvatar(
+                              backgroundImage: AssetImage(
+                                  editProfileScreenController
+                                      .interestList[index].image),
+                            ),
+                      label: Text(
+                        editProfileScreenController.interestList[index].name,
+                        style: TextStyleConfig.textStyle(
+                          fontFamily: FontFamilyText.sFProDisplaySemibold,
+                          textColor: AppColors.blackColor,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    selected: true,
-                    selectedColor: AppColors.lightOrange2Color,
-                    backgroundColor: Colors.white,
-                    shape: const StadiumBorder(
-                      side: BorderSide(
-                        color: AppColors.grey400Color,
-                        width: 1.5,
+                      selected: true,
+                      selectedColor: AppColors.lightOrange2Color,
+                      backgroundColor: Colors.white,
+                      shape: const StadiumBorder(
+                        side: BorderSide(
+                          color: AppColors.grey400Color,
+                          width: 1.5,
+                        ),
                       ),
+                      onSelected: (bool value) {},
                     ),
-                    onSelected: (bool value) {},
-                  ),
-                ).commonSymmetricPadding(horizontal: 1);
-              },
-            ).toList(),
+                  ).commonSymmetricPadding(horizontal: 1);
+                },
+              ).toList(),
+            ),
           ),
         ),
 

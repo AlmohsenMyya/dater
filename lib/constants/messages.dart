@@ -6,7 +6,7 @@ class AppMessages {
   static String walk = "Walk&";
   static String findWhat = "Find What";
   static String completesYou = "Completes You";
-  static String bambo = "BAMBO";
+  static String bambo = "Bambo";
   static String authScreen1 = "By clicking “use your phone number”, you agree with our ";
   static String terms = "Terms. ";
   static String authText2 = "Learn how we process your data in our ";
@@ -40,7 +40,7 @@ class AppMessages {
   static String submit = "Submit";
   static String userName = "Username";
   static String whatSYourName = ''' What's your name ?''';
-  static String userName1 = ''' You can't change your name later''';
+  static String userName1 = ''' You can change your name later''';
   static String userName2 = 'Your name will be shown on your profile';
   static String enterYourName = "Enter your name";
   static String addYourFirstPhoto = "Add your first photo";

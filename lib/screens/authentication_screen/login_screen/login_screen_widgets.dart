@@ -40,13 +40,20 @@ class ColumnWidgets extends StatelessWidget {
                 // SizedBox(height: 0.5.h),
                 Text(
                   AppMessages.bambo,
-                  style: TextStyleConfig.textStyle(
-                      fontSize: 18.sp,
-                      textColor: AppColors.whiteColor,
+                  style: TextStyle(
+                      fontSize: 25.sp,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 6,
+                          offset: Offset(0,3),
+                        )
+                      ],
+                      fontFamily: FontFamilyText.franklinGothic,
+                      color: AppColors.whiteColor,
                       fontWeight: FontWeight.w300),
                 ),
                 SizedBox(
-                  height: 3.h,
+                  height: 4.h,
                 ),
                 Text(
                     textAlign: TextAlign.center,

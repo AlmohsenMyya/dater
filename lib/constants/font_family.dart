@@ -11,5 +11,6 @@ class FontFamilyText {
   static String sFProDisplayRegular = "SFProDisplayRegular";
   static String bullpen3D = "Bullpen3D";
   static String sitka = "Sitka";
+  static String franklinGothic = "FranklinGothic";
 
 }

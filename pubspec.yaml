@@ -61,7 +61,6 @@ dependencies:
   change_app_package_name: ^1.1.0
   url_launcher: ^6.1.11
 
-
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_test:
@@ -146,6 +145,10 @@ flutter:
     - family: Sitka
       fonts:
         - asset: assets/fonts/sitka-small-652.ttf
+
+    - family: FranklinGothic
+      fonts:
+        - asset: assets/fonts/FranklinGothic.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

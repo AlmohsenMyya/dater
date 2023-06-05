@@ -58,7 +58,7 @@ class ImageSelectModule extends StatelessWidget {
         shadowColor: AppColors.grey900Color,
         onPressed: () {
           verifyYourAccountScreenController
-              .pickImageFromGallery(ImageSource.camera);
+              .pickImageFromGallery(ImageSource.camera,);
         },
         // fontWeight: FontWeight.bold,
         textsize: 14.sp,

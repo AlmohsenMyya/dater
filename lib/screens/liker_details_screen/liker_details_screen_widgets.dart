@@ -162,7 +162,7 @@ class LikerSwipeUserModule extends StatelessWidget {
                                               height: homeScreenController
                                                           .physicalDeviceHeight <
                                                       2200
-                                                  ? Get.height * 0.75
+                                                  ? Get.height * 0.82
                                                   : Get.height * 0.82,
                                               width: Get.width,
                                               fit: BoxFit.cover,
@@ -171,26 +171,6 @@ class LikerSwipeUserModule extends StatelessWidget {
                                         },
                                       ),
                                     ),
-                                    /*child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.network(
-                                        singleItem.images![0].imageUrl,
-                                        fit: BoxFit.cover,
-                                        // height: 77.h,
-                                        // height: Get.height * 0.80,
-                                        // width: Get.width,
-                                        errorBuilder: (context, obj, st) {
-                                          return ClipRRect(
-                                            borderRadius: BorderRadius.circular(20),
-                                            child: Image.asset(
-                                              AppImages.swiper1Image,
-                                              width: double.infinity,
-                                              fit: BoxFit.contain,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),*/
                                   ).commonOnlyPadding(top: 5.h)
                                 : Container(
                                     height: homeScreenController
@@ -210,32 +190,30 @@ class LikerSwipeUserModule extends StatelessWidget {
                                     ),
                                   ),
 
-                            /*ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.asset(
-                                      AppImages.swiper1Image,
-                                      height: homeScreenController.physicalDeviceHeight < 2200
-                                          ? Get.height * 0.75
-                                          : Get.height * 0.82,
-                                      width: Get.width,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),*/
-
                             // Shadow position on image
                             Positioned(
                               bottom: 0,
                               child: Container(
-                                height: Get.height * 0.12,
-                                width: Get.width * 0.85,
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
+                                height: (singleItem.basic!.education ==
+                                    '') &&
+                                    (singleItem.basic!.work == '')
+                                    ? Get.height * 0.076
+                                    : Get.height * 0.12,
+                                width: Get.width,
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(25),
                                     bottomRight: Radius.circular(25),
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: Colors.black12, blurRadius: 5),
+                                      color:
+                                      Colors.black.withOpacity(0.4),
+                                      offset: const Offset(0, 5),
+                                      blurRadius: 15,
+                                      spreadRadius: 5,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -288,7 +266,9 @@ class LikerSwipeUserModule extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 3),
-                                  Row(
+                                  singleItem.basic!.work == ''
+                                      ? const SizedBox()
+                                      : Row(
                                     children: [
                                       Image.asset(
                                         AppImages.workWhiteImage,
@@ -310,7 +290,9 @@ class LikerSwipeUserModule extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Row(
+                                  singleItem.basic!.education == ''
+                                      ? const SizedBox()
+                                      : Row(
                                     children: [
                                       Image.asset(
                                         AppImages.educationWhiteImage,
@@ -335,24 +317,6 @@ class LikerSwipeUserModule extends StatelessWidget {
                                 ],
                               ).commonSymmetricPadding(horizontal: 10),
                             ),
-
-                            // Star Button module
-                            // Positioned(
-                            //   bottom: 35,
-                            //   right: 25,
-                            //   child: IconButton(
-                            //     onPressed: () {
-                            //       homeScreenController.cardController.next(
-                            //         swipeDirection: SwipeDirection.up,
-                            //       );
-                            //     },
-                            //     icon: const Icon(
-                            //       Icons.star_rounded,
-                            //       color: AppColors.lightOrangeColor,
-                            //       size: 60,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
 
@@ -361,7 +325,8 @@ class LikerSwipeUserModule extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // About Module
+                          // if (homeScreenController.userDetails.value !=
+                          // '') ...[
                               Container(height: 2.h),
                               Text(
                                 AppMessages.aboutMe,
@@ -389,13 +354,12 @@ class LikerSwipeUserModule extends StatelessWidget {
                                   textColor: AppColors.grey600Color,
                                 ),
                               ),
+                              // ],
                               //
 
                               // Basic Module
                               SizedBox(height: 4.h),
                               LikerBasicInFormationModule(basicList: basicList),
-                              //
-
                               // Interest Module
                               interestList.isEmpty
                                   ? Container()

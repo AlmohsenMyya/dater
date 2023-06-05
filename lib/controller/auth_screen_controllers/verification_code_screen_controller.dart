@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/screens/index_screen/index_screen.dart';
+import 'package:dater/utils/functions.dart';
 import 'package:dater/utils/preferences/user_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -75,12 +76,18 @@ class VerifyCodeScreenController extends GetxController {
         AccountActiveModel accountActiveModel =
             AccountActiveModel.fromJson(json.decode(value));
 
+        bool isCompleteRegister = await userPreference.getUserLoggedInFromPrefs(
+            key: UserPreference.completeRegister);
+        //TODO : get from backend if it's a complete account or not without use complete register button
+        printAll(name: 'complete register', '$isCompleteRegister');
         if (accountActiveModel.statusCode == 200) {
           log('Msg : ${accountActiveModel.msg}');
-
-
+          if (!isCompleteRegister) {
+            authAs = AuthAs.register;
+          }
           if (accountActiveModel.msg.toLowerCase() ==
-              "Account already activated".toLowerCase()) {
+                  "Account already activated".toLowerCase() &&
+              isCompleteRegister) {
             await userPreference.setStringValueInPrefs(
               key: UserPreference.userVerifyTokenKey,
               value: accountActiveModel.token,

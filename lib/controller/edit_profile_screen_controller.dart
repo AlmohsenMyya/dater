@@ -68,10 +68,30 @@ class EditProfileScreenController extends GetxController {
     XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      captureImageList.add(UploadUserImage(
-          id: "", imageUrl: pickedFile.path, isImageFromNetwork: false));
-      File selectedFile = File(pickedFile.path);
-      await uploadImageFunction(selectedFile);
+
+      File tempImg = File(pickedFile.path);
+      if (tempImg.lengthSync() <= 2000000) {
+        captureImageList.add(UploadUserImage(
+            id: "", imageUrl: pickedFile.path, isImageFromNetwork: false));
+        File selectedFile = File(pickedFile.path);
+        await uploadImageFunction(selectedFile);
+      } else {
+        Fluttertoast.showToast(
+            msg:
+            'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
+        XFile? pickedFile = await ImagePicker().pickImage(
+            source: ImageSource.gallery,
+            maxHeight: 480,
+            maxWidth: 640,
+            imageQuality: 50);
+        if (pickedFile != null) {
+          captureImageList.add(UploadUserImage(
+              id: "", imageUrl: pickedFile.path, isImageFromNetwork: false));
+          File selectedFile = File(pickedFile.path);
+          await uploadImageFunction(selectedFile);
+        }
+      }
+
     }
     log('captureImageList Length : ${captureImageList.length}');
     loadUI();
@@ -584,7 +604,7 @@ class EditProfileScreenController extends GetxController {
 
   Future<void> getMyBasicGenderValueFromPrefs() async {
     gender = await userPreference.getStringFromPrefs(
-        key: UserPreference.myBasicGenderValueKey);
+        key: UserPreference.genderKey);
     loadUI();
   }
 

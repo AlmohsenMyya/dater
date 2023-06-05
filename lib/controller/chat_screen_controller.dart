@@ -195,7 +195,7 @@ class ChatScreenController extends GetxController {
 
     // isTimerOn.value
     //     ?
-    Timer.periodic(const Duration(seconds: 3), (timer) async {
+    Timer.periodic(const Duration(seconds: 30), (timer) async {
       isTimerOn.value ? await getUserChatMessagesFunction() : null;
           });
         // : () {};

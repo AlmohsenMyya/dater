@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:dater/constants/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -43,8 +44,9 @@ class GenderTargetScreenController extends GetxController {
         genderList = getTargetGenderModel.msg;
         genderList.isNotEmpty ? selectedGenderValue = genderList[0] : null;
         for (var element in genderList) {
-
-          if(element.name == "Woman" || element.name == "Man"||element.name=="Non-Binary") {
+          if (element.name == "Woman" ||
+              element.name == "Man" ||
+              element.name == "Non-Binary") {
             mainGenderList.add(element);
           } else {
             nonBinaryGenderList.add(element);
@@ -63,7 +65,8 @@ class GenderTargetScreenController extends GetxController {
     } catch (e) {
       log("geGenderFunction Error $e");
       rethrow;
-    } /*finally {
+    }
+    /*finally {
       isLoading(false);
     }*/
     isLoading(false);
@@ -80,7 +83,8 @@ class GenderTargetScreenController extends GetxController {
       key: SignUpPreference.targetGenderKey,
       value: selectedGenderValue.id,
     );
-    await userPreference.setStringValueInPrefs(key: UserPreference.genderKey, value: selectedGenderValue.name);
+    await userPreference.setStringValueInPrefs(
+        key: UserPreference.isShowMeGenderKey, value: selectedGenderValue.name);
     Get.to(() => GoalSelectScreen());
   }
 

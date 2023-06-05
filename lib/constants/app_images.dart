@@ -1,6 +1,6 @@
 class AppImages {
   static const rootPath = "assets/images";
-  static const splashBackgroundImage = "$rootPath/splash_background.jpg";
+  static const splashBackgroundImage = "$rootPath/splash-background.png";
   static const splashBackgroundImage2 = "$rootPath/splash_screen2.png";
   static const appIcon = "$rootPath/small-icon2.png";
   static const locationImage = "$rootPath/location.png";

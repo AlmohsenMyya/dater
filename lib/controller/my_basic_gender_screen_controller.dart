@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
 import '../constants/api_url.dart';
 import '../model/authentication_model/complete signup_screen_model/complete signup_model.dart';
 import '../model/authentication_model/gender_select_screen_model/get_gender_model.dart';
@@ -39,8 +40,9 @@ class MyBasicGenderScreenController extends GetxController {
         genderList.addAll(getGenderModel.msg);
 
         for (var element in genderList) {
-
-          if(element.name == "Woman" || element.name == "Man"||element.name=="Non-Binary") {
+          if (element.name == "Woman" ||
+              element.name == "Man" ||
+              element.name == "Non-Binary") {
             mainGenderList.add(element);
           } else {
             nonBinaryGenderList.add(element);
@@ -91,7 +93,7 @@ class MyBasicGenderScreenController extends GetxController {
         if (successStatus.value == 200) {
           log('Update User Profile Success : $key & $value');
           await userPreference.setStringValueInPrefs(
-            key: UserPreference.myBasicGenderValueKey,
+            key: UserPreference.genderKey,
             value: selectedSexualityValue.name,
           );
           Get.back();

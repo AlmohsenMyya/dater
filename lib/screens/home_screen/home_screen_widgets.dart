@@ -35,7 +35,7 @@ class SwipeUserModule extends StatelessWidget {
         ? SizedBox(
             height: Get.height * 0.70,
             child: const Center(
-              child: Text('No Matches Found'),
+              child: Text('There are no more Users. \n  Please come back soon.'),
             ),
           )
         : Obx(

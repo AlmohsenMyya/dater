@@ -15,7 +15,7 @@ class UserPreference {
   static String isragatherInKey = "isragatherInKey";
   static String isSuperLoveInKey = "isSuperLoveInKey";
   static String isLikeInKey = "isLikeInKey";
-
+  static String completeRegister = "isCompleteRegister"; //bool
 
   /// For Profile Section
   static String nameKey = "nameKey"; // String
@@ -28,7 +28,7 @@ class UserPreference {
   static String ageKey = "ageKey"; // String
   static String activeTimeKey = "activeTimeKey"; // String
   static String genderKey = "genderKey"; // String
-  static String myBasicGenderValueKey = "myBasicGenderValueKey";
+  // static String myBasicGenderValueKey = "myBasicGenderValueKey";
   static String isShowMeGenderKey = "isShowMeGenderKey";
   static String workKey = "workKey"; // String
   static String educationKey = "educationKey"; // String
@@ -66,7 +66,7 @@ class UserPreference {
   // Set String Type List
   Future<void> setListOfStringInPrefs({required List<String> value}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-prefs.setStringList(listOfImageKey, value);
+    prefs.setStringList(listOfImageKey, value);
   }
 
   // Set Language String Type List

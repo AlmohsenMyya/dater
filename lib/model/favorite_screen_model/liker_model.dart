@@ -141,14 +141,14 @@ class LikerImage {
   };
 }*/
 
-
 // To parse this JSON data, do
 //
 //     final likerModel = likerModelFromJson(jsonString);
 
 import 'dart:convert';
 
-LikerModel likerModelFromJson(String str) => LikerModel.fromJson(json.decode(str));
+LikerModel likerModelFromJson(String str) =>
+    LikerModel.fromJson(json.decode(str));
 
 String likerModelToJson(LikerModel data) => json.encode(data.toJson());
 
@@ -166,18 +166,21 @@ class LikerModel {
   });
 
   factory LikerModel.fromJson(Map<String, dynamic> json) => LikerModel(
-    response: json["response"] ?? "",
-    msg: json["msg"].toString().toLowerCase() == "No data".toLowerCase() ? [] : List<LikerData>.from((json["msg"] ?? []).map((x) => LikerData.fromJson(x ?? {}))),
-    token: json["token"] ?? "",
-    statusCode: json["status_code"] ?? 0,
-  );
+        response: json["response"] ?? "",
+        msg: json["msg"].toString().toLowerCase() == "No data".toLowerCase()
+            ? []
+            : List<LikerData>.from(
+                (json["msg"] ?? []).map((x) => LikerData.fromJson(x ?? {}))),
+        token: json["token"] ?? "",
+        statusCode: json["status_code"] ?? 0,
+      );
 
   Map<String, dynamic> toJson() => {
-    "response": response,
-    "msg": List<dynamic>.from(msg.map((x) => x.toJson())),
-    "token": token,
-    "status_code": statusCode,
-  };
+        "response": response,
+        "msg": List<dynamic>.from(msg.map((x) => x.toJson())),
+        "token": token,
+        "status_code": statusCode,
+      };
 }
 
 class LikerData {
@@ -189,6 +192,8 @@ class LikerData {
   String distance;
   String age;
   String activeTime;
+  bool blurred;
+
   // List<Interest> interest;
   // List<Prompt> prompts;
   // int percentage;
@@ -205,6 +210,7 @@ class LikerData {
     required this.distance,
     required this.age,
     required this.activeTime,
+    this.blurred = true,
     // this.interest,
     // this.prompts,
     // this.percentage,
@@ -214,38 +220,40 @@ class LikerData {
   });
 
   factory LikerData.fromJson(Map<String, dynamic> json) => LikerData(
-    id: json["id"] ?? "",
-    name: json["name"] ?? "",
-    bio: json["bio"] ?? "",
-    verified: json["verified"] ?? "",
-    images: List<LikerImage>.from((json["images"] ?? []).map((x) => LikerImage.fromJson(x ?? {}))),
-    distance: (json["distance"] ?? 0).toString(),
-    age: (json["age"] ?? 0).toString(),
-    activeTime: json["active_time"] ?? "",
-    // interest: List<Interest>.from(json["interest"].map((x) => Interest.fromJson(x))),
-    // prompts: List<Prompt>.from(json["prompts"].map((x) => Prompt.fromJson(x))),
-    // percentage: json["percentage"],
-    // country: json["country"],
-    // basic: Basic.fromJson(json["basic"]),
-    // languages: json["languages"],
-  );
+        id: json["id"] ?? "",
+        name: json["name"] ?? "",
+        bio: json["bio"] ?? "",
+        verified: json["verified"] ?? "",
+        images: List<LikerImage>.from(
+            (json["images"] ?? []).map((x) => LikerImage.fromJson(x ?? {}))),
+        distance: (json["distance"] ?? 0).toString(),
+        age: (json["age"] ?? 0).toString(),
+        activeTime: json["active_time"] ?? "",
+        //TODO add blurred from api
+        // interest: List<Interest>.from(json["interest"].map((x) => Interest.fromJson(x))),
+        // prompts: List<Prompt>.from(json["prompts"].map((x) => Prompt.fromJson(x))),
+        // percentage: json["percentage"],
+        // country: json["country"],
+        // basic: Basic.fromJson(json["basic"]),
+        // languages: json["languages"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "bio": bio,
-    "verified": verified,
-    "images": List<dynamic>.from(images.map((x) => x.toJson())),
-    "distance": distance,
-    "age": age,
-    "active_time": activeTime,
-    // "interest": List<dynamic>.from(interest.map((x) => x.toJson())),
-    // "prompts": List<dynamic>.from(prompts.map((x) => x.toJson())),
-    // "percentage": percentage,
-    // "country": country,
-    // "basic": basic.toJson(),
-    // "languages": languages,
-  };
+        "id": id,
+        "name": name,
+        "bio": bio,
+        "verified": verified,
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        "distance": distance,
+        "age": age,
+        "active_time": activeTime,
+        // "interest": List<dynamic>.from(interest.map((x) => x.toJson())),
+        // "prompts": List<dynamic>.from(prompts.map((x) => x.toJson())),
+        // "percentage": percentage,
+        // "country": country,
+        // "basic": basic.toJson(),
+        // "languages": languages,
+      };
 }
 
 class LikerImage {
@@ -256,12 +264,12 @@ class LikerImage {
   });
 
   factory LikerImage.fromJson(Map<String, dynamic> json) => LikerImage(
-    imageUrl: json["image_url"] ?? "",
-  );
+        imageUrl: json["image_url"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "image_url": imageUrl,
-  };
+        "image_url": imageUrl,
+      };
 }
 
 // class Basic {
@@ -319,8 +327,6 @@ class LikerImage {
 //     "looking_for": lookingFor,
 //   };
 // }
-
-
 
 // class Interest {
 //   String name;

@@ -6,6 +6,7 @@ import 'package:dater/constants/font_family.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../controller/auth_screen_controllers/add_user_photo_screen_controller.dart';
 import 'add_user_photo_screen_widgets.dart';
 
@@ -44,6 +45,12 @@ class AddUserPhotoScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: "SFProDisplayRegular", fontSize: 15),
+                    ).commonOnlyPadding(top: 5, bottom: 6),
+                    const Text(
+                      'For a better experience, \n please upload photo with a file size of 2MB or less.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: "SFProDisplayRegular", fontSize: 14),
                     ).commonSymmetricPadding(vertical: 5, horizontal: 20),
                     const SizedBox(height: 25),
                     UserImageSelectModule(),

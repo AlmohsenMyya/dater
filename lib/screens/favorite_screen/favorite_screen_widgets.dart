@@ -1,14 +1,15 @@
-import 'dart:developer';
+import 'dart:ui';
+
 import 'package:dater/constants/colors.dart';
 import 'package:dater/constants/font_family.dart';
 import 'package:dater/controller/favorite_screen_controller.dart';
+import 'package:dater/screens/favorite_screen/remove_blur_dialog.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import '../../common_modules/custom_alertdialog.dart';
+
 import '../../constants/app_images.dart';
-import '../../constants/enums.dart';
 import '../../model/favorite_screen_model/liker_model.dart';
 import '../../utils/style.dart';
 import '../liker_details_screen/liker_details_screen.dart';
@@ -62,11 +63,21 @@ class FavoriteGridViewBuilderModule extends StatelessWidget {
             //         ),
             //       );
             //     }),
-            onTap: () => Get.to(() => LikerDetailsScreen(),
-                    arguments: [favoriteScreenController.likerList[index].id])!
-                .then((value) async {
-              await favoriteScreenController.getYourLikerFunction();
-            }),
+            onTap: () {
+              if (singleData.blurred) {
+                // favoriteScreenController.removeBlur(index);
+                Get.dialog(RemoveBlurDialog(
+                  removeBlurIndex: index,
+                ));
+              } else {
+                Get.to(() => LikerDetailsScreen(), arguments: [
+                  favoriteScreenController.likerList[index].id
+                ])!
+                    .then((value) async {
+                  await favoriteScreenController.getYourLikerFunction();
+                });
+              }
+            },
             child: Container(
               // height: 30.h,
               decoration: const BoxDecoration(
@@ -82,10 +93,27 @@ class FavoriteGridViewBuilderModule extends StatelessWidget {
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20)),
-                            child: Image.network(
-                              singleData.images[0].imageUrl,
-                              fit: BoxFit.cover,
+                            child: Container(
                               width: Get.width,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  singleData.images[0].imageUrl,
+                                ),
+                              )),
+                              child: Visibility(
+                                visible: favoriteScreenController
+                                    .likerList[index].blurred,
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                      sigmaX: 12.0, sigmaY: 12.0),
+                                  child: new Container(
+                                    decoration: new BoxDecoration(
+                                        color: Colors.white.withOpacity(0.0)),
+                                  ),
+                                ),
+                              ),
                             ),
                           )
                         : ClipRRect(

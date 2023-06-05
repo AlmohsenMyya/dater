@@ -34,54 +34,70 @@ class _SplashState extends State<SplashScreen> {
             height: Get.height,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(AppImages.splashBackgroundImage2),
+                image: AssetImage(AppImages.splashBackgroundImage),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 14.h),
-                SizedBox(
-                  width: 90,
-                  height: 90,
-                  child: Image(
-                    image: AssetImage(AppImages.appIcon),
-                  ),
+                SizedBox(height: Get.height / 3.4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 125,
+                      height: 125,
+                      child: Image(
+                        fit: BoxFit.cover,
+                        image: AssetImage(AppImages.appIcon),
+                      ),
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      AppMessages.bambo,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.whiteColor,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: FontFamilyText.bullpen3D,
+                        fontSize: 30.sp,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 1.h),
-                Text(
-                  textAlign: TextAlign.center,
-                  AppMessages.bambo,
-                  style: TextStyleConfig.textStyle(
-                    textColor: AppColors.whiteColor,
-                    fontFamily: "SFProDisplayRegular",
-                    fontSize: 23.sp,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  textAlign: TextAlign.center,
-                  AppMessages.findWhat,
-                  style: TextStyleConfig.textStyle(
-                    fontFamily: FontFamilyText.bullpen3D,
-                    textColor: AppColors.whiteColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 30,
-                  ),
-                ),
-                Text(
-                  textAlign: TextAlign.center,
-                  AppMessages.completesYou,
-                  style: TextStyleConfig.textStyle(
-                    fontFamily: FontFamilyText.bullpen3D,
-                    textColor: AppColors.whiteColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 30,
-                  ),
-                ),
+                // SizedBox(height: 1.h),
+                // Text(
+                //   textAlign: TextAlign.center,
+                //   AppMessages.bambo,
+                //   style: TextStyleConfig.textStyle(
+                //     textColor: AppColors.whiteColor,
+                //     fontFamily: "SFProDisplayRegular",
+                //     fontSize: 23.sp,
+                //   ),
+                // ),
+                // SizedBox(height: 4.h),
+                // Text(
+                //   textAlign: TextAlign.center,
+                //   AppMessages.findWhat,
+                //   style: TextStyleConfig.textStyle(
+                //     fontFamily: FontFamilyText.bullpen3D,
+                //     textColor: AppColors.whiteColor,
+                //     fontWeight: FontWeight.w500,
+                //     fontSize: 30,
+                //   ),
+                // ),
+                // Text(
+                //   textAlign: TextAlign.center,
+                //   AppMessages.completesYou,
+                //   style: TextStyleConfig.textStyle(
+                //     fontFamily: FontFamilyText.bullpen3D,
+                //     textColor: AppColors.whiteColor,
+                //     fontWeight: FontWeight.w500,
+                //     fontSize: 30,
+                //   ),
+                // ),
               ],
             ).commonOnlyPadding(top: 30),
           ),

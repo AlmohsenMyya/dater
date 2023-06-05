@@ -5,7 +5,6 @@ import 'package:dater/constants/font_family.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/controller/all_chat_list_screen_controller.dart';
 import 'package:dater/screens/chat_screen/chat_screen/chat_screen.dart';
-import 'package:dater/utils/extensions.dart';
 import 'package:dater/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +14,7 @@ import '../../../model/home_screen_model/matches_model.dart';
 
 class SearchTextfiledModule extends StatelessWidget {
   const SearchTextfiledModule({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final allChatListScreenController = Get.find<AllChatListScreenController>();
@@ -51,6 +51,7 @@ class SearchTextfiledModule extends StatelessWidget {
 
 class ChatListModule extends StatelessWidget {
   ChatListModule({super.key});
+
   final allChatListScreenController = Get.find<AllChatListScreenController>();
 
   @override
@@ -59,13 +60,12 @@ class ChatListModule extends StatelessWidget {
       child: ListView.builder(
         itemCount: allChatListScreenController.searchMatchesList.length,
         itemBuilder: (context, index) {
-          MatchUserData person = allChatListScreenController.searchMatchesList[index];
+          MatchUserData person =
+              allChatListScreenController.searchMatchesList[index];
           return GestureDetector(
             onTap: () {
-              Get.to(
-                () =>  ChatScreen(),
-                arguments: [person]
-              )!.then((value) async {
+              Get.to(() => ChatScreen(), arguments: [person])!
+                  .then((value) async {
                 await allChatListScreenController.getMatchesFunction();
               });
             },
@@ -76,13 +76,13 @@ class ChatListModule extends StatelessWidget {
                   width: 50,
                   height: 50,
                   child: person.images.isNotEmpty
-                  ? Image.network(person.images[0].imageUrl,
-                    fit: BoxFit.cover,
-                  )
-                  : Image.asset(AppImages.chatimage),
+                      ? Image.network(
+                          person.images[0].imageUrl,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(AppImages.chatimage),
                 ),
               ),
-
               title: RichText(
                 text: TextSpan(
                   children: [
@@ -92,12 +92,23 @@ class ChatListModule extends StatelessWidget {
                         fontFamily: FontFamilyText.sFProDisplaySemibold,
                         textColor: AppColors.grey800Color,
                         fontSize: 14.sp,
-                        fontWeight: person.lastMessage.isSeen == 1 ? FontWeight.normal : FontWeight.bold,
+                        fontWeight: person.lastMessage.isSeen == 1
+                            ? FontWeight.normal
+                            : FontWeight.bold,
                       ),
                     ),
                     WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
-                      child: person.verified == "1" ? Image.asset(AppImages.rightimage, height: 30, width: 30,) : SizedBox(height: 30, width: 30,),
+                      child: person.verified == "1"
+                          ? Image.asset(
+                              AppImages.rightimage,
+                              height: 30,
+                              width: 30,
+                            )
+                          : SizedBox(
+                              height: 30,
+                              width: 30,
+                            ),
                       // child: Image.asset(AppImages.rightimage, height: 30, width: 30,)
                     ),
                   ],
@@ -109,7 +120,9 @@ class ChatListModule extends StatelessWidget {
                   fontFamily: FontFamilyText.sFProDisplayRegular,
                   textColor: AppColors.grey800Color,
                   fontSize: 12.sp,
-                  fontWeight: person.lastMessage.isSeen == 1 ? FontWeight.normal : FontWeight.bold,
+                  fontWeight: person.lastMessage.isSeen == 1
+                      ? FontWeight.normal
+                      : FontWeight.bold,
                 ),
               ),
               trailing: Column(
@@ -120,7 +133,9 @@ class ChatListModule extends StatelessWidget {
                     width: 7,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: person.lastMessage.isSeen == 1 ? Colors.transparent : AppColors.darkOrangeColor,
+                      color: person.lastMessage.isSeen == 1
+                          ? Colors.transparent
+                          : AppColors.darkOrangeColor,
                     ),
                   ),
                   /*Text(

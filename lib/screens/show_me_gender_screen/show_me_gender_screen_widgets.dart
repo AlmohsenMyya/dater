@@ -68,29 +68,29 @@ class GenderRadioButtonModule extends StatelessWidget {
               );
             },
           ),
-          DropdownButton<Msg>(
-            hint: const Text("Add more about your gender"),
-            value: !showMeGenderScreenController.nonBinaryGenderList
-                    .contains(showMeGenderScreenController.selectedGenderValue)
-                ? null
-                : showMeGenderScreenController.selectedGenderValue,
-            onChanged: (Msg? val) =>
-                showMeGenderScreenController.radioButtonChangeFunction(val!),
-            items: showMeGenderScreenController.nonBinaryGenderList
-                .map((Msg gender) {
-              return DropdownMenuItem<Msg>(
-                value: gender,
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      gender.name,
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
+          // DropdownButton<Msg>(
+          //   hint: const Text("Add more about your gender"),
+          //   value: !showMeGenderScreenController.nonBinaryGenderList
+          //           .contains(showMeGenderScreenController.selectedGenderValue)
+          //       ? null
+          //       : showMeGenderScreenController.selectedGenderValue,
+          //   onChanged: (Msg? val) =>
+          //       showMeGenderScreenController.radioButtonChangeFunction(val!),
+          //   items: showMeGenderScreenController.nonBinaryGenderList
+          //       .map((Msg gender) {
+          //     return DropdownMenuItem<Msg>(
+          //       value: gender,
+          //       child: Row(
+          //         children: <Widget>[
+          //           Text(
+          //             gender.name,
+          //             style: const TextStyle(color: Colors.black),
+          //           ),
+          //         ],
+          //       ),
+          //     );
+          //   }).toList(),
+          // ),
         ],
       ).commonSymmetricPadding(horizontal: 25, vertical: 10),
     );

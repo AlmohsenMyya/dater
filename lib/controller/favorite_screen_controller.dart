@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:dater/utils/extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:dater/constants/api_url.dart';
+import 'package:dater/utils/extensions.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
@@ -11,11 +12,9 @@ import '../common_modules/custom_button.dart';
 import '../constants/colors.dart';
 import '../constants/enums.dart';
 import '../constants/font_family.dart';
-import '../constants/messages.dart';
 import '../model/favorite_screen_model/liker_model.dart';
 import '../utils/preferences/user_preference.dart';
 import '../utils/style.dart';
-import 'package:dio/dio.dart' as dio;
 
 class FavoriteScreenController extends GetxController {
   RxBool isLoading = true.obs;
@@ -26,12 +25,17 @@ class FavoriteScreenController extends GetxController {
   LikesDialogShowAgain likesDialogShowAgain = LikesDialogShowAgain.yes;
   String lastLikeProfileId = "";
 
-  List<LikerData> likerList = [];
+  List<LikerData> likerList = <LikerData>[].obs;
   RxBool selectedLike = false.obs;
   RxBool selectedLiked = false.obs;
 
   var dioRequest = dio.Dio();
 
+  removeBlur(int likerDataIndex) {
+    likerList[likerDataIndex].blurred = false;
+    //TODO add api to remove blur
+    loadUI();
+  }
 
   // Get Your Liker Function
   Future<void> getYourLikerFunction() async {
@@ -40,10 +44,9 @@ class FavoriteScreenController extends GetxController {
     log('getYourLikerFunction Api Url : $url');
 
     try {
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
-      var formData = dio.FormData.fromMap({
-        'token': verifyToken
-      });
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
+      var formData = dio.FormData.fromMap({'token': verifyToken});
 
       var response = await dioRequest.post(url, data: formData);
       log('Suggestion Response : ${response.data}');
@@ -72,8 +75,7 @@ class FavoriteScreenController extends GetxController {
         likerList.addAll(likerModel.msg);
         log('likerList Length : ${likerList.length}');
       });*/
-
-    } catch(e) {
+    } catch (e) {
       log('getYourLikerFunction Error :$e');
       rethrow;
     }

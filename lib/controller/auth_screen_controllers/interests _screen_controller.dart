@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/utils/preferences/user_preference.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
 import '../../constants/messages.dart';
 import '../../model/authentication_model/complete signup_screen_model/complete signup_model.dart';
 import '../../model/authentication_model/interests screen_model/cateory_item_model.dart';
@@ -13,15 +15,15 @@ import '../../model/authentication_model/interests screen_model/save_interests_m
 import '../../screens/index_screen/index_screen.dart';
 import '../../utils/preferences/signup_preference.dart';
 
-
 class InterestsScreenController extends GetxController {
+
   RxBool isLoading = false.obs;
   RxBool isSuccessStatus = false.obs;
 
   List<InterestsData> interestsData = []; // Api List
 
   List<String> categoryNameList = [];
-  List<CategoryItemModel> categoryList = [];
+  RxList<CategoryItemModel> categoryList = <CategoryItemModel>[].obs;
   RxInt selectedItemCount = 0.obs;
   List<String> selectedOptionIdList = [];
 
@@ -34,7 +36,8 @@ class InterestsScreenController extends GetxController {
     log("getInterestFunction: $url");
     try {
       http.Response response = await http.get(Uri.parse(url));
-      InterestModel getInterestModel = InterestModel.fromJson(json.decode(response.body));
+      InterestModel getInterestModel =
+          InterestModel.fromJson(json.decode(response.body));
       // InterestModel getInterestModel = InterestModel.fromJson(json.decode(Demo.demoString));
 
       if (response.statusCode == 200) {
@@ -55,7 +58,6 @@ class InterestsScreenController extends GetxController {
             }
           }
 
-          ///
           for (int i = 0; i < getInterestModel.msg.length; i++) {
             for (int j = 0; j < categoryList.length; j++) {
               if (getInterestModel.msg[i].categoryId ==
@@ -64,6 +66,7 @@ class InterestsScreenController extends GetxController {
                       Option(
                         id: getInterestModel.msg[i].id,
                         name: getInterestModel.msg[i].name,
+                        image: getInterestModel.msg[i].image,
                         isSelected: false,
                       ),
                     );
@@ -95,7 +98,7 @@ class InterestsScreenController extends GetxController {
     // selectedOptionIdString = selectedOptionIdList.toString().substring(1, selectedOptionIdList.toString().length -1).replaceAll(" ", "");
     // log('selectedOptionIdString : $selectedOptionIdString');
     Fluttertoast.showToast(msg: "Please wait!");
-    for(int i=0; i < selectedOptionIdList.length; i++) {
+    for (int i = 0; i < selectedOptionIdList.length; i++) {
       await saveInterestsFunction(selectedOptionIdList[i]);
     }
     await completeSignUpFunction();
@@ -108,7 +111,8 @@ class InterestsScreenController extends GetxController {
     log("saveInterestsFunction Api Url: $url");
 
     try {
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
       var request = http.MultipartRequest('POST', Uri.parse(url));
 
       request.fields['token'] = verifyToken;
@@ -119,20 +123,18 @@ class InterestsScreenController extends GetxController {
       response.stream.transform(utf8.decoder).listen((value) async {
         log('Success value : $value');
 
-        SaveInterestModel saveInterestModel = SaveInterestModel.fromJson(json.decode(value));
+        SaveInterestModel saveInterestModel =
+            SaveInterestModel.fromJson(json.decode(value));
 
-        if(saveInterestModel.statusCode == 200) {
+        if (saveInterestModel.statusCode == 200) {
           // Fluttertoast.showToast(msg: saveInterestModel.msg);
           // Get.offAll(()=> );
-        } else if(saveInterestModel.statusCode == 400) {
+        } else if (saveInterestModel.statusCode == 400) {
           // Fluttertoast.showToast(msg: saveInterestModel.msg);
         } else {
           // Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
         }
-
-
       });
-
     } catch (e) {
       log("saveInterestsFunction:: $e");
     }
@@ -148,13 +150,20 @@ class InterestsScreenController extends GetxController {
 
     try {
       // Get Data from prefs
-      String userEmail = await signUpPreference.getStringFromPrefs(key: SignUpPreference.signUpEmailKey);
-      String userName = await signUpPreference.getStringFromPrefs(key: SignUpPreference.signUpFNameKey);
-      String userSexuality = await signUpPreference.getStringFromPrefs(key: SignUpPreference.userSexualityKey);
-      String userGender = await signUpPreference.getStringFromPrefs(key: SignUpPreference.userGenderKey);
-      String userTargetGender = await signUpPreference.getStringFromPrefs(key: SignUpPreference.targetGenderKey);
-      String userGoal = await signUpPreference.getStringFromPrefs(key: SignUpPreference.userGoalKey);
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
+      String userEmail = await signUpPreference.getStringFromPrefs(
+          key: SignUpPreference.signUpEmailKey);
+      String userName = await signUpPreference.getStringFromPrefs(
+          key: SignUpPreference.signUpFNameKey);
+      String userSexuality = await signUpPreference.getStringFromPrefs(
+          key: SignUpPreference.userSexualityKey);
+      String userGender = await signUpPreference.getStringFromPrefs(
+          key: SignUpPreference.userGenderKey);
+      String userTargetGender = await signUpPreference.getStringFromPrefs(
+          key: SignUpPreference.targetGenderKey);
+      String userGoal = await signUpPreference.getStringFromPrefs(
+          key: SignUpPreference.userGoalKey);
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
 
       // api calling start
       var request = http.MultipartRequest('POST', Uri.parse(url));
@@ -171,11 +180,16 @@ class InterestsScreenController extends GetxController {
       var response = await request.send();
 
       response.stream.transform(utf8.decoder).listen((value) async {
-        CompleteSignupModel completeSignupModel = CompleteSignupModel.fromJson(json.decode(value));
+        CompleteSignupModel completeSignupModel =
+            CompleteSignupModel.fromJson(json.decode(value));
 
-        if(completeSignupModel.statusCode == 200) {
+        if (completeSignupModel.statusCode == 200) {
           Fluttertoast.showToast(msg: completeSignupModel.msg);
 
+          await userPreference.setBoolValueInPrefs(
+            key: UserPreference.completeRegister,
+            value: true,
+          );
           // Here set user is old
           await signUpPreference.setBoolValueInPrefs(
             key: SignUpPreference.isUserFirstTimeKey,
@@ -187,15 +201,14 @@ class InterestsScreenController extends GetxController {
             value: true,
           );
 
-          Get.offAll(()=> IndexScreen());
-        } else if(completeSignupModel.statusCode == 400) {
+          Get.offAll(() => IndexScreen());
+        } else if (completeSignupModel.statusCode == 400) {
           Fluttertoast.showToast(msg: completeSignupModel.msg);
         } else {
           Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
         }
       });
-
-    } catch(e) {
+    } catch (e) {
       log('completeSignUpFunction Error :$e');
       rethrow;
     }
@@ -215,9 +228,9 @@ class InterestsScreenController extends GetxController {
 
     categoryList[categoryIndex].options[categoryOptionIndex].isSelected = value;
 
-    for(int i =0;i < categoryList.length; i++) {
-      for(int j = 0; j < categoryList[i].options.length; j++) {
-        if(categoryList[i].options[j].isSelected == true) {
+    for (int i = 0; i < categoryList.length; i++) {
+      for (int j = 0; j < categoryList[i].options.length; j++) {
+        if (categoryList[i].options[j].isSelected == true) {
           selectedOptionIdList.add(categoryList[i].options[j].id);
           log('Selected Id : ${categoryList[i].options[j].id}');
         }
@@ -226,6 +239,7 @@ class InterestsScreenController extends GetxController {
 
     isLoading(false);
   }
+
 
   @override
   void onInit() {

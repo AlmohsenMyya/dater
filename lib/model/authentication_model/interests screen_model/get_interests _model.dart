@@ -7,8 +7,7 @@ import 'dart:convert';
 InterestModel getIntrestModelFromJson(String str) =>
     InterestModel.fromJson(json.decode(str));
 
-String getIntrestModelToJson(InterestModel data) =>
-    json.encode(data.toJson());
+String getIntrestModelToJson(InterestModel data) => json.encode(data.toJson());
 
 class InterestModel {
   InterestModel({
@@ -21,8 +20,7 @@ class InterestModel {
   final List<InterestsData> msg;
   final int statusCode;
 
-  factory InterestModel.fromJson(Map<String, dynamic> json) =>
-      InterestModel(
+  factory InterestModel.fromJson(Map<String, dynamic> json) => InterestModel(
         response: json["response"] ?? "",
         msg: List<InterestsData>.from(
             json["msg"].map((x) => InterestsData.fromJson(x)) ?? []),
@@ -41,25 +39,28 @@ class InterestsData {
     required this.id,
     required this.name,
     required this.categoryName,
+    required this.image,
     required this.categoryId,
   });
 
   final String id;
   final String name;
+  final String image;
   final String categoryName;
   final String categoryId;
 
   factory InterestsData.fromJson(Map<String, dynamic> json) => InterestsData(
         id: json["id"] ?? "",
         name: json["name"] ?? "",
+        image: json["image"] ?? "",
         categoryName: json["category_name"] ?? "",
         categoryId: json["category_id"] ?? "",
       );
 
-  // Map<String, dynamic> toJson() => {
-  //     "id": id,
-  //     "name": name,
-  //     "category_name": categoryName,
-  //     "category_id": categoryId,
-  // };
+// Map<String, dynamic> toJson() => {
+//     "id": id,
+//     "name": name,
+//     "category_name": categoryName,
+//     "category_id": categoryId,
+// };
 }

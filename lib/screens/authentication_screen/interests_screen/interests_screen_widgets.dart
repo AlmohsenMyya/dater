@@ -1,4 +1,5 @@
-import 'dart:developer';
+import 'dart:math';
+
 import 'package:dater/common_modules/custom_button.dart';
 import 'package:dater/constants/app_images.dart';
 import 'package:dater/constants/colors.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../utils/style.dart';
 
 // ignore: must_be_immutable
@@ -48,74 +50,109 @@ class InterestsWidgetModule extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            Wrap(
-              spacing: 3.0,
-              children: List.generate(
-                interestsScreenController.categoryList[i].options.length,
-                (int index) {
-                  return Transform(
-                    transform: Matrix4.identity()..scale(0.9),
-                    child: ChoiceChip(
-                      avatar:const CircleAvatar(
-                        backgroundImage: AssetImage(AppImages.ballImage),
-                      ),
-                      label: Text(
-                        interestsScreenController
-                            .categoryList[i].options[index].name,
-                        style: TextStyleConfig.textStyle(
-                          fontFamily: FontFamilyText.sFProDisplaySemibold,
-                          textColor: interestsScreenController
-                                  .categoryList[i].options[index].isSelected
-                              ? AppColors.blackDarkColor
-                              : AppColors.blackColor,
-                          fontSize: 16,
-                        ),
-                      ),
-                      selected: interestsScreenController
-                          .categoryList[i].options[index].isSelected,
-                      selectedColor: AppColors.lightOrange2Color,
-                      backgroundColor: Colors.white,
-                      shape: const StadiumBorder(
-                        side: BorderSide(
-                          color: AppColors.grey400Color,
-                          width: 1.5,
-                        ),
-                      ),
-                      onSelected: (bool value) {
-                        value == false
-                            ? interestsScreenController
-                                .selectedItemCount.value--
-                            : null;
-
-                        if (interestsScreenController.selectedItemCount.value >=
-                            8) {
-                          Fluttertoast.showToast(
-                              msg: "You select only 8 Interest");
-                        } else {
-                          value == true
-                              ? interestsScreenController
-                                  .selectedItemCount.value++
-                              : null;
-                          int selectedOptionId = int.parse(
-                              interestsScreenController
-                                  .categoryList[i].options[index].id);
-
+            AnimatedSwitcher(
+              duration: Duration(milliseconds: 50),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return ScaleTransition(scale: animation, child: child);
+              },
+              child: Wrap(
+                key: ValueKey<bool>(
+                    interestsScreenController.categoryList[i].showMore),
+                spacing: 0.0,
+                children: List.generate(
+                  // interestsScreenController.categoryList[i].options.length,
+                  interestsScreenController.categoryList[i].showMore
+                      ? interestsScreenController.categoryList[i].options.length
+                      : min(
+                          9,
                           interestsScreenController
-                              .selectChoiceOnSelectFunction(
-                            value: value,
-                            categoryIndex: i,
-                            categoryOptionIndex: index,
-                            optionId: selectedOptionId,
-                          );
-                        }
-                        interestsScreenController.isLoading(true);
-                        interestsScreenController.isLoading(false);
-                      },
-                    ),
-                  ).commonSymmetricPadding(horizontal: 10);
-                },
-              ).toList(),
+                              .categoryList[i].options.length),
+                  (int index) {
+                    return Transform(
+                      transform: Matrix4.identity()..scale(0.95),
+                      child: ChoiceChip(
+                        avatar: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: NetworkImage(
+                              interestsScreenController
+                                  .categoryList[i].options[index].image),
+                        ),
+                        label: Text(
+                          interestsScreenController
+                              .categoryList[i].options[index].name,
+                          style: TextStyleConfig.textStyle(
+                            fontFamily: FontFamilyText.sFProDisplaySemibold,
+                            textColor: interestsScreenController
+                                    .categoryList[i].options[index].isSelected
+                                ? AppColors.blackDarkColor
+                                : AppColors.blackColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                        selected: interestsScreenController
+                            .categoryList[i].options[index].isSelected,
+                        selectedColor: AppColors.lightOrange2Color,
+                        backgroundColor: Colors.white,
+                        shape: const StadiumBorder(
+                          side: BorderSide(
+                            color: AppColors.grey400Color,
+                            width: 1.5,
+                          ),
+                        ),
+                        onSelected: (bool value) {
+                          value == false
+                              ? interestsScreenController
+                                  .selectedItemCount.value--
+                              : null;
+
+                          if (interestsScreenController
+                                  .selectedItemCount.value >=
+                              8) {
+                            Fluttertoast.showToast(
+                                msg: "You select only 8 Interest");
+                          } else {
+                            value == true
+                                ? interestsScreenController
+                                    .selectedItemCount.value++
+                                : null;
+                            int selectedOptionId = int.parse(
+                                interestsScreenController
+                                    .categoryList[i].options[index].id);
+
+                            interestsScreenController
+                                .selectChoiceOnSelectFunction(
+                              value: value,
+                              categoryIndex: i,
+                              categoryOptionIndex: index,
+                              optionId: selectedOptionId,
+                            );
+                          }
+                          interestsScreenController.isLoading(true);
+                          interestsScreenController.isLoading(false);
+                        },
+                      ),
+                    ).commonSymmetricPadding(horizontal: 1);
+                  },
+                ).toList(),
+              ),
             ),
+            if (interestsScreenController.categoryList[i].options.length >
+                9) ...[
+              ButtonCustom(
+                text: interestsScreenController.categoryList[i].showMore
+                    ? "Show Less"
+                    : "Show More",
+                size: Size(200, 20),
+                backgroundColor: AppColors.darkOrangeColor,
+                textColor: AppColors.whiteColor2,
+                onPressed: () {
+                  interestsScreenController.categoryList[i].showMore =
+                      !interestsScreenController.categoryList[i].showMore;
+                  interestsScreenController.isLoading.value = true;
+                  interestsScreenController.isLoading.value = false;
+                },
+              ),
+            ]
           ],
         );
       },

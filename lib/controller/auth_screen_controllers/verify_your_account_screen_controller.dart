@@ -1,43 +1,60 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:dater/constants/api_url.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 import '../../model/saved_data_model/saved_data_model.dart';
 import '../../utils/preferences/user_preference.dart';
 
-class VerifyYourAccountScreenController extends GetxController{
+class VerifyYourAccountScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxInt successStatus = 0.obs;
   final ImagePicker picker = ImagePicker();
   File? userImage;
-  var  imagePath = ''.obs;
+  var imagePath = ''.obs;
 
   UserPreference userPreference = UserPreference();
 
-
   pickImageFromGallery(ImageSource imageSource) async {
+    // PermissionStatus cameraStatus = await Permission.camera.status;
+    // PermissionStatus storageStatus = await Permission.storage.status;
+    //
+    // if (!cameraStatus.isGranted) {
+    //   cameraStatus = await Permission.camera.request();
+    // }
+    //
+    // if (!storageStatus.isGranted) {
+    //   storageStatus = await Permission.storage.request();
+    // }
+
+    // if (cameraStatus.isGranted && storageStatus.isGranted) {
     try {
-      XFile? pickedFile = await ImagePicker().pickImage(source: imageSource);
+      XFile? pickedFile = await ImagePicker().pickImage(
+          source: imageSource, preferredCameraDevice: CameraDevice.front);
       if (pickedFile != null) {
         userImage = File(pickedFile.path);
         imagePath.value = pickedFile.path;
       }
-    } catch(e) {
+    } catch (e) {
       log('');
       rethrow;
     }
+    // }
+    // else {
+    //   // Permissions not granted, handle the situation accordingly
+    // }
+
     isLoading(true);
     isLoading(false);
   }
 
-
   Future<void> doneButtonFunction() async {
-    if(imagePath.value != "") {
+    if (imagePath.value != "") {
       await uploadUserSelfieFunction();
     } else {
       Fluttertoast.showToast(msg: "Please select your selfie image");
@@ -48,7 +65,7 @@ class VerifyYourAccountScreenController extends GetxController{
     isLoading(true);
     String url = ApiUrl.setVerifiedApi;
     log('uploadUserSelfieFunction Api Url :$url');
-    
+
     try {
       String verifyToken = await userPreference.getStringFromPrefs(
           key: UserPreference.userVerifyTokenKey);
@@ -61,7 +78,8 @@ class VerifyYourAccountScreenController extends GetxController{
 
       response.stream.transform(utf8.decoder).listen((value1) async {
         log('value : $value1');
-        SavedDataModel savedDataModel = SavedDataModel.fromJson(json.decode(value1));
+        SavedDataModel savedDataModel =
+            SavedDataModel.fromJson(json.decode(value1));
         successStatus.value = savedDataModel.statusCode;
 
         if (successStatus.value == 200) {
@@ -71,12 +89,9 @@ class VerifyYourAccountScreenController extends GetxController{
           log('uploadUserSelfieFunction Else');
         }
       });
-
-    } catch(e) {
+    } catch (e) {
       log('uploadUserSelfieFunction Error :$e');
       rethrow;
     }
-    
-}
-
+  }
 }

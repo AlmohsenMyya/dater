@@ -192,10 +192,19 @@ class VerifyCodeScreenController extends GetxController {
     }
   }
 
+  forTestOnly() {
+    firstDigitController.text = '1';
+    secondDigitController.text = '1';
+    thirdDigitController.text = '1';
+    fourthDigitController.text = '1';
+    controller.text = '1111';
+  }
+
   @override
   void onInit() {
     log('countryCode : $countryCode');
     log('mobileNumber : $mobileNumber');
+    // forTestOnly();
     super.onInit();
   }
 }

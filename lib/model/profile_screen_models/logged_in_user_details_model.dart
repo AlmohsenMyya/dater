@@ -193,14 +193,17 @@ class UserImages {
 
 class Interest {
   Interest({
+    // required this.id,
     required this.name,
     required this.image,
   });
 
+  // String id;
   String name;
   String image;
 
   factory Interest.fromJson(Map<String, dynamic> json) => Interest(
+    // id:json["id"]
     name: json["name"] ?? "",
     image: json["image"]??AppImages.ballImage,
   );

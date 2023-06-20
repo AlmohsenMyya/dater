@@ -8,7 +8,6 @@ import 'package:dater/constants/colors.dart';
 import 'package:dater/constants/font_family.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/model/profile_screen_models/logged_in_user_details_model.dart';
-import 'package:dater/screens/edit_profile_screen/edit_enterests.dart';
 import 'package:dater/screens/language_select_screen/language_select_screen.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dater/utils/style.dart';
@@ -901,11 +900,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
         ),
         SizedBox(height: 5.h),
         GestureDetector(
-          onTap: () {
-            Get.to(
-              EditInterests(),
-            );
-          },
+          // onTap: () => editProfileScreenController.goToEditInterests,
           child: Container(
             width: Get.width,
             padding: const EdgeInsets.all(10),

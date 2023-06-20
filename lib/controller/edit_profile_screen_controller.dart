@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dater/model/star_sign_screen_model/save_star_sign_model.dart';
+import 'package:dater/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,7 @@ import '../model/profile_screen_models/delete_image_model.dart';
 import '../model/profile_screen_models/logged_in_user_details_model.dart';
 import '../model/profile_screen_models/upload_image_model.dart';
 import '../model/saved_data_model/saved_data_model.dart';
+import '../screens/edit_profile_screen/edit_enterests.dart';
 import '../utils/preferences/user_preference.dart';
 
 class EditProfileScreenController extends GetxController {
@@ -38,6 +40,18 @@ class EditProfileScreenController extends GetxController {
   List<Interest> interestList = [];
   List<String> languageList = [];
 
+
+  goToEditInterests(){
+    // InterestsScreenController interestsCont = Get.put(E());
+    interestList.forEach((element) {
+      // interestsCont.selectedOptionIdList.add(element.id);
+    });
+    Get.to(
+      // Get.put<InterestsScreenController>().selectedOptionIdList.);
+      EditInterests(),
+      arguments: interestList
+    );
+  }
   String politics = "";
   String religion = "";
   String education = "";
@@ -297,7 +311,7 @@ class EditProfileScreenController extends GetxController {
 
       var response = await request.send();
       response.stream.transform(utf8.decoder).listen((value) async {
-        log("value :$value");
+        printAll(name:'full_details',"value :$value");
 
         LoggedInUserDetailsModel loggedInUserDetailsModel =
             LoggedInUserDetailsModel.fromJson(json.decode(value));

@@ -60,6 +60,6 @@ class AppImages {
   static const workWhiteImage = "$rootPath/work_white_icon.png";
   static const educationWhiteImage = "$rootPath/education_white_icon.png";
   static const matchDialogSVG = "$rootPath/Path-2922.svg";
-
-
+  static const locationNow = "$rootPath/location-now.png";
+  static const locationHome = "$rootPath/location-home.png";
 }

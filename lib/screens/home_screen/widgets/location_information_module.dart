@@ -46,26 +46,25 @@ class LocationInformationModule extends StatelessWidget {
             ],
           ),
           SizedBox(height: 2.h),
-
-        singleItem.distance! == "Not available"
-            ? Container()
-            : Row(
-                children: [
-                  Text(
-                    textAlign: TextAlign.start,
-                    // "${singleItem.homeTown}\n${singleItem.distance} km away",
-                    "${singleItem.distance} km away",
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.grey600Color,
-                      fontSize: 12.sp,
+          singleItem.distance! == "Not available"
+              ? Container()
+              : Row(
+                  children: [
+                    Text(
+                      textAlign: TextAlign.start,
+                      // "${singleItem.homeTown}\n${singleItem.distance} km away",
+                      "${singleItem.distance} km away",
+                      style: TextStyleConfig.textStyle(
+                        fontFamily: FontFamilyText.sFProDisplaySemibold,
+                        textColor: AppColors.grey600Color,
+                        fontSize: 12.sp,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-        singleItem.distance! == "Not available"
-            ? Container()
-            : SizedBox(height: 2.h),
+                  ],
+                ),
+          singleItem.distance! == "Not available"
+              ? Container()
+              : SizedBox(height: 2.h),
         ],
         Wrap(
           spacing: 0.0,
@@ -78,8 +77,11 @@ class LocationInformationModule extends StatelessWidget {
                   : Transform(
                       transform: Matrix4.identity()..scale(0.93),
                       child: ChoiceChip(
-                        avatar: const CircleAvatar(
-                          backgroundImage: AssetImage(AppImages.ballImage),
+                        avatar: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: index == 1
+                              ? AssetImage(AppImages.locationHome)
+                              : AssetImage(AppImages.locationNow),
                         ).commonOnlyPadding(left: 2),
                         label: Text(
                           index == 0

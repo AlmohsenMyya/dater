@@ -33,7 +33,7 @@ class AppMessages {
       "You can choose up to 8 things you love,it will help you find your soulmate .";
   static String myCodeIs = "My code is";
   static String myNumberScreenInformationText =
-      "When you tap “Continue”, Bambo will send \nyou\n a text with verification code, The verified phone number can be used to log in.";
+      "When you tap “Continue”,\n Bambo will send you a text with verification code,\n The verified phone number can be used to log in.";
   static String resend = "Resend";
   static String verificationCodeText =
       "Please enter the 4-digit code sent to you at +1 354 112 2376";
@@ -138,7 +138,7 @@ class AppMessages {
   static String basics = "Basics";
   static String interests = "Interests";
   static String languagesIKnow = "Languages I know";
-  static String locationText = "'s Location";
+  static String locationText = "'s Distance";
   static String chat = "Chat";
   static String typeAMessage = "Type a message";
   static String locationPermission = "Apply location permission";

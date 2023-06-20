@@ -616,8 +616,11 @@ class AboutMeAllModule extends StatelessWidget {
                     : Transform(
                         transform: Matrix4.identity()..scale(0.9),
                         child: ChoiceChip(
-                          avatar: const CircleAvatar(
-                            backgroundImage: AssetImage(AppImages.ballImage),
+                          avatar: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: index == 1
+                                ? AssetImage(AppImages.locationHome)
+                                : AssetImage(AppImages.locationNow),
                           ),
                           label: Text(
                             index == 0

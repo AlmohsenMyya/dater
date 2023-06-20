@@ -4,7 +4,7 @@ import 'package:dater/common_modules/custom_loader.dart';
 import 'package:dater/constants/colors.dart';
 import 'package:dater/constants/font_family.dart';
 import 'package:dater/constants/messages.dart';
-import 'package:dater/controller/auth_screen_controllers/interests%20_screen_controller.dart';
+import 'package:dater/controller/edit_interests_controller.dart';
 import 'package:dater/screens/authentication_screen/interests_screen/interests_screen_widgets.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dater/utils/style.dart';
@@ -14,7 +14,8 @@ import 'package:sizer/sizer.dart';
 
 class EditInterests extends StatelessWidget {
   EditInterests({Key? key}) : super(key: key);
-  final interestsScreenController = Get.put(InterestsScreenController());
+
+  final interestsScreenController = Get.put(EditInterestsController());
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,9 @@ class EditInterests extends StatelessWidget {
         text: 'Done Editing',
         size: Size(20, 20),
         backgroundColor: AppColors.lightOrangeColor,
-        onPressed: () {},
+        onPressed: () {
+          Get.back();
+        },
       ),
     );
   }

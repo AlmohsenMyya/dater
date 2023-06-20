@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/screens/authentication_screen/dob_select_screen/dob_select_screen.dart';
+import 'package:dater/utils/functions.dart';
 import 'package:dater/utils/preferences/user_preference.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -55,6 +56,7 @@ class AddUserPhotoScreenController extends GetxController {
               image1 = File(pickedFile.path);
             }
           }
+          printAll(name: 'sizeImage', image1.lengthSync());
         } else if (index == 1) {
           File tempImg = File(pickedFile.path);
           if (tempImg.lengthSync() <= 2000000) {
@@ -72,6 +74,7 @@ class AddUserPhotoScreenController extends GetxController {
               image2 = File(pickedFile.path);
             }
           }
+          printAll(name: 'sizeImage', image2.lengthSync());
         } else if (index == 2) {
           File tempImg = File(pickedFile.path);
           if (tempImg.lengthSync() <= 2000000) {
@@ -89,6 +92,7 @@ class AddUserPhotoScreenController extends GetxController {
               image3 = File(pickedFile.path);
             }
           }
+          printAll(name: 'sizeImage', image3.lengthSync());
         }
       }
     } catch (e) {

@@ -21,146 +21,152 @@ class FavoriteGridViewBuilderModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GridView.builder(
-        itemCount: favoriteScreenController.likerList.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: 19,
-          mainAxisSpacing: 19,
-          crossAxisCount: 2,
-          childAspectRatio: 0.8,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          LikerData singleData = favoriteScreenController.likerList[index];
+      child: RefreshIndicator(
+        onRefresh: () async {
+          favoriteScreenController.initMethod();
+        },
+        child: GridView.builder(
+          itemCount: favoriteScreenController.likerList.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 19,
+            mainAxisSpacing: 19,
+            crossAxisCount: 2,
+            childAspectRatio: 0.8,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            LikerData singleData = favoriteScreenController.likerList[index];
 
-          return InkWell(
-            // onT ap: () => showDialog(
-            //     context: context,
-            //     builder: (BuildContext context) {
-            //       return Obx(
-            //         () => CustomAlertDialog(
-            //           text: 'See who likes you',
-            //           content: 'Every profile will cost 1 coin',
-            //           buttonText: 'UnderStand',
-            //           value: favoriteScreenController.isShowAgain.value == "no" ? LikesDialogShow.no.name : LikesDialogShow.yes.name,
-            //           groupValue: favoriteScreenController.isShowAgain.value.toString(),
-            //           onPressed: () {
-            //             Get.back();
-            //           },
-            //           onChanged: (value) {
-            //             log("value 111 : $value");
-            //             favoriteScreenController.isLoading(true);
-            //             if(favoriteScreenController.isShowAgain.value == "no") {
-            //               favoriteScreenController.isShowAgain.value = "yes";
-            //             } else {
-            //               favoriteScreenController.isShowAgain.value = "no";
-            //             }
-            //             // favoriteScreenController.isShowAgain.value = value!;
-            //             favoriteScreenController.isLoading(false);
-            //             log("value 222 : $value");
-            //           },
-            //           activeColor: AppColors.darkOrangeColor,
-            //           radioButtonText: "don't show again",
-            //         ),
-            //       );
-            //     }),
-            onTap: () {
-              if (singleData.blurred) {
-                // favoriteScreenController.removeBlur(index);
-                Get.dialog(RemoveBlurDialog(
-                  removeBlurIndex: index,
-                ));
-              } else {
-                Get.to(() => LikerDetailsScreen(), arguments: [
-                  favoriteScreenController.likerList[index].id
-                ])!
-                    .then((value) async {
-                  await favoriteScreenController.getYourLikerFunction();
-                });
-              }
-            },
-            child: Container(
-              // height: 30.h,
-              decoration: const BoxDecoration(
-                  color: AppColors.whiteColor2,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [BoxShadow(blurRadius: 1)]),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 85,
-                    child: singleData.images.isNotEmpty
-                        ? ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                            child: Container(
-                              width: Get.width,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  singleData.images[0].imageUrl,
-                                ),
-                              )),
-                              child: Visibility(
-                                visible: favoriteScreenController
-                                    .likerList[index].blurred,
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                      sigmaX: 12.0, sigmaY: 12.0),
-                                  child: new Container(
-                                    decoration: new BoxDecoration(
-                                        color: Colors.white.withOpacity(0.0)),
+            return InkWell(
+              // onT ap: () => showDialog(
+              //     context: context,
+              //     builder: (BuildContext context) {
+              //       return Obx(
+              //         () => CustomAlertDialog(
+              //           text: 'See who likes you',
+              //           content: 'Every profile will cost 1 coin',
+              //           buttonText: 'UnderStand',
+              //           value: favoriteScreenController.isShowAgain.value == "no" ? LikesDialogShow.no.name : LikesDialogShow.yes.name,
+              //           groupValue: favoriteScreenController.isShowAgain.value.toString(),
+              //           onPressed: () {
+              //             Get.back();
+              //           },
+              //           onChanged: (value) {
+              //             log("value 111 : $value");
+              //             favoriteScreenController.isLoading(true);
+              //             if(favoriteScreenController.isShowAgain.value == "no") {
+              //               favoriteScreenController.isShowAgain.value = "yes";
+              //             } else {
+              //               favoriteScreenController.isShowAgain.value = "no";
+              //             }
+              //             // favoriteScreenController.isShowAgain.value = value!;
+              //             favoriteScreenController.isLoading(false);
+              //             log("value 222 : $value");
+              //           },
+              //           activeColor: AppColors.darkOrangeColor,
+              //           radioButtonText: "don't show again",
+              //         ),
+              //       );
+              //     }),
+              onTap: () {
+                if (!singleData.visible) {
+                  // favoriteScreenController.removeBlur(index);
+                  Get.dialog(RemoveBlurDialog(
+                    removeBlurIndex: index,
+                  ));
+                } else {
+                  Get.to(() => LikerDetailsScreen(), arguments: [
+                    favoriteScreenController.likerList[index].id
+                  ])!
+                      .then((value) async {
+                    await favoriteScreenController.getYourLikerFunction();
+                  });
+                }
+              },
+              child: Container(
+                // height: 30.h,
+                decoration: const BoxDecoration(
+                    color: AppColors.whiteColor2,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    boxShadow: [BoxShadow(blurRadius: 1)]),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 85,
+                      child: singleData.images.isNotEmpty
+                          ? ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20)),
+                              child: Container(
+                                width: Get.width,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    singleData.images[0].imageUrl,
+                                  ),
+                                )),
+                                child: Visibility(
+                                  visible: !favoriteScreenController
+                                      .likerList[index].visible,
+                                  child: BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 12.0, sigmaY: 12.0),
+                                    child: new Container(
+                                      decoration: new BoxDecoration(
+                                          color: Colors.white.withOpacity(0.0)),
+                                    ),
                                   ),
                                 ),
                               ),
+                            )
+                          : ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              child: Image.asset(
+                                AppImages.appIcon,
+                              ).commonAllSidePadding(30),
                             ),
-                          )
-                        : ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            ),
-                            child: Image.asset(
-                              AppImages.appIcon,
-                            ).commonAllSidePadding(30),
-                          ),
-                  ),
-                  SizedBox(height: 1.h),
-                  Expanded(
-                    flex: 15,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnimatedContainer(
-                          width: 2.8.w,
-                          height: 1.5.h,
-                          decoration: const BoxDecoration(
-                            color: Colors.orange,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          duration: const Duration(seconds: 0),
-                          //curve: Curves.bounceIn,
-                        ),
-                        SizedBox(width: 1.w),
-                        Text(
-                          singleData.activeTime,
-                          //textAlign: TextAlign.right,
-                          style: TextStyleConfig.textStyle(
-                            textColor: AppColors.grey800Color,
-                            fontSize: 12.sp,
-                            fontFamily: FontFamilyText.sFProDisplaySemibold,
-                            // fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 1.h),
+                    Expanded(
+                      flex: 15,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedContainer(
+                            width: 2.8.w,
+                            height: 1.5.h,
+                            decoration: const BoxDecoration(
+                              color: Colors.orange,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
+                            duration: const Duration(seconds: 0),
+                            //curve: Curves.bounceIn,
+                          ),
+                          SizedBox(width: 1.w),
+                          Text(
+                            singleData.activeTime,
+                            //textAlign: TextAlign.right,
+                            style: TextStyleConfig.textStyle(
+                              textColor: AppColors.grey800Color,
+                              fontSize: 12.sp,
+                              fontFamily: FontFamilyText.sFProDisplaySemibold,
+                              // fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

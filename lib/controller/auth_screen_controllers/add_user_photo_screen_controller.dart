@@ -162,20 +162,13 @@ class AddUserPhotoScreenController extends GetxController {
     isLoading(true);
     String url = ApiUrl.uploadPhotoApi;
     try {
-      // Map<String, dynamic> headerData = {
-      //   "fileKey" : "file",
-      //   "chunkedMode": false,
-      //   "mimeType": "multipart/form-data"
-      // };
       String verifyToken = await userPreference.getStringFromPrefs(
           key: UserPreference.userVerifyTokenKey);
-
       var formData = dio.FormData.fromMap({
         'token': verifyToken,
         "file": await dio.MultipartFile.fromFile(image.path,
             filename: image.path.toString().split("/").last),
       });
-
       var response = await dioRequest.post(
         url,
         data: formData,

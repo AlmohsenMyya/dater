@@ -6,7 +6,6 @@ import 'package:dater/constants/messages.dart';
 import 'package:dater/screens/home_screen/widgets/basic_information_module.dart';
 import 'package:dater/screens/home_screen/widgets/interests_information_module.dart';
 import 'package:dater/screens/home_screen/widgets/languages_information_module.dart';
-import 'package:dater/screens/home_screen/widgets/match_dialog.dart';
 import 'package:dater/screens/home_screen/widgets/reports_dialog.dart';
 import 'package:dater/screens/home_screen/widgets/user_image_show_module.dart';
 import 'package:dater/utils/extensions.dart';
@@ -35,7 +34,8 @@ class SwipeUserModule extends StatelessWidget {
         ? SizedBox(
             height: Get.height * 0.70,
             child: const Center(
-              child: Text('There are no more Users. \n  Please come back soon.'),
+              child:
+                  Text('There are no more Users. \n  Please come back soon.'),
             ),
           )
         : Obx(
@@ -76,7 +76,8 @@ class SwipeUserModule extends StatelessWidget {
                           homeScreenController.suggestionList = [];
                           homeScreenController.loadUI();
                         } else {
-                          homeScreenController.setChangedUserData(finalIndex);
+                          homeScreenController.setChangedUserData(
+                              homeScreenController.currentUserIndex.value);
                           homeScreenController.loadUI();
                         }
                         // homeScreenController.isRewindAllow = false;
@@ -87,7 +88,7 @@ class SwipeUserModule extends StatelessWidget {
                       /// When Swipe Up
                       else if (swipeDirection == SwipeDirection.up) {
                         await homeScreenController
-                            .understandSuperLoveFunction(finalIndex);
+                            .understandSuperLoveFunction(index);
                         // homeScreenController.isRewindAllow = true;
                         homeScreenController.lastLikeProfileId =
                             homeScreenController.suggestionList[index].id!;
@@ -358,7 +359,6 @@ class SwipeUserModule extends StatelessWidget {
                                   ],
                                 ),
                               ),
-
                               Container(
                                 color: Colors.white,
                                 child: Column(
@@ -368,37 +368,13 @@ class SwipeUserModule extends StatelessWidget {
                                     if (homeScreenController.bio.value !=
                                         '') ...[
                                       Container(height: 2.h),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Get.dialog(
-                                            MatchDialog(
-                                              tName: homeScreenController
-                                                  .name.value,
-                                              tWork: homeScreenController
-                                                  .work.value,
-                                              tDistance: homeScreenController
-                                                  .distance.value,
-                                              name: homeScreenController
-                                                  .profileCont.userName.value,
-                                              work: homeScreenController
-                                                  .profileCont.userWork.value,
-                                              tImage: homeScreenController
-                                                  .userImageList[0].imageUrl,
-                                              image: homeScreenController
-                                                  .profileCont
-                                                  .userImages[0]
-                                                  .imageUrl,
-                                            ),
-                                          );
-                                        },
-                                        child: Text(
-                                          AppMessages.aboutMe,
-                                          style: TextStyleConfig.textStyle(
-                                            fontSize: 16.sp,
-                                            fontFamily: FontFamilyText
-                                                .sFProDisplaySemibold,
-                                            textColor: AppColors.grey800Color,
-                                          ),
+                                      Text(
+                                        AppMessages.aboutMe,
+                                        style: TextStyleConfig.textStyle(
+                                          fontSize: 16.sp,
+                                          fontFamily: FontFamilyText
+                                              .sFProDisplaySemibold,
+                                          textColor: AppColors.grey800Color,
                                         ),
                                       ),
                                       SizedBox(height: 0.5.h),
@@ -686,37 +662,6 @@ class SwipeUserModule extends StatelessWidget {
                           ),
                         ),
                       );
-
-                      /*return homeScreenController.userImageList.isEmpty
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          AppImages.swiper1Image,
-                          width: double.infinity,
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          homeScreenController
-                              .suggestionList[
-                                  homeScreenController.currentUserIndex.value]
-                              .images![0]
-                              .imageUrl,
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, obj, st) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                AppImages.swiper1Image,
-                                width: double.infinity,
-                                fit: BoxFit.fill,
-                              ),
-                            );
-                          },
-                        ),
-                      );*/
                     },
                   ),
           );

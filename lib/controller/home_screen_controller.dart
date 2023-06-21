@@ -149,7 +149,7 @@ class HomeScreenController extends GetxController {
     log("selectedSuperLove.value: ${selectedSuperLove.value}");
 
     await superLoveProfileFunction(
-        likedId: "${singlePersonData.id}",
+        likedId: "${suggestionList[index].id}",
         likeType: LikeType.super_love,
         swipeCard: false,
         index: index);

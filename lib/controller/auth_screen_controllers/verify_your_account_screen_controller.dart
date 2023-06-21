@@ -21,18 +21,6 @@ class VerifyYourAccountScreenController extends GetxController {
   UserPreference userPreference = UserPreference();
 
   pickImageFromGallery(ImageSource imageSource) async {
-    // PermissionStatus cameraStatus = await Permission.camera.status;
-    // PermissionStatus storageStatus = await Permission.storage.status;
-    //
-    // if (!cameraStatus.isGranted) {
-    //   cameraStatus = await Permission.camera.request();
-    // }
-    //
-    // if (!storageStatus.isGranted) {
-    //   storageStatus = await Permission.storage.request();
-    // }
-
-    // if (cameraStatus.isGranted && storageStatus.isGranted) {
     try {
       XFile? pickedFile = await ImagePicker().pickImage(
           source: imageSource, preferredCameraDevice: CameraDevice.front);
@@ -69,6 +57,7 @@ class VerifyYourAccountScreenController extends GetxController {
     try {
       String verifyToken = await userPreference.getStringFromPrefs(
           key: UserPreference.userVerifyTokenKey);
+      //TODO upload the image
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['token'] = verifyToken;
       request.fields['verified'] = "0";

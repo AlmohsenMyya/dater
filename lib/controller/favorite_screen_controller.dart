@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dater/constants/api_url.dart';
+import 'package:dater/model/saved_data_model/saved_data_model.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
@@ -13,6 +15,7 @@ import '../constants/colors.dart';
 import '../constants/enums.dart';
 import '../constants/font_family.dart';
 import '../model/favorite_screen_model/liker_model.dart';
+import '../utils/functions.dart';
 import '../utils/preferences/user_preference.dart';
 import '../utils/style.dart';
 
@@ -31,9 +34,30 @@ class FavoriteScreenController extends GetxController {
 
   var dioRequest = dio.Dio();
 
-  removeBlur(int likerDataIndex) {
-    likerList[likerDataIndex].blurred = false;
-    //TODO add api to remove blur
+  removeBlur(int likerDataIndex) async {
+    isLoading(true);
+    String url = ApiUrl.unBlurImgApi;
+    try {
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
+      var formData = dio.FormData.fromMap({
+        'token': verifyToken,
+        'liker_id': likerList[likerDataIndex].id,
+      });
+      var response = await dioRequest.post(url, data: formData);
+      SavedDataModel savedDataModel =
+          SavedDataModel.fromJson(json.decode(response.data));
+      successStatus.value = savedDataModel.statusCode;
+      if (successStatus.value == 200) {
+        likerList[likerDataIndex].visible = true;
+
+      } else {
+        Fluttertoast.showToast(msg: savedDataModel.msg);
+      }
+    } catch (e) {
+      log('$e');
+    }
+    isLoading(false);
     loadUI();
   }
 
@@ -42,7 +66,6 @@ class FavoriteScreenController extends GetxController {
     isLoading(true);
     String url = ApiUrl.getLikerApi;
     log('getYourLikerFunction Api Url : $url');
-
     try {
       String verifyToken = await userPreference.getStringFromPrefs(
           key: UserPreference.userVerifyTokenKey);
@@ -57,7 +80,6 @@ class FavoriteScreenController extends GetxController {
       if (successStatus.value == 200) {
         likerList.clear();
         likerList.addAll(likerModel.msg);
-        log('likerList Length : ${likerList.length}');
       } else {
         log('getYourLikerFunction Else');
       }

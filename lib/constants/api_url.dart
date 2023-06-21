@@ -24,6 +24,7 @@ class ApiUrl {
 
   static const matchesApi="${apiMainPath}api/matches";
   static const getLikerApi = "${apiMainPath}api/likers";
+  static const unBlurImgApi = "${apiMainPath}api/unblur_liker_image";
 
   static const getUserDetailsApi = "${apiMainPath}api/get_user_full_details";
   static const getReferralCodeApi = "${apiMainPath}api/get_referral_number";

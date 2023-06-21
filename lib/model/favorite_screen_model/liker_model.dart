@@ -192,7 +192,7 @@ class LikerData {
   String distance;
   String age;
   String activeTime;
-  bool blurred;
+  bool visible;
 
   // List<Interest> interest;
   // List<Prompt> prompts;
@@ -210,7 +210,7 @@ class LikerData {
     required this.distance,
     required this.age,
     required this.activeTime,
-    this.blurred = true,
+    required this.visible,
     // this.interest,
     // this.prompts,
     // this.percentage,
@@ -220,22 +220,23 @@ class LikerData {
   });
 
   factory LikerData.fromJson(Map<String, dynamic> json) => LikerData(
-        id: json["id"] ?? "",
-        name: json["name"] ?? "",
-        bio: json["bio"] ?? "",
-        verified: json["verified"] ?? "",
-        images: List<LikerImage>.from(
-            (json["images"] ?? []).map((x) => LikerImage.fromJson(x ?? {}))),
-        distance: (json["distance"] ?? 0).toString(),
-        age: (json["age"] ?? 0).toString(),
-        activeTime: json["active_time"] ?? "",
-        //TODO add blurred from api
-        // interest: List<Interest>.from(json["interest"].map((x) => Interest.fromJson(x))),
-        // prompts: List<Prompt>.from(json["prompts"].map((x) => Prompt.fromJson(x))),
-        // percentage: json["percentage"],
-        // country: json["country"],
-        // basic: Basic.fromJson(json["basic"]),
-        // languages: json["languages"],
+      id: json["id"] ?? "",
+      name: json["name"] ?? "",
+      bio: json["bio"] ?? "",
+      verified: json["verified"] ?? "",
+      images: List<LikerImage>.from(
+          (json["images"] ?? []).map((x) => LikerImage.fromJson(x ?? {}))),
+      distance: (json["distance"] ?? 0).toString(),
+      age: (json["age"] ?? 0).toString(),
+      activeTime: json["active_time"] ?? "",
+      visible: json["visible"]??false,
+
+      // interest: List<Interest>.from(json["interest"].map((x) => Interest.fromJson(x))),
+      // prompts: List<Prompt>.from(json["prompts"].map((x) => Prompt.fromJson(x))),
+      // percentage: json["percentage"],
+      // country: json["country"],
+      // basic: Basic.fromJson(json["basic"]),
+      // languages: json["languages"],
       );
 
   Map<String, dynamic> toJson() => {

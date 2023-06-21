@@ -69,7 +69,7 @@ class ProfileModule extends StatelessWidget {
                         image: AssetImage(
                           AppImages.swiper2Image,
                         ),
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   )
@@ -268,7 +268,7 @@ class AboutMeAllModule extends StatelessWidget {
                     image: DecorationImage(
                       image:
                           NetworkImage(screenController.userImages[1].imageUrl),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
@@ -649,6 +649,6 @@ class AboutMeAllModule extends StatelessWidget {
           ),
         ],
       ],
-    ).commonSymmetricPadding(horizontal: 25, vertical: 20);
+    ).commonSymmetricPadding(horizontal: 2, vertical: 20);
   }
 }

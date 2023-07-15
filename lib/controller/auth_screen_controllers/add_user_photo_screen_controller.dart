@@ -180,7 +180,7 @@ class AddUserPhotoScreenController extends GetxController {
           },
         ),
       );
-      log('Upload Image response : ${response.data}');
+      log('Upload Image response : ${response}');
 
       UserPhotoUploadModel userPhotoUploadModel =
           UserPhotoUploadModel.fromJson(json.decode(response.data));

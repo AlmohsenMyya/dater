@@ -138,8 +138,7 @@ class MatchDialog extends StatelessWidget {
                       // size: const Size(22.0, 22.0),
                       onPressed: () {
                         Get.back();
-                        Get.find<IndexScreenController>().selectedIndex.value =
-                            2;
+                        Get.find<IndexScreenController>().changeIndex(2);
                       },
                       fontWeight: FontWeight.bold,
                       textsize: 14.sp,

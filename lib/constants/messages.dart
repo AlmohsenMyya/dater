@@ -7,7 +7,8 @@ class AppMessages {
   static String findWhat = "Find What";
   static String completesYou = "Completes You";
   static String bambo = "Bambo";
-  static String authScreen1 = "By clicking “use your phone number”, you agree with our ";
+  static String authScreen1 =
+      "By clicking “use your phone number”, you agree with our ";
   static String terms = "Terms. ";
   static String authText2 = "Learn how we process your data in our ";
   static String privacyPolicy = "Privacy Policy ";
@@ -103,7 +104,8 @@ class AppMessages {
       "Every regather  will cost you 1 coins";
   static String filterScreenText = "You can add one or all filters";
   static String yourBalance = "Your Balance";
-  static String coinsBalance = "coins Balance";
+  static String coinsBalance = "Coins Balance";
+  static String totalSteps = "Total Steps";
   static String earnMoreCoins = "Earn more coins";
   static String learnMore = "Learn more";
   static String rateUs = "Rate us";

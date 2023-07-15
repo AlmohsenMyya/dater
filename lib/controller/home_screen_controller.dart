@@ -31,12 +31,13 @@ class HomeScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isVisible = true.obs;
   RxInt successStatus = 0.obs;
-  SwipableStackController cardController = SwipableStackController();
+  Rx<SwipableStackController> cardController = SwipableStackController().obs;
 
   double physicalDeviceWidth = 0.0;
   double physicalDeviceHeight = 0.0;
 
   String lastLikeProfileId = "";
+  RxBool skipped = false.obs;
 
   Location location = Location();
   late LocationData locationData;
@@ -58,6 +59,7 @@ class HomeScreenController extends GetxController {
   RxString selectedVlu = ''.obs;
   RxString gender = ''.obs;
   RxString work = ''.obs;
+  RxString starSign = ''.obs;
   RxString education = ''.obs;
   RxString height = ''.obs;
   RxString exercise = ''.obs;
@@ -70,7 +72,7 @@ class HomeScreenController extends GetxController {
   RxString homeTown = "".obs;
   RxString verifiedUser = "".obs;
 
-  List<SuggestionData> suggestionList = [];
+  RxList<SuggestionData> suggestionList = <SuggestionData>[].obs;
   SuggestionData singlePersonData = SuggestionData();
   UserPreference userPreference = UserPreference();
   List<BasicModel> basicList = [];
@@ -132,15 +134,35 @@ class HomeScreenController extends GetxController {
     );
   }
 
+  RxBool isRewind = false.obs;
+
+  swapBack() {
+    if (cardController.value.currentIndex == suggestionList.length) {
+      cardController.value.currentIndex = cardController.value.currentIndex - 1;
+    } else if (!isRewind.value) {
+      cardController.value.rewind(duration: const Duration(seconds: 1));
+    }
+  }
+
 // GetUndestandfunction,
   Future<void> understandFunction() async {
     await userPreference.setBoolValueInPrefs(
         key: UserPreference.isragatherInKey, value: selected.value);
     log("selected.value: ${selected.value}");
-    await regatherFunction();
-    // Get.offAll(()=> IndexScreen());
-    // await getUserSuggestionsFunction();
-    // await initMethod();
+    if (skipped.value) {
+      swapBack();
+      log(name: 'can Rewind', '${cardController.value.canRewind}');
+    } else {
+      await regatherFunction();
+    }
+    log(name: 'regather', '${currentUserIndex.value}');
+    // // if (currentUserIndex.value > 1) {
+    // //   currentUserIndex.value = currentUserIndex.value - 1;
+    // // }
+    // SuggestionData temp = suggestionList[currentUserIndex.value];
+    // suggestionList.add(temp);
+    isRewind.value = true;
+    loadUI();
   }
 
   Future<void> understandSuperLoveFunction(int index) async {
@@ -207,7 +229,7 @@ class HomeScreenController extends GetxController {
       //   log('reportAccountFunction Else');
       // }
       Fluttertoast.showToast(msg: reportResponse.msg);
-      cardController.next(
+      cardController.value.next(
         swipeDirection: SwipeDirection.left,
       );
     } catch (e) {
@@ -219,83 +241,90 @@ class HomeScreenController extends GetxController {
     isLoading(false);
   }
 
-  /// Get Suggestions Function
-  Future<void> getUserSuggestionsFunction() async {
-    isLoading(true);
-    String url = ApiUrl.getSuggestionApi;
-    log('Suggestion Api Url :$url');
+  RxInt offset = 0.obs;
 
+  // RxList<SuggestionData> tempSuggestions = <SuggestionData>[].obs;
+
+  Future<void> getUserSuggestionsWithOffset() async {
+    isLoading(true);
+
+    String url = ApiUrl.getSuggestionApi;
     try {
       String verifyToken = await userPreference.getStringFromPrefs(
           key: UserPreference.userVerifyTokenKey);
-      // log('Get User Suggestion User Token : $verifyToken');
 
-      var formData = dio.FormData.fromMap({'token': verifyToken});
+      var formData =
+          dio.FormData.fromMap({'token': verifyToken, 'offset': offset.value});
 
       var response = await dioRequest.post(url, data: formData);
-      log('Suggestion Response : ${response.data}');
-
-      // printAll(name: 'suggest',"${response.data}");
+      printAll(name: 'suggestionList', response);
       SuggestionListModel suggestionListModel =
           SuggestionListModel.fromJson(json.decode(response.data));
+
       successStatus.value = suggestionListModel.statusCode;
-
       if (successStatus.value == 200) {
-        suggestionList.clear();
-        // suggestionList = [];
-
+        offset.value = offset.value + 1;
+        // suggestionList.clear();
+        // currentUserIndex.value = 0;
         if (suggestionListModel.msg.isNotEmpty) {
           suggestionList.addAll(suggestionListModel.msg);
 
-          log('suggestionList1212 : ${suggestionList.length}');
-        }
-      } else {
-        log('getUserSuggestionsFunction Else');
-      }
-
-      /*var request = http.MultipartRequest('POST', Uri.parse(url));
-
-      request.headers['Content-Type'] = "multipart/form-data";
-      request.fields['token'] = verifyToken;
-
-      var response = await request.send();
-
-      response.stream
-          .transform(const Utf8Decoder())
-          .transform(const LineSplitter())
-          .listen((value) async {
-        log("Suggestion Api value :$value");
-        SuggestionListModel suggestionListModel = SuggestionListModel.fromJson(json.decode(value));
-        successStatus.value = suggestionListModel.statusCode;
-        if (successStatus.value == 200) {
-          suggestionList.clear();
-          // suggestionList = [];
-
-          if (suggestionListModel.msg.isNotEmpty) {
-            suggestionList.addAll(suggestionListModel.msg);
-            // singlePersonData = suggestionList[0];
-            // setChangedUserData(0);
-
-            // log("singlePersonData :${singlePersonData.name}");
-            // log("singlePersonData :${singlePersonData.bio}");
-
-            log('suggestionList1212 : ${suggestionList.length}');
-          }
+          /// for test purposes
+          // for (int i = 0; i < 5; i++) {
+          //   suggestionList.add(suggestionListModel.msg[i]);
+          // }
+          log(name: 'suggestionListLength', '${suggestionList.length}');
         } else {
-          log('getUserSuggestionsFunction Else');
-
+          log('empty list');
+          // suggestionList = <SuggestionData>[].obs;
+          // suggestionList.refresh();
         }
-      });*/
+      }
     } catch (e) {
-      log('getMatchesFunction Error :$e');
-
-      rethrow;
+      log('$e');
     }
-
     isLoading(false);
-    // loadUI();
-    // await getUserSuggestionsFunction2();
   }
+
+  // /// Get Suggestions Function
+  // Future<void> getUserSuggestionsFunction() async {
+  //   isLoading(true);
+  //   String url = ApiUrl.getSuggestionApi;
+  //   log('Suggestion Api Url :$url');
+  //
+  //   try {
+  //     String verifyToken = await userPreference.getStringFromPrefs(
+  //         key: UserPreference.userVerifyTokenKey);
+  //     // log('Get User Suggestion User Token : $verifyToken');
+  //
+  //     var formData = dio.FormData.fromMap({'token': verifyToken});
+  //
+  //     var response = await dioRequest.post(url, data: formData);
+  //     log('Suggestion Response : ${response.data}');
+  //
+  //     // printAll(name: 'suggest',"${response.data}");
+  //     SuggestionListModel suggestionListModel =
+  //         SuggestionListModel.fromJson(json.decode(response.data));
+  //     successStatus.value = suggestionListModel.statusCode;
+  //
+  //     if (successStatus.value == 200) {
+  //       suggestionList.clear();
+  //       if (suggestionListModel.msg.isNotEmpty) {
+  //         suggestionList.addAll(suggestionListModel.msg);
+  //
+  //         log('suggestionList1212 : ${suggestionList.length}');
+  //       }
+  //     } else {
+  //       log('getUserSuggestionsFunction Else');
+  //     }
+  //   } catch (e) {
+  //     log('getMatchesFunction Error :$e');
+  //
+  //     rethrow;
+  //   }
+  //
+  //   isLoading(false);
+  // }
 
   /// Set Basic Details
   List<BasicModel> setBasicListFunction({required SuggestionData singleItem}) {
@@ -318,7 +347,8 @@ class HomeScreenController extends GetxController {
         .add(BasicModel(image: AppImages.politicsImage, name: politics.value));
     basicList
         .add(BasicModel(image: AppImages.religionImage, name: religion.value));
-
+    basicList
+        .add(BasicModel(image: AppImages.starsignImage, name: starSign.value));
     basicList.add(BasicModel(image: AppImages.kidsImage, name: kids.value));
 
     return basicList;
@@ -394,17 +424,16 @@ class HomeScreenController extends GetxController {
 
       //liked_id
       if (superLoveModel.statusCode == 200) {
-        printAll(name: 'match', superLoveModel.isMatch);
-        //todo get profile form liked id
+        // printAll(name: 'match', superLoveModel.isMatch);
         if (superLoveModel.isMatch) {
           Get.dialog(
             MatchDialog(
-              tName: name.value,
-              tWork: work.value,
-              tDistance: distance.value,
+              tName: suggestionList[index].name,
+              tWork: suggestionList[index].basic!.work,
+              tDistance: suggestionList[index].distance!,
               name: profileCont.userName.value,
               work: profileCont.userWork.value,
-              tImage: userImageList[0].imageUrl,
+              tImage: suggestionList[index].images![0].imageUrl,
               image: profileCont.userImages[0].imageUrl,
             ),
           );
@@ -430,19 +459,20 @@ class HomeScreenController extends GetxController {
         // suggestionList.removeAt(0);
         // When swipe index & suggestion list length same that time clear the suggestion list
         if (index == suggestionList.length) {
-          suggestionList = [];
+          // suggestionList.clear();
+          await getUserSuggestionsWithOffset();
         }
-        if (suggestionList != []) {
+        if (suggestionList.isNotEmpty) {
           /// When Swipe complete that time set new user data in display variable
           // singlePersonData = suggestionList[0];
           setChangedUserData(index);
         } else {
-          suggestionList.clear();
-          suggestionList = [];
+          // suggestionList.clear();
         }
 
         // loadUI();
       } else if (superLoveModel.statusCode == 400) {
+        swapBack();
         Fluttertoast.showToast(msg: superLoveModel.msg);
         if (superLoveModel.msg.toLowerCase() ==
             "You already liked this account".toLowerCase()) {
@@ -466,18 +496,18 @@ class HomeScreenController extends GetxController {
           /// Remove Data at 0 Index & set new data in variable
           // suggestionList.removeAt(0);
           if (index == suggestionList.length) {
-            suggestionList = [];
+            await getUserSuggestionsWithOffset();
+            // suggestionList = [];
           }
           if (suggestionList.isNotEmpty) {
             /// When Swipe complete that time set new user data in display variable
-            // singlePersonData = suggestionList[0];
             setChangedUserData(index);
           } else {
-            suggestionList.clear();
-            suggestionList = [];
+            // suggestionList.clear();
           }
         }
       } else {
+        swapBack();
         log('superLoveProfileFunction Else');
       }
     } catch (e) {
@@ -501,6 +531,7 @@ class HomeScreenController extends GetxController {
         'type': LikeType.regather.name,
         'liked_id': lastLikeProfileId
       });
+      log('regather form : ${formData.fields}');
 
       var response = await dioRequest.post(url, data: formData);
       log('regather Response : ${response.data}');
@@ -512,9 +543,13 @@ class HomeScreenController extends GetxController {
       if (successStatus.value == 200) {
         // Fluttertoast.cancel();
         // Fluttertoast.showToast(msg: regatherModel.msg);
-
-        // cardController.rewind();
-        // log('cardController.canRewind : ${cardController.canRewind}');
+        log('success');
+        if (cardController.value.currentIndex == suggestionList.length) {
+          cardController.value.currentIndex =
+              cardController.value.currentIndex - 1;
+        } else if (!isRewind.value) {
+          cardController.value.rewind(duration: const Duration(seconds: 1));
+        }
       } else {
         if (regatherModel.msg.toLowerCase() ==
             "You already regathered on this account".toLowerCase()) {
@@ -526,20 +561,21 @@ class HomeScreenController extends GetxController {
     } catch (e) {
       log('regatherFunction Error :$e');
       rethrow;
-    }
-
-    loadUI();
-    // isLoading(false);
+    } // isLoading(false);
   }
 
   /// When swipe complete that time user data change
   setChangedUserData(int index) {
+    index++;
+    log(name: 'currUser', '$index');
     name = suggestionList[index].name.toString().obs;
     currentUserId = suggestionList[index].id!.obs;
+    // log(name: 'bioSuggest', suggestionList[index].bio.toString());
     bio = suggestionList[index].bio.toString().obs;
     age = suggestionList[index].age.toString().obs;
     // profilePrompts = suggestionList[index].profilePrompts.toString().obs;
     work = suggestionList[index].basic!.work.obs;
+    starSign = suggestionList[index].starSign.toString().obs;
     gender = suggestionList[index].basic!.gender.obs;
     education = suggestionList[index].basic!.education.obs;
     height = suggestionList[index].basic!.height.obs;
@@ -568,9 +604,11 @@ class HomeScreenController extends GetxController {
     }
 
     userImageList.clear();
+    printAll(name: 'user images length:', '${suggestionList[index].images}');
     if (suggestionList[index].images != []) {
       userImageList.addAll(suggestionList[index].images!);
     }
+    loadUI();
 
     log("suggestionList : ${suggestionList.length}");
   }
@@ -583,10 +621,16 @@ class HomeScreenController extends GetxController {
 
   late ProfileScreenController profileCont;
 
-  initMethod() async {
-    //Size in physical pixels
-    profileCont = Get.put(ProfileScreenController());
+  RxInt likerId = (-1).obs;
 
+  initMethod() async {
+    try {
+      printAll(name: 'arguments', Get.arguments[0]);
+    } catch (e) {
+      log('not from liker page');
+    }
+
+    profileCont = Get.put(ProfileScreenController());
     var physicalScreenSize = window.physicalSize;
     physicalDeviceWidth = physicalScreenSize.width;
     physicalDeviceHeight = physicalScreenSize.height;
@@ -597,46 +641,9 @@ class HomeScreenController extends GetxController {
 
     await getLocation();
     await updateUserLocationFunction();
-    await getUserSuggestionsFunction();
-    await getListReports();
-
+    await getUserSuggestionsWithOffset();
     // await getUserSuggestionsFunction();
-    // await setBasicListFunction();
-
-    // scrollController.addListener((){
-    //   if(scrollController.position.userScrollDirection == ScrollDirection.reverse){
-    //     if(isVisible.value == true) {
-    //       isVisible.value = false;
-    //       print("**** ${isVisible.value} up"); //Move IO away from setState
-    //      loadUI();
-    //     }
-    //   } else {
-    //     if(scrollController.position.userScrollDirection == ScrollDirection.forward){
-    //       if(isVisible.value == false) {
-    //         isVisible.value = true;
-    //         print("**** ${isVisible.value} down"); //Move IO away from setState
-    //         loadUI();
-    //       }
-    //     }
-    //   }});
-
-    /*if (scrollController.position.atEdge) {
-      if (scrollController.position.pixels < 0) {
-        log('scrollController.position.pixels :${scrollController.position.pixels}');
-        if (isVisible.value) {
-          isLoading(true);
-          isVisible.value = false;
-          isLoading(false);
-        }
-        loadUI();
-      }
-    } else {
-      if (!isVisible.value) {
-        isVisible.value = true;
-      }
-      loadUI();
-    }*/
-    // loadUI();
+    await getListReports();
   }
 
   Future<void> updateUserLocationFunction() async {

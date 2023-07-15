@@ -4,13 +4,15 @@ import 'package:dater/screens/chat_screen/chat_list_screen/all_chat_list_screen.
 import 'package:dater/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../constants/app_images.dart';
 import '../../constants/colors.dart';
 import '../profile_screen/profile_screen.dart';
 
-class IndexScreen extends StatelessWidget {
+class IndexScreen extends GetView<IndexScreenController> {
   IndexScreen({Key? key}) : super(key: key);
-  final indexScreenController = Get.put(IndexScreenController());
+
+  // final indexScreenController = Get.put(IndexScreenController());
   final screen = [
     BalanceScreen(),
     HomeScreen(),
@@ -31,12 +33,11 @@ class IndexScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-                () => IndexedStack(
-                  index: indexScreenController.selectedIndex.value,
-                  children: screen,
-                ),
-              ),
-
+        () => IndexedStack(
+          index: controller.selectedIndex.value,
+          children: screen,
+        ),
+      ),
 
       //  Obx(
       //   () => IndexedStack(
@@ -51,11 +52,11 @@ class IndexScreen extends StatelessWidget {
           unselectedItemColor: AppColors.blackColor,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          onTap: (index) {
+          onTap: (index) async {
             // indexScreenController.homeScreenShow.value = false;
-            indexScreenController.changeIndex(index);
+            await controller.changeIndex(index);
           },
-          currentIndex: indexScreenController.selectedIndex.value,
+          currentIndex: controller.selectedIndex.value,
           items: [
             BottomNavigationBarItem(
               icon: Image.asset(

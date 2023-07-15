@@ -288,7 +288,6 @@ class EditProfileScreenWidgets extends StatelessWidget {
 
         ///name
         SizedBox(height: 4.h),
-        //TODO: add edit name api call
         Row(
           children: [
             Text(
@@ -314,9 +313,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
             cursorColor: AppColors.lightOrangeColor,
             maxLines: 1,
             controller: editProfileScreenController.myNameController,
-            onEditingComplete: () async {
-              await editProfileScreenController.setUserNameFunction();
-            },
+            onEditingComplete: () async {},
             decoration: InputDecoration(
               hintText: "My new name...",
               hintStyle: TextStyleConfig.textStyle(
@@ -350,18 +347,17 @@ class EditProfileScreenWidgets extends StatelessWidget {
           ),
         ),
         ButtonCustom(
-                // fontWeight: FontWeight.bold,
-                textsize: 14.sp,
-                textFontFamily: FontFamilyText.sFProDisplayBold,
-                textColor: AppColors.whiteColor2,
-                backgroundColor: AppColors.darkOrangeColor,
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                size: const Size(18.0, 18.0),
-                text: 'save name',
-                onPressed: () async {
-                  // await editProfileScreenController.setUserBioFunction();
-                })
-            .commonOnlyPadding(top: 1.h),
+            // fontWeight: FontWeight.bold,
+            textsize: 14.sp,
+            textFontFamily: FontFamilyText.sFProDisplayBold,
+            textColor: AppColors.whiteColor2,
+            backgroundColor: AppColors.darkOrangeColor,
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            size: const Size(18.0, 18.0),
+            text: 'save name',
+            onPressed: () async {
+              await editProfileScreenController.setUserNameFunction();
+            }).commonOnlyPadding(top: 1.h),
 
         /// My Bio
         SizedBox(height: 4.h),
@@ -900,7 +896,9 @@ class EditProfileScreenWidgets extends StatelessWidget {
         ),
         SizedBox(height: 5.h),
         GestureDetector(
-          // onTap: () => editProfileScreenController.goToEditInterests,
+          onTap: () {
+            editProfileScreenController.goToEditInterests();
+          },
           child: Container(
             width: Get.width,
             padding: const EdgeInsets.all(10),

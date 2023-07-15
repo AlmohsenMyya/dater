@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dater/controller/edit_interests_controller.dart';
 import 'package:dater/model/star_sign_screen_model/save_star_sign_model.dart';
 import 'package:dater/utils/functions.dart';
 import 'package:flutter/material.dart';
@@ -40,18 +41,37 @@ class EditProfileScreenController extends GetxController {
   List<Interest> interestList = [];
   List<String> languageList = [];
 
-
-  goToEditInterests(){
+  goToEditInterests() async {
+    log('going to interests');
     // InterestsScreenController interestsCont = Get.put(E());
     interestList.forEach((element) {
-      // interestsCont.selectedOptionIdList.add(element.id);
+      log(element.name);
     });
+    Get.delete<EditInterestsController>();
+    EditInterestsController interestEditCont =
+        Get.put(EditInterestsController());
+    // await interestEditCont.getInterestFunction();
+    interestList.forEach((element) {
+      interestEditCont.allReadySelectedNames.add(element.name);
+    });
+
+    // interestEditCont.interestsData.forEach((element) {
+    //   for (int i = 0; i < interestList.length; i++) {
+    //     if (element.name == interestList[i].name) {
+    //       log('added');
+    //       interestEditCont.allReadySelected.add(element.id.toString());
+    //     }
+    //   }
+    // });
+    // interestList.forEach((Interest element) {
+    //   interestEditCont.selectedOptionIdList.add(element.id);
+    // });
     Get.to(
-      // Get.put<InterestsScreenController>().selectedOptionIdList.);
-      EditInterests(),
-      arguments: interestList
-    );
+        // Get.put<InterestsScreenController>().selectedOptionIdList.);
+        EditInterests(),
+        arguments: interestList);
   }
+
   String politics = "";
   String religion = "";
   String education = "";
@@ -70,8 +90,8 @@ class EditProfileScreenController extends GetxController {
 
   // RxList<File> captureImageList = RxList<File>();
   RxList<UploadUserImage> captureImageList = RxList<UploadUserImage>();
-  RxDouble startVal = 00.0.obs;
-  RxDouble endVal = 80.0.obs;
+  // RxDouble startVal = 120.0.obs;
+  RxDouble endVal = 120.0.obs;
   File? file;
 
   RxBool onSelected = false.obs;
@@ -82,7 +102,6 @@ class EditProfileScreenController extends GetxController {
     XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-
       File tempImg = File(pickedFile.path);
       if (tempImg.lengthSync() <= 2000000) {
         captureImageList.add(UploadUserImage(
@@ -92,7 +111,7 @@ class EditProfileScreenController extends GetxController {
       } else {
         Fluttertoast.showToast(
             msg:
-            'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
+                'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
         XFile? pickedFile = await ImagePicker().pickImage(
             source: ImageSource.gallery,
             maxHeight: 480,
@@ -105,7 +124,6 @@ class EditProfileScreenController extends GetxController {
           await uploadImageFunction(selectedFile);
         }
       }
-
     }
     log('captureImageList Length : ${captureImageList.length}');
     loadUI();
@@ -311,7 +329,7 @@ class EditProfileScreenController extends GetxController {
 
       var response = await request.send();
       response.stream.transform(utf8.decoder).listen((value) async {
-        printAll(name:'full_details',"value :$value");
+        printAll(name: 'full_details', "value :$value");
 
         LoggedInUserDetailsModel loggedInUserDetailsModel =
             LoggedInUserDetailsModel.fromJson(json.decode(value));
@@ -617,8 +635,8 @@ class EditProfileScreenController extends GetxController {
   }
 
   Future<void> getMyBasicGenderValueFromPrefs() async {
-    gender = await userPreference.getStringFromPrefs(
-        key: UserPreference.genderKey);
+    gender =
+        await userPreference.getStringFromPrefs(key: UserPreference.genderKey);
     loadUI();
   }
 

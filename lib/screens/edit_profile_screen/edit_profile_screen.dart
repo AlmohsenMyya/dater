@@ -2,6 +2,7 @@ import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../common_modules/custom_appbar.dart';
 import '../../common_modules/custom_loader.dart';
 import '../../constants/colors.dart';
@@ -17,22 +18,28 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.whiteColor2,
-      appBar: commonAppBarModule(text: AppMessages.editProfile,
-      isLeadingShow: true,
+      appBar: commonAppBarModule(
+        text: AppMessages.editProfile,
+        isLeadingShow: true,
       ),
-      body: Obx(
-        () => editProfileScreenController.isLoading.value
-            ? const CustomLoader()
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ProfileStrengthModule(),
-                    ReorderableGridViewModule(),
-                    SizedBox(height: 2.h),
-                    EditProfileScreenWidgets()
-                  ],
-                ).commonSymmetricPadding(horizontal: 25, vertical: 20),
-              ),
+      body: RefreshIndicator(
+        onRefresh: () {
+          return editProfileScreenController.initMethod();
+        },
+        child: Obx(
+          () => editProfileScreenController.isLoading.value
+              ? const CustomLoader()
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ProfileStrengthModule(),
+                      ReorderableGridViewModule(),
+                      SizedBox(height: 2.h),
+                      EditProfileScreenWidgets()
+                    ],
+                  ).commonSymmetricPadding(horizontal: 25, vertical: 20),
+                ),
+        ),
       ),
     );
   }

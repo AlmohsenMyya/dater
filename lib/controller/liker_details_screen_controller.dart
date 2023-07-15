@@ -121,45 +121,7 @@ class LikerDetailsScreenController extends GetxController {
     }
   }
 
-  Future<void> getLikerDetailsFunction() async {
-    isLoading(true);
-    String url = ApiUrl.getUserDetailsApi;
-    log('getLikerDetailsFunction Api Url : $url');
 
-    try {
-      String verifyToken = await userPreference.getStringFromPrefs(
-          key: UserPreference.userVerifyTokenKey);
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-      request.fields['token'] = verifyToken;
-      request.fields['user_id'] = likerId;
-
-      var response = await request.send();
-
-      response.stream.transform(utf8.decoder).listen((value) async {
-        log("value :$value");
-        UserDetailsModel userDetailsModel =
-            UserDetailsModel.fromJson(json.decode(value));
-
-        if (userDetailsModel.statusCode == 200) {
-          userDetails = userDetailsModel.msg[0];
-          gender.value = userDetails.basic!.gender;
-          height.value = userDetails.basic!.height;
-          exercise.value = userDetails.basic!.exercise;
-          smoking.value = userDetails.basic!.smoking;
-          drinking.value = userDetails.basic!.drinking;
-          politics.value = userDetails.basic!.politics;
-          religion.value = userDetails.basic!.religion;
-          kids.value = userDetails.basic!.kids;
-        } else {
-          log('getLikerDetailsFunction Else');
-        }
-      });
-    } catch (e) {
-      log('getLikerDetailsFunction Error :$e');
-      rethrow;
-    }
-    isLoading(false);
-  }
 
   List<BasicModel> setBasicListFunction() {
     List<BasicModel> basicList = [];
@@ -196,6 +158,6 @@ class LikerDetailsScreenController extends GetxController {
     physicalDeviceHeight = physicalScreenSize.height;
     log('physicalDeviceHeight : $physicalDeviceHeight');
     log('physicalDeviceWidth : $physicalDeviceWidth');
-    await getLikerDetailsFunction();
+    // await getLikerDetailsFunction();
   }
 }

@@ -10,6 +10,8 @@ class LocationPermissionController extends GetxController {
     bool _serviceEnabled;
     _serviceEnabled = await location.requestService();
     log("_serviceEnabled :$_serviceEnabled");
+
+
     if (_serviceEnabled == true) {
       Get.back();
     }

@@ -14,9 +14,9 @@ import '../../model/authentication_model/interests screen_model/get_interests _m
 import '../../model/authentication_model/interests screen_model/save_interests_model.dart';
 import '../../screens/index_screen/index_screen.dart';
 import '../../utils/preferences/signup_preference.dart';
+import '../index_screen_controller.dart';
 
 class InterestsScreenController extends GetxController {
-
   RxBool isLoading = false.obs;
   RxBool isSuccessStatus = false.obs;
 
@@ -128,7 +128,7 @@ class InterestsScreenController extends GetxController {
 
         if (saveInterestModel.statusCode == 200) {
           // Fluttertoast.showToast(msg: saveInterestModel.msg);
-          // Get.offAll(()=> );
+          Get.offAll(() => IndexScreen(), binding: IndexBinding());
         } else if (saveInterestModel.statusCode == 400) {
           // Fluttertoast.showToast(msg: saveInterestModel.msg);
         } else {
@@ -149,7 +149,6 @@ class InterestsScreenController extends GetxController {
     log('Complete SignUp Api Url : $url');
 
     try {
-      // Get Data from prefs
       String userEmail = await signUpPreference.getStringFromPrefs(
           key: SignUpPreference.signUpEmailKey);
       String userName = await signUpPreference.getStringFromPrefs(
@@ -200,8 +199,6 @@ class InterestsScreenController extends GetxController {
             key: UserPreference.isUserLoggedInKey,
             value: true,
           );
-
-          Get.offAll(() => IndexScreen());
         } else if (completeSignupModel.statusCode == 400) {
           Fluttertoast.showToast(msg: completeSignupModel.msg);
         } else {
@@ -239,7 +236,6 @@ class InterestsScreenController extends GetxController {
 
     isLoading(false);
   }
-
 
   @override
   void onInit() {

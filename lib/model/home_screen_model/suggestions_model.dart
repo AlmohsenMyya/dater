@@ -222,6 +222,7 @@ class SuggestionData {
     this.interest,
     this.basic,
     this.images,
+    this.starSign,
     this.country,
     this.percentage,
   });
@@ -239,6 +240,7 @@ class SuggestionData {
   String? verified;
   String? distance;
   String? age;
+  String? starSign;
   String? activeTime;
   List<Interest>? interest;
   Basic? basic;
@@ -255,6 +257,7 @@ class SuggestionData {
             (json["prompts"] ?? []).map((x) => Prompt.fromJson(x))),
         // profilePrompts: json["profile_prompts"] ?? "Life is simple Don't overthink it",
         bio: json["bio"] ?? "",
+        starSign: json['star_sign'],
         homeTown: json["home_town"] ?? "",
         languages: json["languages"] == null
             ? []
@@ -264,7 +267,7 @@ class SuggestionData {
         age: json["age"].toString().toLowerCase() ==
                     "Age is not available".toLowerCase() ||
                 json["age"] == null
-            ? "23"
+            ? ""
             : json["age"].toString(),
         activeTime: json["active_time"] ?? "",
         interest: List<Interest>.from(
@@ -283,6 +286,7 @@ class SuggestionData {
         "name": name,
         "sexuality_get": sexualityGet,
         "target_gender_get": targetGenderGet,
+        "star_sign": starSign,
         // "profile_prompts": profilePrompts,
         "bio": bio,
         "home_town": homeTown,

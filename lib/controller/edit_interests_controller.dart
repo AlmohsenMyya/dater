@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dater/constants/api_url.dart';
-import 'package:dater/model/profile_screen_models/logged_in_user_details_model.dart';
 import 'package:dater/utils/preferences/user_preference.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -23,6 +22,8 @@ class EditInterestsController extends GetxController {
   RxList<CategoryItemModel> categoryList = <CategoryItemModel>[].obs;
   RxInt selectedItemCount = 0.obs;
   List<String> selectedOptionIdList = [];
+  List<String> allReadySelectedNames = [];
+  List<String> allReadySelectedIds = [];
 
   SignUpPreference signUpPreference = SignUpPreference();
   UserPreference userPreference = UserPreference();
@@ -59,12 +60,21 @@ class EditInterestsController extends GetxController {
             for (int j = 0; j < categoryList.length; j++) {
               if (getInterestModel.msg[i].categoryId ==
                   categoryList[j].categoryId) {
+                String? found = allReadySelectedNames.firstWhereOrNull(
+                  (element) {
+                    return getInterestModel.msg[i].name == element;
+                  },
+                );
+                if (found != null) {
+                  allReadySelectedIds.add(getInterestModel.msg[i].id);
+                }
+                selectedItemCount.value = allReadySelectedIds.length;
                 categoryList[j].options.add(
                       Option(
                         id: getInterestModel.msg[i].id,
                         name: getInterestModel.msg[i].name,
                         image: getInterestModel.msg[i].image,
-                        isSelected: false,
+                        isSelected: found == null ? false : true,
                       ),
                     );
               }
@@ -94,14 +104,30 @@ class EditInterestsController extends GetxController {
     // selectedOptionIdString = selectedOptionIdList.toString().substring(1, selectedOptionIdList.toString().length -1).replaceAll(" ", "");
     // log('selectedOptionIdString : $selectedOptionIdString');
     Fluttertoast.showToast(msg: "Please wait!");
-    for (int i = 0; i < selectedOptionIdList.length; i++) {
-      await saveInterestsFunction(selectedOptionIdList[i]);
+
+    for (int i = 0; i < allReadySelectedIds.length; i++) {
+      log(name: 'all ready', allReadySelectedIds[i]);
+      String? found = selectedOptionIdList.firstWhereOrNull(
+        (element) {
+          return element == allReadySelectedIds[i];
+        },
+      );
+      if (found == null) {
+        await saveOrRemoveInterestsFunction(
+            interestedId: allReadySelectedIds[i], remove: true);
+      }
     }
+    for (int i = 0; i < selectedOptionIdList.length; i++) {
+      await saveOrRemoveInterestsFunction(
+          interestedId: selectedOptionIdList[i]);
+    }
+
     // await completeSignUpFunction();
     // await saveInterestsFunction(selectedOptionIdString);
   }
 
-  Future<void> saveInterestsFunction(String interestedId) async {
+  Future<void> saveOrRemoveInterestsFunction(
+      {required String interestedId, bool remove = false}) async {
     isLoading(true);
     String url = ApiUrl.saveInterestsApi;
     log("saveInterestsFunction Api Url: $url");
@@ -113,7 +139,11 @@ class EditInterestsController extends GetxController {
 
       request.fields['token'] = verifyToken;
       request.fields['interest_id'] = interestedId;
-
+      if (remove) {
+        log('remove interest');
+        request.fields['action'] = 'remove';
+      }
+      log(name: 'interest', '$interestedId');
       var response = await request.send();
 
       response.stream.transform(utf8.decoder).listen((value) async {
@@ -163,11 +193,8 @@ class EditInterestsController extends GetxController {
     isLoading(false);
   }
 
-  RxList<Interest> selectedInterestsId = <Interest>[].obs;
-
   @override
   void onInit() {
-    selectedInterestsId.addAll(Get.arguments);
     getInterestFunction();
     super.onInit();
   }

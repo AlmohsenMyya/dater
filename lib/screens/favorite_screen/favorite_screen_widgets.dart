@@ -12,7 +12,6 @@ import 'package:sizer/sizer.dart';
 import '../../constants/app_images.dart';
 import '../../model/favorite_screen_model/liker_model.dart';
 import '../../utils/style.dart';
-import '../liker_details_screen/liker_details_screen.dart';
 
 class FavoriteGridViewBuilderModule extends StatelessWidget {
   FavoriteGridViewBuilderModule({Key? key}) : super(key: key);
@@ -74,12 +73,11 @@ class FavoriteGridViewBuilderModule extends StatelessWidget {
                     removeBlurIndex: index,
                   ));
                 } else {
-                  Get.to(() => LikerDetailsScreen(), arguments: [
-                    favoriteScreenController.likerList[index].id
-                  ])!
-                      .then((value) async {
-                    await favoriteScreenController.getYourLikerFunction();
-                  });
+                  favoriteScreenController.backWithLike(index);
+
+                  // Get.to(() => LikerDetailsScreen(), arguments: [
+                  //                     favoriteScreenController.likerList[index].id
+                  //                   ])!
                 }
               },
               child: Container(

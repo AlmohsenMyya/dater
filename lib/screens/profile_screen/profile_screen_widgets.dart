@@ -170,38 +170,72 @@ class ProfileTextModule extends StatelessWidget {
           ],
         ),
         // Work Module
-        if (screenController.userWork.value != 'Add') ...[
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: '${screenController.userWork.value} ',
-                  style: TextStyleConfig.textStyle(
-                    textColor: AppColors.grey800Color,
-                    fontFamily: FontFamilyText.sFProDisplayRegular,
-                    fontSize: 12.sp,
-                  ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (screenController.userWork.value != 'Add') ...[
+              RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                  children: [
+                    WidgetSpan(
+                      child: Image.asset(
+                        AppImages.workImage,
+                        height: 2.h,
+                      ),
+                    ),
+                    WidgetSpan(
+                      child: SizedBox(
+                        width: 1.w,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${screenController.userWork.value} ',
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.grey800Color,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
                 ),
-                WidgetSpan(
-                  child: Image.asset(
-                    AppImages.workImage,
-                    height: 2.h,
-                  ),
+              ),
+              SizedBox(height: 2.h),
+            ],
+            if (screenController.userEducation.value != 'Add') ...[
+              RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                  children: [
+                    WidgetSpan(
+                      child: Image.asset(
+                        AppImages.educationImage,
+                        height: 2.h,
+                      ),
+                    ),
+                    WidgetSpan(
+                      child: SizedBox(
+                        width: 1.w,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${screenController.userEducation.value} ',
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.grey800Color,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
                 ),
-                // TextSpan(
-                //   text: ' ${screenController.userDetails!.distance}',
-                //   style: TextStyleConfig.textStyle(
-                //     textColor: AppColors.grey800Color,
-                //     fontFamily: FontFamilyText.sFProDisplayRegular,
-                //     fontSize: 12.sp,
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-          SizedBox(height: 2.h),
-        ],
+              ),
+              SizedBox(height: 2.h),
+            ],
+          ],
+        ),
+
+        //  basicList.add(
+        //         BasicModel(image: AppImages.educationImage, name: userEducation.value));
         screenController.promptsList.isNotEmpty
             ? RichText(
                 textAlign: TextAlign.center,
@@ -268,7 +302,7 @@ class AboutMeAllModule extends StatelessWidget {
                     image: DecorationImage(
                       image:
                           NetworkImage(screenController.userImages[1].imageUrl),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
@@ -316,18 +350,26 @@ class AboutMeAllModule extends StatelessWidget {
               (int index) {
                 return (screenController.basicList[index].name != "Add" &&
                         screenController.basicList[index].name != "" &&
+                        screenController.basicList[index].name != " cm" &&
                         screenController.basicList[index].name != 'hidden')
                     ? Transform(
-                        transform: Matrix4.identity()..scale(0.93),
+                        transform: Matrix4.identity()..scale(0.95),
                         child: ChoiceChip(
-                          avatar: CircleAvatar(
-                            radius: 9.0,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: AssetImage(
-                                screenController.basicList[index].image),
+                          // avatar: CircleAvatar(
+                          //   // radius: 9.0,
+                          //   backgroundColor: Colors.transparent,
+                          //   backgroundImage: AssetImage(
+                          //       screenController.basicList[index].image),
+                          // ),
+                          avatar: Image(
+                            height: 35,
+                            width: 35,
+                            image: AssetImage(
+                              screenController.basicList[index].image,
+                            ),
                           ),
                           label: Text(
-                            screenController.basicList[index].name,
+                            screenController.basicList[index].name.trim(),
                             style: TextStyleConfig.textStyle(
                               fontFamily: FontFamilyText.sFProDisplaySemibold,
                               textColor: AppColors.blackColor,

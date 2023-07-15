@@ -1,12 +1,26 @@
 import 'package:dater/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_service/flutter_foreground_service.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import 'constants/app_images.dart';
-
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
+
+  ForegroundService().start();
+}
+
+serviceForGround() async {
+  // UserPreference userPreference = UserPreference();
+  // bool serviceForGroundRunning = await userPreference.getBoolFromPrefs(
+  //     key: UserPreference.serviceForGroundRunning);
+  // if (Platform.isAndroid && !serviceForGroundRunning) {
+  //// if (Platform.isAndroid) {
+  // ForegroundService().start();
+  // ForegroundServiceNotification.setPriority(AndroidNotificationPriority.LOW);
+  // userPreference.setBoolValueInPrefs(
+  //     key: UserPreference.serviceForGroundRunning, value: true);
+// }
 }
 
 class MyApp extends StatelessWidget {

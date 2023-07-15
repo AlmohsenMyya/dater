@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dater/controller/settings_screen_controller.dart';
 import 'package:dater/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,9 +13,7 @@ import '../constants/enums.dart';
 import '../model/authentication_model/country_code_list_model/country_code_list.dart';
 import '../model/authentication_model/country_code_list_model/country_code_list_model.dart';
 import '../model/saved_data_model/saved_data_model.dart';
-import '../screens/authentication_screen/verify_code_screen/verify_code_screen.dart';
 import '../utils/preferences/user_preference.dart';
-import 'auth_screen_controllers/verification_code_screen_controller.dart';
 
 class PersonalInfoScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -120,23 +119,32 @@ class PersonalInfoScreenController extends GetxController {
       var response = await request.send();
 
       response.stream.transform(utf8.decoder).listen((value1) async {
-        printAll(name: 'response change phone','value : $value1');
+        printAll(name: 'response change phone', 'value : $value1');
         SavedDataModel savedDataModel =
             SavedDataModel.fromJson(json.decode(value1));
         successStatus.value = savedDataModel.statusCode;
 
         if (successStatus.value == 200) {
           Fluttertoast.showToast(msg: savedDataModel.msg);
-          Get.delete<VerifyCodeScreenController>();
-          Get.to(
-            () => VerifyCodeScreen(),
-            arguments: [
-              selectCountryCodeValue.dialCode,
-              newNumberTextFieldController.text.trim(),
-              AuthAs.login,
-              ComingFrom.changeNumberScreen,
-            ],
+          // Get.delete<VerifyCodeScreenController>();
+          // Get.off(
+          //   () => VerifyCodeScreen(),
+          //   arguments: [
+          //     selectCountryCodeValue.dialCode,
+          //     newNumberTextFieldController.text.trim(),
+          //     AuthAs.login,
+          //     ComingFrom.changeNumberScreen,
+          //   ],
+          // );
+          await userPreference.setStringValueInPrefs(
+            key: UserPreference.userMobileNoKey,
+            value: newNumberTextFieldController.text.trim(),
           );
+          await userPreference.setStringValueInPrefs(
+              key: UserPreference.userCountryCodeKey,
+              value: selectCountryCodeValue.dialCode.toString());
+          final screenController = Get.find<SettingsScreenController>();
+          await screenController.logOutButtonFunction();
         } else {
           log('changeMobileNumberFunction Else');
         }

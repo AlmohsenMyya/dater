@@ -2,17 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
 import '../constants/api_url.dart';
-import '../constants/messages.dart';
 import '../model/chat_screens_models/chat_list_model.dart';
 import '../model/chat_screens_models/send_message_model.dart';
 import '../model/home_screen_model/matches_model.dart';
 import '../utils/preferences/user_preference.dart';
-import 'package:dio/dio.dart' as dio;
 
 class ChatScreenController extends GetxController {
   MatchUserData personData = Get.arguments[0];
@@ -195,7 +194,7 @@ class ChatScreenController extends GetxController {
 
     // isTimerOn.value
     //     ?
-    Timer.periodic(const Duration(seconds: 30), (timer) async {
+    Timer.periodic(const Duration(seconds: 10), (timer) async {
       isTimerOn.value ? await getUserChatMessagesFunction() : null;
           });
         // : () {};

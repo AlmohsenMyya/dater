@@ -19,7 +19,6 @@ class LikerDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Obx(
             () => likerDetailsScreenController.isLoading.value
             ? const CustomLoader()

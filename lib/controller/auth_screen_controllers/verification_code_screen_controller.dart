@@ -16,6 +16,7 @@ import '../../model/authentication_model/verify_code_screen_model/account_active
 import '../../model/authentication_model/verify_code_screen_model/resend_code_model.dart';
 import '../../screens/authentication_screen/sign_up_email_screen/sign_up_email_screen.dart';
 import '../../utils/preferences/signup_preference.dart';
+import '../index_screen_controller.dart';
 
 class VerifyCodeScreenController extends GetxController {
   String countryCode = Get.arguments[0] ?? "";
@@ -110,7 +111,9 @@ class VerifyCodeScreenController extends GetxController {
               Get.back();
               Get.back();
             } else {
-              Get.offAll(() => IndexScreen());
+              Get.offAll(() => IndexScreen(), binding: IndexBinding());
+
+              // Get.offAll(() => IndexScreen());
             }
           } else {
             await userPreference.setStringValueInPrefs(
@@ -139,7 +142,9 @@ class VerifyCodeScreenController extends GetxController {
                 Get.back();
                 Get.back();
               } else {
-                Get.offAll(() => IndexScreen());
+                Get.offAll(() => IndexScreen(), binding: IndexBinding());
+
+                // Get.offAll(() => IndexScreen());
               }
             }
           }

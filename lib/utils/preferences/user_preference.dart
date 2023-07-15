@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
+  static String lastUpdatedSteps = 'lastUpdatedSteps';//String
+  static String serviceForGroundRunning = 'lastUpdatedSteps';//bool
   static String userMobileNoKey = "userMobileNoKey"; // String
   static String userCountryCodeKey = "userCountyCodeKey"; // string
   static String userTokenKey = "userTokenKey"; // This is temp token // String

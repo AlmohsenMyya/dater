@@ -35,8 +35,9 @@ class MainAppBar extends GetView<HomeScreenController>
                     .getBoolFromPrefs(key: UserPreference.isragatherInKey);
                 // if (controller.lastLikeProfileId != "") {
                 await controller.understandFunction();
-                controller.cardController
-                    .rewind(duration: const Duration(seconds: 1));
+                //TODO: remove this after fix the bug from back end
+                // controller.cardController
+                //     .rewind(duration: const Duration(seconds: 1));
                 /*} else {
                         log('No likes');
                       }*/
@@ -76,7 +77,7 @@ class MainAppBar extends GetView<HomeScreenController>
                               ),
                               SizedBox(height: 5.h),
                               ButtonCustom(
-                                text: "Undestand",
+                                text: "Understand",
                                 onPressed: () async {
                                   log("11");
                                   Get.back();

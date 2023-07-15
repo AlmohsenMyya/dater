@@ -23,6 +23,7 @@ class ProfileScreenController extends GetxController {
 
   // Profile Show Variables
   RxString userName = "".obs;
+
   // RxString userProfilePrompts = "".obs;
   RxString userBio = "".obs;
   RxString userVerified = "".obs;
@@ -48,7 +49,8 @@ class ProfileScreenController extends GetxController {
   List<BasicModel> basicList = [];
   List<BasicModel> interestList = [];
   List<UserImages> userImages = [];
-  List<UserImages> userSubImagesList = [];  // Remove first 3 index images other all images save in this list.
+  List<UserImages> userSubImagesList =
+      []; // Remove first 3 index images other all images save in this list.
   List<String> languageList = [];
   List<Prompt> promptsList = [];
 
@@ -59,19 +61,18 @@ class ProfileScreenController extends GetxController {
     log('getUserDetailsFunction Api Url : $url');
 
     try {
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
       log('User Profile verifyToken :$verifyToken');
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['token'] = verifyToken;
 
       var response = await request.send();
-      response.stream
-          .transform(utf8.decoder)
-          .listen((value) async {
+      response.stream.transform(utf8.decoder).listen((value) async {
         log("getUserDetailsFunction Api value :$value");
 
         LoggedInUserDetailsModel loggedInUserDetailsModel =
-        LoggedInUserDetailsModel.fromJson(json.decode(value));
+            LoggedInUserDetailsModel.fromJson(json.decode(value));
         successStatus.value = loggedInUserDetailsModel.statusCode;
 
         if (successStatus.value == 200) {
@@ -97,11 +98,12 @@ class ProfileScreenController extends GetxController {
           userReligion.value = loggedInUserDetailsModel.msg[0].basic.religion;
           userStarSign.value = loggedInUserDetailsModel.msg[0].starSign;
           userKids.value = loggedInUserDetailsModel.msg[0].basic.kids;
-          userPercentage.value = double.parse(loggedInUserDetailsModel.msg[0].percentage.toString());
+          userPercentage.value = double.parse(
+              loggedInUserDetailsModel.msg[0].percentage.toString());
           userCountry.value = loggedInUserDetailsModel.msg[0].country;
 
           promptsList.clear();
-          if(loggedInUserDetailsModel.msg[0].prompts.isNotEmpty) {
+          if (loggedInUserDetailsModel.msg[0].prompts.isNotEmpty) {
             promptsList.addAll(loggedInUserDetailsModel.msg[0].prompts);
           }
 
@@ -117,15 +119,15 @@ class ProfileScreenController extends GetxController {
 
           // When userImage List Length more then 3
           userSubImagesList.clear();
-          if(userImages.length > 3) {
-            for(int i = 3; i < userImages.length; i++) {
+          if (userImages.length > 3) {
+            for (int i = 3; i < userImages.length; i++) {
               userSubImagesList.add(userImages[i]);
             }
           }
           log('userImages Length : ${userImages.length}');
 
           /// Set Language in local list
-          if(loggedInUserDetailsModel.msg[0].languages.isNotEmpty) {
+          if (loggedInUserDetailsModel.msg[0].languages.isNotEmpty) {
             languageList.addAll(loggedInUserDetailsModel.msg[0].languages);
           }
 
@@ -151,39 +153,37 @@ class ProfileScreenController extends GetxController {
 
   /// Set Basic Details
   void setBasicListFunction() {
+
     basicList.add(BasicModel(
         image: AppImages.heightImage, name: "${userHeight.value} cm"));
-    basicList.add(BasicModel(
-        image: AppImages.educationImage, name: userEducation.value));
+    // basicList.add(
+    //     BasicModel(image: AppImages.educationImage, name: userEducation.value));
     basicList
-        .add(
-        BasicModel(image: AppImages.genderImage, name: userGender.value));
+        .add(BasicModel(image: AppImages.genderImage, name: userGender.value));
     // basicList.add(BasicModel(
     //     image: AppImages.homeTownImage, name: userHomeTown.value));
     basicList.add(
         BasicModel(image: AppImages.drinkingImage, name: userDrinking.value));
     basicList.add(BasicModel(image: AppImages.kidsImage, name: userKids.value));
-    basicList
-        .add(BasicModel(image: AppImages.exerciseImage, name: userExercise.value));
+    basicList.add(
+        BasicModel(image: AppImages.exerciseImage, name: userExercise.value));
     basicList.add(
         BasicModel(image: AppImages.smokingImage, name: userSmoking.value));
     basicList.add(
         BasicModel(image: AppImages.starsignImage, name: userStarSign.value));
+    // basicList.add(
+    //     BasicModel(image: AppImages.educationImage, name: userEducation.value));
     basicList.add(
-        BasicModel(
-            image: AppImages.educationImage, name: userEducation.value));
-    basicList
-        .add(BasicModel(image: AppImages.religionImage, name: userReligion.value));
-    basicList
-        .add(BasicModel(image: AppImages.politicsImage, name: userPolitics.value));
+        BasicModel(image: AppImages.religionImage, name: userReligion.value));
+    basicList.add(
+        BasicModel(image: AppImages.politicsImage, name: userPolitics.value));
   }
 
   /// Set Interest in local & Prefs
   Future<void> setInterestListFunction(List<Interest> interest) async {
     if (interest.isNotEmpty) {
       for (var element in interest) {
-        interestList
-            .add(BasicModel(image: element.image, name: element.name));
+        interestList.add(BasicModel(image: element.image, name: element.name));
       }
 
       /// Set Interest List in Prefs
@@ -273,10 +273,17 @@ class ProfileScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
+    basicList = [];
+    interestList = [];
+    userImages = [];
+    userSubImagesList =
+        []; // Remove first 3 index images other all images save in this list.
+    languageList = [];
+    promptsList = [];
     await getUserDetailsFunction();
   }
 
-  /*Future<void> setDataInUserVariablesFunction() async {
+/*Future<void> setDataInUserVariablesFunction() async {
     isLoading(true);
     // userProfilePrompts.value = await userPreference.getStringFromPrefs(key: UserPreference.profilePromptsKey);
     userBio.value = await userPreference.getStringFromPrefs(key: UserPreference.bioKey);

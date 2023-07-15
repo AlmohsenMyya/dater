@@ -29,6 +29,7 @@ class ApiUrl {
   static const getUserDetailsApi = "${apiMainPath}api/get_user_full_details";
   static const getReferralCodeApi = "${apiMainPath}api/get_referral_number";
   static const getCoinsApi = "${apiMainPath}api/get_my_coins";
+  static const updateStepsApi = "${apiMainPath}api/submit_steps";
   static const saveBirthYearApi = "${apiMainPath}api/add_birth_year";
   static const deleteUserAccountApi = "${apiMainPath}api/delete_account";
   static const updateUserLocationApi = "${apiMainPath}api/update_location";
@@ -50,6 +51,7 @@ class ApiUrl {
   static const getTermsAndConditionApi = "${apiMainPath}api/get_terms_of_use";
   static const getCommunityGuidelineApi = "${apiMainPath}api/get_community_guidelines";
   static const setVerifiedApi = "${apiMainPath}api/set_as_verified";
+  static const uploadVerificationPhotoApi = "${apiMainPath}api/upload_verification_photo";
   static const changePhoneNumberApi = "${apiMainPath}api/change_phone_number";
   static const setCoverImageApi = "${apiMainPath}api/set_cover_photo";
   static const getCountriesApi = "${apiMainPath}api/get_contries";

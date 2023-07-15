@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dater/constants/api_url.dart';
+import 'package:dater/controller/home_screen_controller.dart';
+import 'package:dater/model/home_screen_model/suggestions_model.dart';
 import 'package:dater/model/saved_data_model/saved_data_model.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:sizer/sizer.dart';
 
 import '../common_modules/custom_button.dart';
@@ -15,7 +18,6 @@ import '../constants/colors.dart';
 import '../constants/enums.dart';
 import '../constants/font_family.dart';
 import '../model/favorite_screen_model/liker_model.dart';
-import '../utils/functions.dart';
 import '../utils/preferences/user_preference.dart';
 import '../utils/style.dart';
 
@@ -34,6 +36,26 @@ class FavoriteScreenController extends GetxController {
 
   var dioRequest = dio.Dio();
 
+  backWithLike(int index) async {
+    // homeScreenCont.interestList
+    // SuggestionData likedMe = SuggestionData(id: likerList[index].id,
+    // name: likerList[index].name,
+    //   distance: likerList[index].distance,
+    //   activeTime: likerList[index].activeTime,
+    //   age: likerList[index].age,
+    //     // images: likerList[index].images,
+    //   verified: likerList[index].verified,
+    //
+    // );
+    Get.back();
+    await getLikerDetailsFunction(likerList[index].id);
+    // Get.back();
+    // Get.find<IndexScreenController>().changeIndex(1);
+    // Get.to(() => HomeScreen())?.then((value) async {
+    //   await getYourLikerFunction();
+    // });
+  }
+
   removeBlur(int likerDataIndex) async {
     isLoading(true);
     String url = ApiUrl.unBlurImgApi;
@@ -50,7 +72,6 @@ class FavoriteScreenController extends GetxController {
       successStatus.value = savedDataModel.statusCode;
       if (successStatus.value == 200) {
         likerList[likerDataIndex].visible = true;
-
       } else {
         Fluttertoast.showToast(msg: savedDataModel.msg);
       }
@@ -59,6 +80,53 @@ class FavoriteScreenController extends GetxController {
     }
     isLoading(false);
     loadUI();
+  }
+
+  Future<void> getLikerDetailsFunction(String likerId) async {
+    HomeScreenController homeScreenCont = Get.find<HomeScreenController>();
+    homeScreenCont.isLoading(true);
+    String url = ApiUrl.getUserDetailsApi;
+    log('getLikerDetailsFunction Api Url : $url');
+
+    try {
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.fields['token'] = verifyToken;
+      request.fields['user_id'] = likerId;
+
+      var response = await request.send();
+
+      response.stream.transform(utf8.decoder).listen((value) async {
+        log("value :$value");
+        SuggestionListModel userDetailsModel =
+            SuggestionListModel.fromJson(json.decode(value));
+
+        if (userDetailsModel.statusCode == 200) {
+          int insertAt = 0;
+          if (homeScreenCont.currentUserIndex.value > 0) {
+            insertAt = homeScreenCont.cardController.value.currentIndex ;
+          }
+          if (userDetailsModel.msg.isNotEmpty) {
+            // if (homeScreenCont.suggestionList.isEmpty) {
+            //   homeScreenCont.suggestionList
+            //       .insert(0, userDetailsModel.msg.first);
+            //   // homeScreenCont.currentUserIndex.value = 0;
+            //   // log(name: 'length when changed', '${homeScreenCont.suggestionList.length}');
+            // } else {
+            homeScreenCont.suggestionList
+                .insert(insertAt, userDetailsModel.msg.first);
+            // }
+          }
+        } else {
+          log('getLikerDetailsFunction Else');
+        }
+      });
+    } catch (e) {
+      log('getLikerDetailsFunction Error :$e');
+      rethrow;
+    }
+    homeScreenCont.isLoading(false);
   }
 
   // Get Your Liker Function
@@ -72,7 +140,7 @@ class FavoriteScreenController extends GetxController {
       var formData = dio.FormData.fromMap({'token': verifyToken});
 
       var response = await dioRequest.post(url, data: formData);
-      log('Suggestion Response : ${response.data}');
+      log(name: 'Suggestion Response:', '${response.data}');
 
       LikerModel likerModel = LikerModel.fromJson(json.decode(response.data));
       successStatus.value = likerModel.statusCode;
@@ -153,7 +221,7 @@ class FavoriteScreenController extends GetxController {
                   ),
                   SizedBox(height: 5.h),
                   ButtonCustom(
-                    text: "Undestand",
+                    text: "Understand",
                     onPressed: () async {
                       log("11");
                       Get.back();

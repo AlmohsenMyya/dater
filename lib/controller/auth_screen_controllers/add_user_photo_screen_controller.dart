@@ -20,12 +20,21 @@ class AddUserPhotoScreenController extends GetxController {
   RxBool isLoading = false.obs;
 
   final ImagePicker picker = ImagePicker();
-  File image1 = File("");
-  File image2 = File("");
-  File image3 = File("");
-  String image1Name = "";
-  String image2Name = "";
-  String image3Name = "";
+
+  // File image1 = File("");
+  // File image2 = File("");
+  // File image3 = File("");
+  // String image1Name = "";
+  // String image2Name = "";
+  // String image3Name = "";
+  List<File> imagesNew = [
+    File(""),
+    File(""),
+    File(""),
+    File(""),
+    File(""),
+    File("")
+  ];
   bool isImageUploadInApiSuccess = false;
   SignUpPreference signUpPreference = SignUpPreference();
   UserPreference userPreference = UserPreference();
@@ -39,61 +48,84 @@ class AddUserPhotoScreenController extends GetxController {
       );
 
       if (pickedFile != null) {
-        if (index == 0) {
-          File tempImg = File(pickedFile.path);
-          if (tempImg.lengthSync() <= 2000000) {
-            image1 = tempImg;
-          } else {
-            Fluttertoast.showToast(
-                msg:
-                    'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
-            XFile? pickedFile = await ImagePicker().pickImage(
-                source: ImageSource.gallery,
-                maxHeight: 480,
-                maxWidth: 640,
-                imageQuality: 50);
-            if (pickedFile != null) {
-              image1 = File(pickedFile.path);
+        for (int i = 0; i < 6; i++) {
+          if (index == i) {
+            File tempImg = File(pickedFile.path);
+            if (tempImg.lengthSync() <= 2000000) {
+              imagesNew[i] = tempImg;
+            } else {
+              Fluttertoast.showToast(
+                  msg:
+                      'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
+              XFile? pickedFile = await ImagePicker().pickImage(
+                  source: ImageSource.gallery,
+                  maxHeight: 480,
+                  maxWidth: 640,
+                  imageQuality: 50);
+              if (pickedFile != null) {
+                imagesNew[i] = File(pickedFile.path);
+              }
             }
+            printAll(name: 'sizeImage', imagesNew[i].lengthSync());
           }
-          printAll(name: 'sizeImage', image1.lengthSync());
-        } else if (index == 1) {
-          File tempImg = File(pickedFile.path);
-          if (tempImg.lengthSync() <= 2000000) {
-            image2 = tempImg;
-          } else {
-            Fluttertoast.showToast(
-                msg:
-                    'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
-            XFile? pickedFile = await ImagePicker().pickImage(
-                source: ImageSource.gallery,
-                maxHeight: 480,
-                maxWidth: 640,
-                imageQuality: 50);
-            if (pickedFile != null) {
-              image2 = File(pickedFile.path);
-            }
-          }
-          printAll(name: 'sizeImage', image2.lengthSync());
-        } else if (index == 2) {
-          File tempImg = File(pickedFile.path);
-          if (tempImg.lengthSync() <= 2000000) {
-            image3 = tempImg;
-          } else {
-            Fluttertoast.showToast(
-                msg:
-                    'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
-            XFile? pickedFile = await ImagePicker().pickImage(
-                source: ImageSource.gallery,
-                maxHeight: 480,
-                maxWidth: 640,
-                imageQuality: 50);
-            if (pickedFile != null) {
-              image3 = File(pickedFile.path);
-            }
-          }
-          printAll(name: 'sizeImage', image3.lengthSync());
         }
+        // if (index == 0) {
+        //   File tempImg = File(pickedFile.path);
+        //   if (tempImg.lengthSync() <= 2000000) {
+        //     image1 = tempImg;
+        //   } else {
+        //     Fluttertoast.showToast(
+        //         msg:
+        //             'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
+        //     XFile? pickedFile = await ImagePicker().pickImage(
+        //         source: ImageSource.gallery,
+        //         maxHeight: 480,
+        //         maxWidth: 640,
+        //         imageQuality: 50);
+        //     if (pickedFile != null) {
+        //       image1 = File(pickedFile.path);
+        //     }
+        //   }
+        //   printAll(name: 'sizeImage', image1.lengthSync());
+        // }
+        // else if (index == 1) {
+        //   File tempImg = File(pickedFile.path);
+        //   if (tempImg.lengthSync() <= 2000000) {
+        //     image2 = tempImg;
+        //   } else {
+        //     Fluttertoast.showToast(
+        //         msg:
+        //             'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
+        //     XFile? pickedFile = await ImagePicker().pickImage(
+        //         source: ImageSource.gallery,
+        //         maxHeight: 480,
+        //         maxWidth: 640,
+        //         imageQuality: 50);
+        //     if (pickedFile != null) {
+        //       image2 = File(pickedFile.path);
+        //     }
+        //   }
+        //   printAll(name: 'sizeImage', image2.lengthSync());
+        // }
+        // else if (index == 2) {
+        //   File tempImg = File(pickedFile.path);
+        //   if (tempImg.lengthSync() <= 2000000) {
+        //     image3 = tempImg;
+        //   } else {
+        //     Fluttertoast.showToast(
+        //         msg:
+        //             'Re-choose the photo if you want to compress it because it exceeds 2MB in size');
+        //     XFile? pickedFile = await ImagePicker().pickImage(
+        //         source: ImageSource.gallery,
+        //         maxHeight: 480,
+        //         maxWidth: 640,
+        //         imageQuality: 50);
+        //     if (pickedFile != null) {
+        //       image3 = File(pickedFile.path);
+        //     }
+        //   }
+        //   printAll(name: 'sizeImage', image3.lengthSync());
+        // }
       }
     } catch (e) {
       log('');
@@ -105,59 +137,37 @@ class AddUserPhotoScreenController extends GetxController {
 
   // Photo Save button function
   Future<void> doneButtonFunction() async {
-    isLoading(true);
-    if (image1.path.isEmpty || image2.path.isEmpty || image3.path.isEmpty) {
-      Fluttertoast.showToast(msg: "Please select three photo");
-    } else {
-      image1Name = image1.path.toString().split("/").last;
-      image2Name = image2.path.toString().split("/").last;
-      image3Name = image3.path.toString().split("/").last;
-
-      log('image1Name : $image1Name');
-      log('image2Name : $image2Name');
-      log('image3Name : $image3Name');
-
-      // await uploadImageFunction();
-
-      if (image1.path != "") {
-        await signUpPreference.setStringValueInPrefs(
-          key: SignUpPreference.userImage1Key,
-          value: image1.path.toString(),
-        );
-        await uploadImageFunction(image1);
+    for (int i = 0; i < 6; i++) {
+      if (imagesNew[i].path.isEmpty) {
+        Fluttertoast.showToast(msg: "Please select six photos");
+        return;
       }
-      if (image2.path != "") {
-        await signUpPreference.setStringValueInPrefs(
-          key: SignUpPreference.userImage2Key,
-          value: image2.path.toString(),
-        );
-        await uploadImageFunction(image2);
-      }
-      if (image3.path != "") {
-        await signUpPreference.setStringValueInPrefs(
-          key: SignUpPreference.userImage3Key,
-          value: image3.path.toString(),
-        );
-        await uploadImageFunction(image3);
-      }
-      // log('Image upload Status final :$isImageUploadInApiSuccess');
-      // log('Image upload Status 1 :$isImageUploadInApiSuccess');
-
-      Timer(
-        const Duration(milliseconds: 500),
-        () {
-          if (isImageUploadInApiSuccess == true) {
-            Get.to(() => DobSelectScreen());
-          } else {
-            Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
-          }
-        },
-      );
     }
+    isLoading(true);
+    for (int i = 0; i < 6; i++) {
+      String imagesName = '';
+      imagesName = imagesNew[i].path.toString().split("/").last;
+      log('image-Name-$i : $imagesName');
+
+      if (imagesName != '') {
+        await uploadImageFunction(imagesNew[i]);
+      }
+    }
+
+    Timer(
+      const Duration(milliseconds: 500),
+      () {
+        if (isImageUploadInApiSuccess == true) {
+          Get.to(() => DobSelectScreen());
+        } else {
+          Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
+        }
+      },
+    );
     isLoading(false);
   }
 
-  // Upload Image function
+// Upload Image function
   Future<void> uploadImageFunction(File image) async {
     isLoading(true);
     String url = ApiUrl.uploadPhotoApi;

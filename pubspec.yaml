@@ -62,6 +62,7 @@ dependencies:
   change_app_package_name: ^1.1.0
   url_launcher: ^6.1.11
   pedometer: ^4.0.1
+  cached_network_image: ^3.2.3
 
 
 dev_dependencies:
@@ -97,6 +98,20 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/Bambo Interests Icons/
+    - assets/Bambo Interests Icons/Creative/
+    - assets/Bambo Interests Icons/Sports/
+    - assets/Bambo Interests Icons/Going Out/
+    - assets/Bambo Interests Icons/Staying in/
+    - assets/Bambo Interests Icons/Music/
+    - assets/Bambo Interests Icons/Film & Tv/
+    - assets/Bambo Interests Icons/Reading/
+    - assets/Bambo Interests Icons/Food & Drink/
+    - assets/Bambo Interests Icons/Pets/
+    - assets/Bambo Interests Icons/Traveling/
+    - assets/Bambo Interests Icons/Values & traits/
+
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

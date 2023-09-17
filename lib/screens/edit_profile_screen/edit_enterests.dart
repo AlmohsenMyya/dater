@@ -5,6 +5,7 @@ import 'package:dater/common_modules/custom_button.dart';
 import 'package:dater/common_modules/custom_loader.dart';
 import 'package:dater/constants/colors.dart';
 import 'package:dater/constants/font_family.dart';
+import 'package:dater/constants/interests_images.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/controller/edit_interests_controller.dart';
 import 'package:dater/controller/edit_profile_screen_controller.dart';
@@ -14,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../constants/app_images.dart';
 
 class EditInterests extends GetView<EditInterestsController> {
   EditInterests({Key? key}) : super(key: key);
@@ -87,7 +86,13 @@ class EditInterestsWidgetModule extends GetView<EditInterestsController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(AppImages.creativeImage),
+                Image.asset(
+                  width: 20,
+                  height: 20,
+                  InterestsImages().getLogoPath(
+                    controller.categoryList[i].categoryId,
+                  ),
+                ),
                 SizedBox(width: 1.w),
                 Text(
                   controller.categoryList[i].categoryName,
@@ -120,8 +125,15 @@ class EditInterestsWidgetModule extends GetView<EditInterestsController> {
                       child: ChoiceChip(
                         avatar: CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage(
-                              controller.categoryList[i].options[index].image),
+                          // backgroundImage: NetworkImage(
+                          //   controller.categoryList[i].options[index].image,
+                          // ),
+                          backgroundImage: AssetImage(
+                            InterestsImages().getImagePath(
+                              controller.categoryList[i].categoryId,
+                              controller.categoryList[i].options[index].id,
+                            ),
+                          ),
                         ),
                         label: Text(
                           controller.categoryList[i].options[index].name,

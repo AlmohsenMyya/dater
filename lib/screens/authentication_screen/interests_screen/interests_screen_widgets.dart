@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:dater/common_modules/custom_button.dart';
-import 'package:dater/constants/app_images.dart';
 import 'package:dater/constants/colors.dart';
 import 'package:dater/constants/font_family.dart';
+import 'package:dater/constants/interests_images.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/controller/auth_screen_controllers/interests%20_screen_controller.dart';
 import 'package:dater/utils/extensions.dart';
@@ -36,7 +36,14 @@ class InterestsWidgetModule extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(AppImages.creativeImage),
+                Image.asset(
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.cover,
+                  InterestsImages().getLogoPath(
+                    interestsScreenController.categoryList[i].categoryId,
+                  ),
+                ),
                 SizedBox(width: 1.w),
                 Text(
                   interestsScreenController.categoryList[i].categoryName,
@@ -73,9 +80,18 @@ class InterestsWidgetModule extends StatelessWidget {
                       child: ChoiceChip(
                         avatar: CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage(
+                          // backgroundImage: NetworkImage(
+                          //   interestsScreenController
+                          //       .categoryList[i].options[index].image,
+                          // ),
+                          backgroundImage: AssetImage(
+                            InterestsImages().getImagePath(
                               interestsScreenController
-                                  .categoryList[i].options[index].image),
+                                  .categoryList[i].categoryId,
+                              interestsScreenController
+                                  .categoryList[i].options[index].id,
+                            ),
+                          ),
                         ),
                         label: Text(
                           interestsScreenController

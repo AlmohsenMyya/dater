@@ -62,6 +62,7 @@ class InterestsScreenController extends GetxController {
             for (int j = 0; j < categoryList.length; j++) {
               if (getInterestModel.msg[i].categoryId ==
                   categoryList[j].categoryId) {
+
                 categoryList[j].options.add(
                       Option(
                         id: getInterestModel.msg[i].id,

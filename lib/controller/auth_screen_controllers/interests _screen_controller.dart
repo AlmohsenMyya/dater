@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dater/constants/api_url.dart';
+import 'package:dater/screens/welcome_page/welcome_page.dart';
+import 'package:dater/screens/welcome_page/welcome_page_controller.dart';
 import 'package:dater/utils/preferences/user_preference.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -12,9 +14,7 @@ import '../../model/authentication_model/complete signup_screen_model/complete s
 import '../../model/authentication_model/interests screen_model/cateory_item_model.dart';
 import '../../model/authentication_model/interests screen_model/get_interests _model.dart';
 import '../../model/authentication_model/interests screen_model/save_interests_model.dart';
-import '../../screens/index_screen/index_screen.dart';
 import '../../utils/preferences/signup_preference.dart';
-import '../index_screen_controller.dart';
 
 class InterestsScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -62,7 +62,6 @@ class InterestsScreenController extends GetxController {
             for (int j = 0; j < categoryList.length; j++) {
               if (getInterestModel.msg[i].categoryId ==
                   categoryList[j].categoryId) {
-
                 categoryList[j].options.add(
                       Option(
                         id: getInterestModel.msg[i].id,
@@ -129,7 +128,8 @@ class InterestsScreenController extends GetxController {
 
         if (saveInterestModel.statusCode == 200) {
           // Fluttertoast.showToast(msg: saveInterestModel.msg);
-          Get.offAll(() => IndexScreen(), binding: IndexBinding());
+          // Get.offAll(() => IndexScreen(), binding: IndexBinding());
+          Get.offAll(() => WelcomePage(), binding: WelcomePageBinding());
         } else if (saveInterestModel.statusCode == 400) {
           // Fluttertoast.showToast(msg: saveInterestModel.msg);
         } else {

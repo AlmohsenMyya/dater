@@ -81,7 +81,7 @@ class GenderTargetScreenController extends GetxController {
   Future<void> nextButtonFunction() async {
     await signUpPreference.setStringValueInPrefs(
       key: SignUpPreference.targetGenderKey,
-      value: selectedGenderValue.id,
+      value: selectedGenderValue.name,
     );
     await userPreference.setStringValueInPrefs(
         key: UserPreference.isShowMeGenderKey, value: selectedGenderValue.name);

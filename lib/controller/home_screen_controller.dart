@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/constants/app_images.dart';
@@ -25,6 +24,7 @@ import '../model/profile_screen_models/language_save_model.dart';
 import '../model/saved_data_model/saved_data_model.dart';
 import '../screens/home_screen/widgets/match_dialog.dart';
 import '../utils/functions.dart';
+import '../utils/internetChecker.dart';
 import '../utils/preferences/user_preference.dart';
 
 class HomeScreenController extends GetxController {
@@ -47,6 +47,8 @@ class HomeScreenController extends GetxController {
   // RxString selectedval = ''.obs;
   RxBool selected = false.obs;
   RxBool selectedSuperLove = false.obs;
+
+  RxBool newLikes = false.obs;
 
   // int superLoveIndex = 0;
   var scrollController = ScrollController();
@@ -228,10 +230,11 @@ class HomeScreenController extends GetxController {
       // } else {
       //   log('reportAccountFunction Else');
       // }
-      Fluttertoast.showToast(msg: reportResponse.msg);
-      cardController.value.next(
-        swipeDirection: SwipeDirection.left,
-      );
+
+      // Fluttertoast.showToast(msg: reportResponse.msg);
+      // cardController.value.next(
+      //   swipeDirection: SwipeDirection.left,
+      // );
     } catch (e) {
       log('reportAccountFunction Error :$e');
 
@@ -631,9 +634,11 @@ class HomeScreenController extends GetxController {
     }
 
     profileCont = Get.put(ProfileScreenController());
-    var physicalScreenSize = window.physicalSize;
-    physicalDeviceWidth = physicalScreenSize.width;
-    physicalDeviceHeight = physicalScreenSize.height;
+    // var physicalScreenSize = window.physicalSize;
+
+
+    physicalDeviceWidth = Get.width;
+    physicalDeviceHeight = Get.height;
     log('physicalDeviceHeight : $physicalDeviceHeight');
     log('physicalDeviceWidth : $physicalDeviceWidth');
     selected.value = await userPreference.getBoolFromPrefs(
@@ -644,6 +649,9 @@ class HomeScreenController extends GetxController {
     await getUserSuggestionsWithOffset();
     // await getUserSuggestionsFunction();
     await getListReports();
+    Timer(Duration(seconds: 2), () {
+      Get.put<NetworkStatusService>(NetworkStatusService(), permanent: true);
+    });
   }
 
   Future<void> updateUserLocationFunction() async {

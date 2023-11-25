@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dater/screens/settings_screen/settings_screen.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ class ProfileModule extends StatelessWidget {
       child: Stack(
         fit: StackFit.loose,
         children: [
-          SizedBox(
+          Container(
+            // color: Colors.red,
             //height: 17.5.h,
             height: 170,
             width: 150,
@@ -56,37 +58,56 @@ class ProfileModule extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 20,
-            left: 10,
-            child: profileScreenController.userImages.isEmpty
-                ? Container(
-                    height: 130,
-                    width: 130,
-                    decoration: const BoxDecoration(
-                      color: AppColors.grey700Color,
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage(
-                          AppImages.swiper2Image,
+              top: 20,
+              left: 10,
+              child: profileScreenController.userImages.isEmpty
+                  ? Container(
+                      height: 130,
+                      width: 130,
+                      decoration: const BoxDecoration(
+                        color: AppColors.grey700Color,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage(
+                            AppImages.swiper2Image,
+                          ),
+                          fit: BoxFit.cover,
                         ),
-                        fit: BoxFit.cover,
                       ),
-                    ),
-                  )
-                : Container(
-                    height: 130,
-                    width: 130,
-                    decoration: BoxDecoration(
-                      color: AppColors.grey700Color,
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            profileScreenController.userImages[0].imageUrl),
-                        fit: BoxFit.cover,
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: profileScreenController.userImages[0].imageUrl,
+                      width: 130,
+                      height: 130,
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 130,
+                        height: 130,
+                        decoration: BoxDecoration(
+                          color: AppColors.grey700Color,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-          ),
+                      errorWidget: (context, url, error) {
+                        return Container(
+                          width: 130,
+                          height: 130,
+                          decoration: BoxDecoration(
+                            color: AppColors.grey700Color,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.error,
+                            color: Colors.white,
+                            size:
+                                40, // You can adjust the size of the error icon
+                          ),
+                        );
+                      },
+                    )),
           Positioned(
             right: 4,
             bottom: 25,
@@ -293,164 +314,111 @@ class AboutMeAllModule extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        screenController.userImages.length < 2
-            ? Container()
-            : Container(
-                height: 50.h,
-                decoration: BoxDecoration(
-                    color: AppColors.grey500Color,
-                    image: DecorationImage(
-                      image:
-                          NetworkImage(screenController.userImages[1].imageUrl),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(20))),
-              ),
+
         // About Me Module
         if (screenController.userBio.value != '') ...[
-          SizedBox(height: 2.h),
-          Text(
-            'About me',
-            style: TextStyleConfig.textStyle(
-              fontFamily: FontFamilyText.sFProDisplayBold,
-              textColor: AppColors.grey800Color,
-              //fontWeight: FontWeight.w500,
-              fontSize: 14.sp,
+          Padding(
+            padding: const EdgeInsets.only(left: 13),
+            child: Text(
+              'About me',
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayBold,
+                textColor: AppColors.grey800Color,
+                //fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+              ),
             ),
           ),
           SizedBox(height: 1.h),
-          Text(
-            screenController.userBio.value,
-            style: TextStyleConfig.textStyle(
-              fontFamily: FontFamilyText.sFProDisplayRegular,
-              textColor: AppColors.grey600Color,
-              //fontWeight: FontWeight.w500,
-              fontSize: 14.sp,
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(
+              screenController.userBio.value,
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayRegular,
+                textColor: AppColors.grey600Color,
+                //fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+              ),
             ),
           ),
+          SizedBox(height: 2.h),
         ],
 
         // My Basic Module
-        SizedBox(height: 2.h),
+
         if (screenController.basicList.isNotEmpty) ...[
-          Text(
-            "Basics",
-            style: TextStyleConfig.textStyle(
-              fontFamily: FontFamilyText.sFProDisplayBold,
-              textColor: AppColors.grey800Color,
-              //fontWeight: FontWeight.w500,
-              fontSize: 14.sp,
+          Padding(
+            padding: const EdgeInsets.only(left: 13),
+            child: Text(
+              "Basics",
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayBold,
+                textColor: AppColors.grey800Color,
+                //fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+              ),
             ),
           ),
           SizedBox(height: 2.h),
-          Wrap(
-            spacing: 0.0,
-            children: List.generate(
-              screenController.basicList.length,
-              (int index) {
-                return (screenController.basicList[index].name != "Add" &&
-                        screenController.basicList[index].name != "" &&
-                        screenController.basicList[index].name != " cm" &&
-                        screenController.basicList[index].name != 'hidden')
-                    ? Transform(
-                        transform: Matrix4.identity()..scale(0.95),
-                        child: ChoiceChip(
-                          // avatar: CircleAvatar(
-                          //   // radius: 9.0,
-                          //   backgroundColor: Colors.transparent,
-                          //   backgroundImage: AssetImage(
-                          //       screenController.basicList[index].image),
-                          // ),
-                          avatar: Image(
-                            height: 35,
-                            width: 35,
-                            image: AssetImage(
-                              screenController.basicList[index].image,
-                            ),
-                          ),
-                          label: Text(
-                            screenController.basicList[index].name.trim(),
-                            style: TextStyleConfig.textStyle(
-                              fontFamily: FontFamilyText.sFProDisplaySemibold,
-                              textColor: AppColors.blackColor,
-                              fontSize: 16,
-                            ),
-                          ),
-                          selected: true,
-                          selectedColor: AppColors.lightOrange2Color,
-                          backgroundColor: Colors.white,
-                          shape: const StadiumBorder(
-                            side: BorderSide(
-                              color: AppColors.grey400Color,
-                              width: 1.5,
-                            ),
-                          ),
-                          onSelected: (bool value) {},
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Wrap(
+              spacing: 0.0,
+              children: List.generate(
+                screenController.basicList.length,
+                    (int index) {
+                  return (screenController.basicList[index].name != "Add" &&
+                      screenController.basicList[index].name != "" &&
+                      screenController.basicList[index].name != " cm" &&
+                      screenController.basicList[index].name != 'hidden')
+                      ? Transform(
+                    transform: Matrix4.identity()..scale(0.95),
+                    child: ChoiceChip(
+                      // avatar: CircleAvatar(
+                      //   // radius: 9.0,
+                      //   backgroundColor: Colors.transparent,
+                      //   backgroundImage: AssetImage(
+                      //       screenController.basicList[index].image),
+                      // ),
+                      avatar: Image(
+                        height: 35,
+                        width: 35,
+                        image: AssetImage(
+                          screenController.basicList[index].image,
                         ),
-                      ).commonSymmetricPadding(horizontal: 1)
-                    : const SizedBox();
-              },
-            ).toList(),
+                      ),
+                      label: Text(
+                        screenController.basicList[index].name.trim(),
+                        style: TextStyleConfig.textStyle(
+                          fontFamily: FontFamilyText.sFProDisplaySemibold,
+                          textColor: AppColors.blackColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                      selected: true,
+                      selectedColor: AppColors.lightOrange2Color,
+                      backgroundColor: Colors.white,
+                      shape: const StadiumBorder(
+                        side: BorderSide(
+                          color: AppColors.grey400Color,
+                          width: 1.5,
+                        ),
+                      ),
+                      onSelected: (bool value) {},
+                    ),
+                  ).commonSymmetricPadding(horizontal: 1)
+                      : const SizedBox();
+                },
+              ).toList(),
+            ),
           ),
         ],
         // Interest Module
-        Text(
-          "Interests",
-          style: TextStyleConfig.textStyle(
-            fontFamily: FontFamilyText.sFProDisplayBold,
-            textColor: AppColors.grey800Color,
-            //fontWeight: FontWeight.w500,
-            fontSize: 14.sp,
-          ),
-        ),
-        SizedBox(height: 2.h),
-        Wrap(
-          // spacing: 3.0,
-          children: List.generate(
-            screenController.interestList.length,
-            (int index) {
-              return Transform(
-                transform: Matrix4.identity()..scale(0.95),
-                child: ChoiceChip(
-                  avatar: screenController.interestList[index].image !=
-                          AppImages.ballImage
-                      ? CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage(
-                              screenController.interestList[index].image),
-                        )
-                      : CircleAvatar(
-                          backgroundImage: AssetImage(
-                              screenController.interestList[index].image),
-                        ),
-                  label: Text(
-                    screenController.interestList[index].name,
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.blackColor,
-                      fontSize: 16,
-                    ),
-                  ),
-                  selected: true,
-                  selectedColor: AppColors.lightOrange2Color,
-                  backgroundColor: Colors.white,
-                  shape: const StadiumBorder(
-                    side: BorderSide(
-                      color: AppColors.grey400Color,
-                      width: 1.5,
-                    ),
-                  ),
-                  onSelected: (bool value) {},
-                ),
-              ).commonSymmetricPadding(horizontal: 1);
-            },
-          ).toList(),
-        ),
-        if (screenController.languageList.isNotEmpty) ...[
-          SizedBox(height: 2.h),
-          // Language Module
-          Text(
-            "Languages I Known",
+        Padding(
+          padding: const EdgeInsets.only(left: 13),
+          child: Text(
+            "Interests",
             style: TextStyleConfig.textStyle(
               fontFamily: FontFamilyText.sFProDisplayBold,
               textColor: AppColors.grey800Color,
@@ -458,22 +426,31 @@ class AboutMeAllModule extends StatelessWidget {
               fontSize: 14.sp,
             ),
           ),
-          SizedBox(height: 2.h),
-          Wrap(
-            // spacing: 1.0,
+        ),
+        SizedBox(height: 2.h),
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Wrap(
+            // spacing: 3.0,
             children: List.generate(
-              screenController.languageList.length,
-              (int index) {
+              screenController.interestList.length,
+                  (int index) {
                 return Transform(
-                  transform: Matrix4.identity()..scale(0.9),
+                  transform: Matrix4.identity()..scale(0.95),
                   child: ChoiceChip(
-                    avatar: const CircleAvatar(
-                      radius: 9.0,
-                      backgroundImage: AssetImage(AppImages.languageImage),
+                    avatar: screenController.interestList[index].image !=
+                        AppImages.ballImage
+                        ? CircleAvatar(
                       backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(
+                          screenController.interestList[index].image),
+                    )
+                        : CircleAvatar(
+                      backgroundImage: AssetImage(
+                          screenController.interestList[index].image),
                     ),
                     label: Text(
-                      screenController.languageList[index],
+                      screenController.interestList[index].name,
                       style: TextStyleConfig.textStyle(
                         fontFamily: FontFamilyText.sFProDisplaySemibold,
                         textColor: AppColors.blackColor,
@@ -491,26 +468,134 @@ class AboutMeAllModule extends StatelessWidget {
                     ),
                     onSelected: (bool value) {},
                   ),
-                ).commonSymmetricPadding(horizontal: 5);
+                ).commonSymmetricPadding(horizontal: 1);
               },
             ).toList(),
           ),
+        ),
+        if (screenController.languageList.isNotEmpty) ...[
+          SizedBox(height: 2.h),
+          // Language Module
+          Padding(
+            padding: const EdgeInsets.only(left: 13),
+            child: Text(
+              "Languages I Known",
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayBold,
+                textColor: AppColors.grey800Color,
+                //fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+              ),
+            ),
+          ),
+          SizedBox(height: 2.h),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Wrap(
+              // spacing: 1.0,
+              children: List.generate(
+                screenController.languageList.length,
+                    (int index) {
+                  return Transform(
+                    transform: Matrix4.identity()..scale(0.9),
+                    child: ChoiceChip(
+                      avatar: const CircleAvatar(
+                        radius: 9.0,
+                        backgroundImage: AssetImage(AppImages.languageImage),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      label: Text(
+                        screenController.languageList[index],
+                        style: TextStyleConfig.textStyle(
+                          fontFamily: FontFamilyText.sFProDisplaySemibold,
+                          textColor: AppColors.blackColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                      selected: true,
+                      selectedColor: AppColors.lightOrange2Color,
+                      backgroundColor: Colors.white,
+                      shape: const StadiumBorder(
+                        side: BorderSide(
+                          color: AppColors.grey400Color,
+                          width: 1.5,
+                        ),
+                      ),
+                      onSelected: (bool value) {},
+                    ),
+                  ).commonSymmetricPadding(horizontal: 5);
+                },
+              ).toList(),
+            ),
+          ),
+          SizedBox(height: 1.h,)
         ],
+
+
+        screenController.userImages.length < 2
+            ? Container()
+            : CachedNetworkImage(
+                imageUrl: screenController.userImages[1].imageUrl,
+                height: 50.h,
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.grey500Color,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  ),
+                ),
+                errorWidget: (context, url, error) {
+                  return Container(
+                    height: 50.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.grey500Color,
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Icon(
+                      Icons.error,
+                      color: Colors.white,
+                      size: 24, // You can adjust the size of the error icon
+                    ),
+                  );
+                },
+              ),
+
         // User Image Module
         SizedBox(height: 2.h),
         screenController.userImages.length < 3
             ? Container()
-            : Container(
+            : CachedNetworkImage(
+                imageUrl: screenController.userImages[2].imageUrl,
                 height: 50.h,
-                decoration: BoxDecoration(
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 50.h,
+                  decoration: BoxDecoration(
                     color: AppColors.grey500Color,
                     image: DecorationImage(
-                      image: NetworkImage(
-                        screenController.userImages[2].imageUrl,
-                      ),
+                      image: imageProvider,
                       fit: BoxFit.cover,
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  ),
+                ),
+                errorWidget: (context, url, error) {
+                  return Container(
+                    height: 50.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.grey500Color,
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Icon(
+                      Icons.error,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  );
+                },
               ),
         // User Prompts Module
         SizedBox(height: 2.h),
@@ -578,18 +663,36 @@ class AboutMeAllModule extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, i) {
-                  return Container(
+                  return CachedNetworkImage(
+                    imageUrl: screenController.userSubImagesList[i].imageUrl,
                     height: 50.h,
-                    decoration: BoxDecoration(
+                    imageBuilder: (context, imageProvider) => Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
                         color: AppColors.grey500Color,
                         image: DecorationImage(
-                          image: NetworkImage(
-                            screenController.userSubImagesList[i].imageUrl,
-                          ),
+                          image: imageProvider,
                           fit: BoxFit.cover,
                         ),
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(20))),
+                            const BorderRadius.all(Radius.circular(20)),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) {
+                      return Container(
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          color: AppColors.grey500Color,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Icon(
+                          Icons.error,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      );
+                    },
                   ).commonSymmetricPadding(vertical: 10);
                 },
               ),
@@ -612,85 +715,94 @@ class AboutMeAllModule extends StatelessWidget {
         if (screenController.userCountry.value != '' ||
             screenController.userHomeTown.value != 'Add') ...[
           SizedBox(height: 2.h),
-          Text(
-            "${screenController.userName}'s Location",
-            style: TextStyleConfig.textStyle(
-              fontFamily: FontFamilyText.sFProDisplayBold,
-              textColor: AppColors.grey800Color,
-              //fontWeight: FontWeight.w500,
-              fontSize: 14.sp,
+          Padding(
+            padding: const EdgeInsets.only(left: 13),
+            child: Text(
+              "${screenController.userName}'s Location",
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayBold,
+                textColor: AppColors.grey800Color,
+                //fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+              ),
             ),
           ),
           if (screenController.userCountry.value != '') ...[
             SizedBox(height: 1.h),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                children: [
-                  WidgetSpan(
-                      child: Image.asset(
-                    AppImages.location2Image,
-                    height: 2.h,
-                  )),
-                  TextSpan(
-                    text: ' ${screenController.userCountry}',
-                    style: TextStyleConfig.textStyle(
-                      textColor: AppColors.grey800Color,
-                      fontFamily: FontFamilyText.sFProDisplayRegular,
-                      fontSize: 12.sp,
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    WidgetSpan(
+                        child: Image.asset(
+                      AppImages.location2Image,
+                      height: 2.h,
+                    )),
+                    TextSpan(
+                      text: ' ${screenController.userCountry}',
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.grey800Color,
+                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        fontSize: 12.sp,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 2.h),
           ],
-          Wrap(
-            // spacing: 2.0,
-            children: List.generate(
-              2,
-              (int index) {
-                return (screenController.userCountry.value == '' &&
-                            index == 0) ||
-                        (screenController.userHomeTown.value == 'Add' &&
-                            index == 1)
-                    ? const SizedBox()
-                    : Transform(
-                        transform: Matrix4.identity()..scale(0.9),
-                        child: ChoiceChip(
-                          avatar: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: index == 1
-                                ? AssetImage(AppImages.locationHome)
-                                : AssetImage(AppImages.locationNow),
-                          ),
-                          label: Text(
-                            index == 0
-                                ? 'Live in ${screenController.userCountry}'
-                                : "From ${screenController.userHomeTown}",
-                            style: TextStyleConfig.textStyle(
-                              fontFamily: FontFamilyText.sFProDisplaySemibold,
-                              textColor: AppColors.grey600Color,
-                              fontSize: 16,
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Wrap(
+              // spacing: 2.0,
+              children: List.generate(
+                2,
+                (int index) {
+                  return (screenController.userCountry.value == '' &&
+                              index == 0) ||
+                          (screenController.userHomeTown.value == 'Add' &&
+                              index == 1)
+                      ? const SizedBox()
+                      : Transform(
+                          transform: Matrix4.identity()..scale(0.9),
+                          child: ChoiceChip(
+                            avatar: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: index == 1
+                                  ? AssetImage(AppImages.locationHome)
+                                  : AssetImage(AppImages.locationNow),
                             ),
-                          ),
-                          selected: selected,
-                          selectedColor: AppColors.darkOrangeColor,
-                          backgroundColor: Colors.white,
-                          shape: const StadiumBorder(
-                            side: BorderSide(
-                              color: AppColors.grey400Color,
-                              width: 1.5,
+                            label: Text(
+                              index == 0
+                                  ? 'Live in ${screenController.userCountry}'
+                                  : "From ${screenController.userHomeTown}",
+                              style: TextStyleConfig.textStyle(
+                                fontFamily: FontFamilyText.sFProDisplaySemibold,
+                                textColor: AppColors.grey600Color,
+                                fontSize: 16,
+                              ),
                             ),
+                            selected: selected,
+                            selectedColor: AppColors.darkOrangeColor,
+                            backgroundColor: Colors.white,
+                            shape: const StadiumBorder(
+                              side: BorderSide(
+                                color: AppColors.grey400Color,
+                                width: 1.5,
+                              ),
+                            ),
+                            onSelected: (bool value) {},
                           ),
-                          onSelected: (bool value) {},
-                        ),
-                      ).commonSymmetricPadding(horizontal: 5);
-              },
-            ).toList(),
+                        );
+                },
+              ).toList(),
+            ),
           ),
         ],
       ],
-    ).commonSymmetricPadding(horizontal: 2, vertical: 20);
+    ).commonSymmetricPadding(horizontal: 2, vertical: 15);
   }
 }

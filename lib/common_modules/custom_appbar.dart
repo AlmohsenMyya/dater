@@ -8,9 +8,9 @@ import '../constants/colors.dart';
 PreferredSizeWidget commonAppBarModule(
     {required String text,
       bool isLeadingShow = true,
-    Color iconColor = AppColors.lightOrangeColor,
+    Color iconColor = AppColors.blackColor,
     String textFontFamily = "SFProDisplayRegular",
-    Color textColor = AppColors.grey800Color,
+    Color textColor = AppColors.blackColor,
     Color backGroundColor = AppColors.whiteColor2}) {
   return AppBar(
     backgroundColor: backGroundColor,

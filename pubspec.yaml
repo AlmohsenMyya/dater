@@ -63,6 +63,7 @@ dependencies:
   url_launcher: ^6.1.11
   pedometer: ^4.0.1
   cached_network_image: ^3.2.3
+  internet_connection_checker: ^1.0.0+1
 
 
 dev_dependencies:
@@ -167,6 +168,25 @@ flutter:
     - family: FranklinGothic
       fonts:
         - asset: assets/fonts/FranklinGothic.ttf
+    - family: FredokaRegular
+      fonts:
+        - asset: assets/fonts/Fredoka-Regular.ttf
+
+    - family: FredokaSemiBold
+      fonts:
+        - asset: assets/fonts/Fredoka-SemiBold.ttf
+
+    - family: FredokaBold
+      fonts:
+        - asset: assets/fonts/Fredoka-Bold.ttf
+
+    - family: whitney
+      fonts:
+        - asset: assets/fonts/whitney.otf
+
+    - family: whitneyReg
+      fonts:
+        - asset: assets/fonts/whitneymedium.otf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

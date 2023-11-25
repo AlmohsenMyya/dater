@@ -86,7 +86,7 @@ class ReorderableGridViewModule extends StatelessWidget {
       () => editProfileScreenController.isLoading.value
           ? const CustomLoader()
           : ReorderableGridView.builder(
-              itemCount: editProfileScreenController.captureImageList.length < 9
+              itemCount: editProfileScreenController.captureImageList.length < 6
                   ? editProfileScreenController.captureImageList.length + 1
                   : editProfileScreenController.captureImageList.length,
               shrinkWrap: true,
@@ -97,7 +97,7 @@ class ReorderableGridViewModule extends StatelessWidget {
                 editProfileScreenController.isLoading(true);
 
                 /// When you reorder the user images that time calling this
-                if (editProfileScreenController.captureImageList.length < 9) {
+                if (editProfileScreenController.captureImageList.length < 6) {
                   if (oldIndex !=
                           editProfileScreenController.captureImageList.length &&
                       newIndex !=

@@ -275,6 +275,7 @@ class FavoriteScreenController extends GetxController {
 
   @override
   void onInit() {
+    log('iniiit favourite controller');
     initMethod();
     super.onInit();
   }

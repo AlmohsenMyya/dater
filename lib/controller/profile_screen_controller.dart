@@ -9,7 +9,10 @@ import 'package:http/http.dart' as http;
 import '../constants/app_images.dart';
 import '../model/profile_screen_models/basic_model.dart';
 import '../model/profile_screen_models/logged_in_user_details_model.dart';
+import '../utils/functions.dart';
 import '../utils/preferences/user_preference.dart';
+import 'home_screen_controller.dart';
+import 'index_screen_controller.dart';
 
 class ProfileScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -77,6 +80,17 @@ class ProfileScreenController extends GetxController {
 
         if (successStatus.value == 200) {
           userDetails = loggedInUserDetailsModel.msg[0];
+          printAll(name: 'if new likes', '${userDetails?.newLikes}');
+          if ((userDetails?.newLikes ?? 0) > 0) {
+            HomeScreenController hsc = Get.find<HomeScreenController>();
+            hsc.newLikes.value = true;
+            hsc.refresh();
+          }
+          if ((userDetails?.newMatches ?? 0) > 0) {
+            IndexScreenController isc = Get.find<IndexScreenController>();
+            isc.newMessages.value = true;
+            isc.refresh();
+          }
 
           userName.value = loggedInUserDetailsModel.msg[0].name;
           // userProfilePrompts.value = loggedInUserDetailsModel.msg[0].profilePrompts!;
@@ -153,7 +167,6 @@ class ProfileScreenController extends GetxController {
 
   /// Set Basic Details
   void setBasicListFunction() {
-
     basicList.add(BasicModel(
         image: AppImages.heightImage, name: "${userHeight.value} cm"));
     // basicList.add(

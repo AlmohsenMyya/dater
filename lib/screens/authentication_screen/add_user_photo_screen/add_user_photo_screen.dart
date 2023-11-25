@@ -18,15 +18,16 @@ class AddUserPhotoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0.1, 1.0],
-          colors: [
-            AppColors.darkOrangeColor,
-            AppColors.yellowColor,
-          ],
-        ),
+        color: Colors.white
+        // gradient: LinearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   stops: [0.1, 1.0],
+        //   colors: [
+        //     AppColors.darkOrangeColor,
+        //     AppColors.yellowColor,
+        //   ],
+        // ),
       ),
       child: Obx(
         () => addUserPhotoScreenController.isLoading.value
@@ -67,8 +68,10 @@ class AddUserPhotoScreen extends StatelessWidget {
                         text: "Photo hints",
                         onPressed: () {},
                         size: const Size(50, 0),
+                        backgroundColor: AppColors.greyColor,
                         fontWeight: FontWeight.bold,
                         textsize: 15,
+                        textColor: Colors.white,
                         textFontFamily: "SFProDisplayHeavy",
                       ).commonSymmetricPadding(horizontal: 20),
                     ),
@@ -79,6 +82,9 @@ class AddUserPhotoScreen extends StatelessWidget {
                 ),
                 bottomNavigationBar: ButtonCustom(
                   text: "Done",
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  textColor: Colors.white,
+                  backgroundColor: AppColors.darkOrangeColor,
                   textFontFamily: FontFamilyText.sFProDisplayBold,
                   textsize: 15,
                   onPressed: () async =>

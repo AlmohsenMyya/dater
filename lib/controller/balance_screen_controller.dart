@@ -32,11 +32,14 @@ class BalanceScreenController extends GetxController {
   late Stream<PedestrianStatus> _pedestrianStatusStream;
   RxString status = '?'.obs, steps = ''.obs;
   RxString oldSteps = ''.obs;
+  RxInt todaySteps = 0.obs;
+  RxString tempDate = ''.obs;
 
   Future<void> initPlatformState() async {
     oldSteps.value = await userPreference.getStringFromPrefs(
         key: UserPreference.lastUpdatedSteps);
-
+    tempDate.value = await userPreference.getStringFromPrefs(
+        key: UserPreference.lastUpdatedStepsDate);
     _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
     _pedestrianStatusStream
         .listen(onPedestrianStatusChanged)
@@ -44,18 +47,26 @@ class BalanceScreenController extends GetxController {
 
     _stepCountStream = Pedometer.stepCountStream;
 
-    // log(name: 'steps', _stepCountStream.last.);
     _stepCountStream.listen(onStepCount).onError(onStepCountError);
-
-    // if (!mounted) return;
   }
 
   Future<void> onStepCount(StepCount event) async {
     print(event);
-    if (steps.value == '') {
-      updateStepsOnServer(event.steps);
-    }
+    // if (steps.value == '') {
+    //   updateStepsOnServer(event.steps);
+    // }
     steps.value = event.steps.toString();
+    todaySteps.value = event.steps - (int.tryParse(oldSteps.value) ?? 0);
+    DateTime? lastUpdatedDate = DateTime.tryParse(tempDate.value);
+    var now = DateTime.now();
+    if (lastUpdatedDate != null) {
+      DateTime tomorrowLastUpdatedDate =
+          lastUpdatedDate.add(Duration(days: 1));
+      if (now.isAfter(tomorrowLastUpdatedDate)) {
+        log('reset today steps');
+        updateStepsOnServer(event.steps);
+      }
+    }
   }
 
   updateStepsOnServer(int currentSteps) async {
@@ -65,8 +76,8 @@ class BalanceScreenController extends GetxController {
     int newSteps = currentSteps - lastUpdatedSteps;
     log(name: 'newSteps', newSteps.toString());
 
-    if (newSteps > 0) {
-      isLoading(true);
+    if (newSteps > 100) {
+      // isLoading(true);
       String url = ApiUrl.updateStepsApi;
       log('updateSteps Api Url : $url');
 
@@ -89,8 +100,17 @@ class BalanceScreenController extends GetxController {
               key: UserPreference.lastUpdatedSteps,
               value: currentSteps.toString(),
             );
+            await userPreference.setStringValueInPrefs(
+              key: UserPreference.lastUpdatedStepsDate,
+              value: DateTime.now().toString(),
+            );
+            tempDate.value = await userPreference.getStringFromPrefs(
+                key: UserPreference.lastUpdatedStepsDate);
+            oldSteps.value = await userPreference.getStringFromPrefs(
+                key: UserPreference.lastUpdatedSteps);
             coinValue.value = stepsModel.coins;
             log('New coinValue : ${coinValue.value}');
+            todaySteps.value = 0;
           } else {
             log('updateSteps Else');
           }
@@ -99,7 +119,7 @@ class BalanceScreenController extends GetxController {
         log('updateSteps Error :$e');
         rethrow;
       }
-      isLoading(false);
+      // isLoading(false);
     }
   }
 

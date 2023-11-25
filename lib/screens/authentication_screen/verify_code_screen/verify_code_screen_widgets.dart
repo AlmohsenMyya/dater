@@ -9,9 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
 class VerificationCodeFieldModule extends StatelessWidget {
   VerificationCodeFieldModule({super.key});
+
   final verifyCodeScreenController = Get.find<VerifyCodeScreenController>();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -187,6 +190,7 @@ class VerificationCodeFieldModule extends StatelessWidget {
 
 class ResendButtonModule extends StatelessWidget {
   ResendButtonModule({super.key});
+
   final verifyCodeScreenController = Get.find<VerifyCodeScreenController>();
 
   @override
@@ -217,6 +221,7 @@ class ResendButtonModule extends StatelessWidget {
 
 class KeyBoardeCustomModule extends StatelessWidget {
   KeyBoardeCustomModule({super.key});
+
   final verifyCodeScreenController = Get.find<VerifyCodeScreenController>();
 
   @override
@@ -305,8 +310,9 @@ class KeyBoardeCustomModule extends StatelessWidget {
                 // onTap: () {},
               ),
               KeyBordKeyModule(
+                delete: true,
                 controller: verifyCodeScreenController.controller,
-                text: "#",
+                text: "Del",
                 // onTap: () {},
               ),
             ],

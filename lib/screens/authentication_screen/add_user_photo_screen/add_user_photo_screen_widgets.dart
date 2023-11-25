@@ -15,7 +15,7 @@ class UserImageSelectModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 6,
+      itemCount: 3,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -72,7 +72,7 @@ class UserImageSelectModule extends StatelessWidget {
           ? Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: AppColors.whiteColor,
+                color: Colors.grey.shade200,
               ),
               child: Center(
                 child: Container(

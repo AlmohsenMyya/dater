@@ -18,12 +18,13 @@ class BalanceScreen extends StatelessWidget {
         ? const CustomLoader()
         : SafeArea(
           child: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
                 WidgetsBalanceModule(),
               ],
-            ).commonOnlyPadding(top: 10, bottom: 20, left: 25, right: 25),
+            ).commonOnlyPadding(top: 10, bottom: 10, left: 15, right: 15),
           ),
         ),
       ),

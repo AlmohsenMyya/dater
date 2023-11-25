@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
-  static String lastUpdatedSteps = 'lastUpdatedSteps';//String
-  static String serviceForGroundRunning = 'lastUpdatedSteps';//bool
+  static String lastUpdatedSteps = 'lastUpdatedSteps'; //String
+  static String lastUpdatedStepsDate = 'lastUpdatedStepsDate'; //String
+  static String serviceForGroundRunning = 'lastUpdatedSteps'; //bool
   static String userMobileNoKey = "userMobileNoKey"; // String
   static String userCountryCodeKey = "userCountyCodeKey"; // string
   static String userTokenKey = "userTokenKey"; // This is temp token // String
@@ -58,8 +59,11 @@ class UserPreference {
     prefs.remove(userTokenKey);
     prefs.remove(userVerifyTokenKey);
     prefs.remove(isUserLoggedInKey);
+    prefs.remove(lastUpdatedSteps);
+    prefs.remove(lastUpdatedStepsDate);
 
-    // prefs.setString(userMobileNoKey, '');
+    prefs.setString(lastUpdatedSteps, '');
+    prefs.setString(lastUpdatedStepsDate, '');
     prefs.setString(userTokenKey, '');
     prefs.setString(userVerifyTokenKey, '');
     prefs.setBool(isUserLoggedInKey, false);

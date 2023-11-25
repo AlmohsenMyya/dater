@@ -101,10 +101,10 @@ class MatchPersonData {
 }
 */
 
-
 import 'dart:convert';
 
-MatchesModel matchesModelFromJson(String str) => MatchesModel.fromJson(json.decode(str));
+MatchesModel matchesModelFromJson(String str) =>
+    MatchesModel.fromJson(json.decode(str));
 
 String matchesModelToJson(MatchesModel data) => json.encode(data.toJson());
 
@@ -122,18 +122,21 @@ class MatchesModel {
   });
 
   factory MatchesModel.fromJson(Map<String, dynamic> json) => MatchesModel(
-    response: json["response"] ?? "",
-    msg: json["msg"] == "No data" ? [] : List<MatchUserData>.from((json["msg"] ?? []).map((x) => MatchUserData.fromJson(x ?? {}))),
-    token: json["token"] ?? "",
-    statusCode: json["status_code"] ?? 0,
-  );
+        response: json["response"] ?? "",
+        msg: json["msg"] == "No data"
+            ? []
+            : List<MatchUserData>.from((json["msg"] ?? [])
+                .map((x) => MatchUserData.fromJson(x ?? {}))),
+        token: json["token"] ?? "",
+        statusCode: json["status_code"] ?? 0,
+      );
 
   Map<String, dynamic> toJson() => {
-    "response": response,
-    "msg": List<dynamic>.from(msg.map((x) => x.toJson())),
-    "token": token,
-    "status_code": statusCode,
-  };
+        "response": response,
+        "msg": List<dynamic>.from(msg.map((x) => x.toJson())),
+        "token": token,
+        "status_code": statusCode,
+      };
 }
 
 class MatchUserData {
@@ -146,6 +149,7 @@ class MatchUserData {
   int age;
   String activeTime;
   List<Interest> interest;
+
   // List<Prompt> prompts;
   int percentage;
   Basic basic;
@@ -170,38 +174,43 @@ class MatchUserData {
   });
 
   factory MatchUserData.fromJson(Map<String, dynamic> json) => MatchUserData(
-    id: json["id"] ?? "",
-    name: json["name"] ?? "",
-    bio: json["bio"] ?? "",
-    verified: json["verified"] ?? "",
-    images: List<UserImage>.from((json["images"] ?? []).map((x) => UserImage.fromJson(x ?? {}))),
-    distance: (json["distance"] ?? 0).toString(),
-    age: json["age"] ?? 0,
-    activeTime: json["active_time"] ?? "",
-    interest: List<Interest>.from((json["interest"] ?? []).map((x) => Interest.fromJson(x ?? {}))),
-    // prompts: List<Prompt>.from((json["prompts"] ?? []).map((x) => Prompt.fromJson(x ?? {}))),
-    percentage: json["percentage"] ?? 0,
-    basic: Basic.fromJson(json["basic"] ?? {}),
-    languages: json["languages"] ?? "",
-    lastMessage: LastMessage.fromJson(json["last_message"].toString() == "[]" ? {} : json["last_message"]),
-  );
+        id: json["id"] ?? "",
+        name: json["name"] ?? "",
+        bio: json["bio"] ?? "",
+        verified: json["verified"] ?? "",
+        images: List<UserImage>.from(
+            (json["images"] ?? []).map((x) => UserImage.fromJson(x ?? {}))),
+        distance: (json["distance"] ?? 0).toString(),
+        age: json["age"] ?? 0,
+        activeTime: json["active_time"] ?? "",
+        interest: List<Interest>.from(
+            (json["interest"] ?? []).map((x) => Interest.fromJson(x ?? {}))),
+        // prompts: List<Prompt>.from((json["prompts"] ?? []).map((x) => Prompt.fromJson(x ?? {}))),
+        percentage: json["percentage"] ?? 0,
+        basic: Basic.fromJson(json["basic"] ?? {}),
+        languages: json["languages"] ?? "",
+        lastMessage: LastMessage.fromJson(
+            json["last_message"].toString() == "[]"
+                ? {}
+                : json["last_message"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "bio": bio,
-    "verified": verified,
-    "images": List<dynamic>.from(images.map((x) => x.toJson())),
-    "distance": distance,
-    "age": age,
-    "active_time": activeTime,
-    "interest": List<dynamic>.from(interest.map((x) => x.toJson())),
-    // "prompts": List<dynamic>.from(prompts.map((x) => x.toJson())),
-    "percentage": percentage,
-    "basic": basic.toJson(),
-    "languages": languages,
-    "last_message": lastMessage.toJson(),
-  };
+        "id": id,
+        "name": name,
+        "bio": bio,
+        "verified": verified,
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        "distance": distance,
+        "age": age,
+        "active_time": activeTime,
+        "interest": List<dynamic>.from(interest.map((x) => x.toJson())),
+        // "prompts": List<dynamic>.from(prompts.map((x) => x.toJson())),
+        "percentage": percentage,
+        "basic": basic.toJson(),
+        "languages": languages,
+        "last_message": lastMessage.toJson(),
+      };
 }
 
 class Basic {
@@ -230,30 +239,30 @@ class Basic {
   });
 
   factory Basic.fromJson(Map<String, dynamic> json) => Basic(
-    gender: json["gender"] ?? "",
-    work: json["work"] ?? "",
-    education: json["education"] ?? "",
-    height: json["height"] ?? "",
-    exercise: json["exercise"] ?? "",
-    smoking: json["smoking"] ?? "",
-    drinking: json["drinking"] ?? "",
-    politics: json["politics"] ?? "",
-    religion: json["religion"] ?? "",
-    kids: json["kids"] ?? "",
-  );
+        gender: json["gender"] ?? "",
+        work: json["work"] ?? "",
+        education: json["education"] ?? "",
+        height: json["height"] ?? "",
+        exercise: json["exercise"] ?? "",
+        smoking: json["smoking"] ?? "",
+        drinking: json["drinking"] ?? "",
+        politics: json["politics"] ?? "",
+        religion: json["religion"] ?? "",
+        kids: json["kids"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "gender": gender,
-    "work": work,
-    "education": education,
-    "height": height,
-    "exercise": exercise,
-    "smoking": smoking,
-    "drinking": drinking,
-    "politics": politics,
-    "religion": religion,
-    "kids": kids,
-  };
+        "gender": gender,
+        "work": work,
+        "education": education,
+        "height": height,
+        "exercise": exercise,
+        "smoking": smoking,
+        "drinking": drinking,
+        "politics": politics,
+        "religion": religion,
+        "kids": kids,
+      };
 }
 
 class UserImage {
@@ -264,12 +273,12 @@ class UserImage {
   });
 
   factory UserImage.fromJson(Map<String, dynamic> json) => UserImage(
-    imageUrl: json["image_url"] ?? "",
-  );
+        imageUrl: json["image_url"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "image_url": imageUrl,
-  };
+        "image_url": imageUrl,
+      };
 }
 
 class Interest {
@@ -280,12 +289,12 @@ class Interest {
   });
 
   factory Interest.fromJson(Map<String, dynamic> json) => Interest(
-    name: json["name"] ?? "",
-  );
+        name: json["name"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-  };
+        "name": name,
+      };
 }
 
 class LastMessage {
@@ -300,16 +309,16 @@ class LastMessage {
   });
 
   factory LastMessage.fromJson(Map<String, dynamic> json) => LastMessage(
-    messageText: json["message_text"] ?? "",
-    isSeen: (json["is_seen"] ?? 0).toString(),
-    clientMessage: json["client_message"] ?? false,
-  );
+        messageText: json["message_text"] ?? "",
+        isSeen: (json["is_seen"] ?? 0).toString(),
+        clientMessage: json["client_message"] ?? false,
+      );
 
   Map<String, dynamic> toJson() => {
-    "message_text": messageText,
-    "is_seen": isSeen,
-    "client_message": clientMessage,
-  };
+        "message_text": messageText,
+        "is_seen": isSeen,
+        "client_message": clientMessage,
+      };
 }
 
 // class Prompt {

@@ -130,27 +130,30 @@ class ChatListModule extends StatelessWidget {
                         : FontWeight.bold,
                   ),
                 ),
-                trailing: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 7,
-                      width: 7,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: person.lastMessage.isSeen == 1
-                            ? Colors.transparent
-                            : AppColors.darkOrangeColor,
+                trailing: Visibility(
+                  visible: false,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 7,
+                        width: 7,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: person.lastMessage.isSeen == 1
+                              ? Colors.transparent
+                              : AppColors.darkOrangeColor,
+                        ),
                       ),
-                    ),
-                    /*Text(
-                      "9:27 AM",
-                      style: TextStyleConfig.textStyle(
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
-                        textColor: AppColors.grey500Color,
-                      ),
-                    ).commonOnlyPadding(top: 3),*/
-                  ],
+                      /*Text(
+                        "9:27 AM",
+                        style: TextStyleConfig.textStyle(
+                          fontFamily: FontFamilyText.sFProDisplayRegular,
+                          textColor: AppColors.grey500Color,
+                        ),
+                      ).commonOnlyPadding(top: 3),*/
+                    ],
+                  ),
                 ),
               ),
             );

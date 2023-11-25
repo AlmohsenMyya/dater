@@ -1,5 +1,4 @@
 import 'package:dater/common_modules/custom_loader.dart';
-import 'package:dater/constants/app_images.dart';
 import 'package:dater/constants/colors.dart';
 import 'package:dater/screens/authentication_screen/login_screen/login_screen_widgets.dart';
 import 'package:dater/utils/extensions.dart';
@@ -11,6 +10,7 @@ import '../../../controller/auth_screen_controllers/login_screen_controller.dart
 
 class LoginInScreen extends StatelessWidget {
   LoginInScreen({super.key});
+
   final loginInScreenController = Get.put(LoginInScreenController());
 
   @override
@@ -23,11 +23,11 @@ class LoginInScreen extends StatelessWidget {
             width: Get.width,
             height: Get.height,
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.splashBackgroundImage2),
-                fit: BoxFit.fill,
-              ),
-            ),
+                // image: DecorationImage(
+                //   image: AssetImage(AppImages.splashBackgroundImage2),
+                //   fit: BoxFit.fill,
+                // ),
+                color: AppColors.darkOrangeColor),
           ),
           SafeArea(
             child: Obx(

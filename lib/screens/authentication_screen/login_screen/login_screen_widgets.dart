@@ -26,6 +26,7 @@ class ColumnWidgets extends StatelessWidget {
         Expanded(
             flex: 45,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -33,55 +34,55 @@ class ColumnWidgets extends StatelessWidget {
                     SizedBox(
                       height: 28.w,
                       width: 28.w,
-                      child: Image.asset(AppImages.appIcon),
+                      child: Image.asset(AppImages.appIconWithName),
                     ),
                   ],
                 ),
                 // SizedBox(height: 0.5.h),
-                Text(
-                  AppMessages.bambo,
-                  style: TextStyle(
-                      fontSize: 25.sp,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 6,
-                          offset: Offset(0,3),
-                        )
-                      ],
-                      fontFamily: FontFamilyText.franklinGothic,
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.w300),
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
-                Text(
-                    textAlign: TextAlign.center,
-                    AppMessages.walk,
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.bullpen3D,
-                      textColor: AppColors.whiteColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 32,
-                    )),
-                Text(
-                    textAlign: TextAlign.center,
-                    AppMessages.findWhat,
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.bullpen3D,
-                      textColor: AppColors.whiteColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 32,
-                    )),
-                Text(
-                    textAlign: TextAlign.center,
-                    AppMessages.completesYou,
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.bullpen3D,
-                      textColor: AppColors.whiteColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 32,
-                    )),
+                // Text(
+                //   AppMessages.bambo,
+                //   style: TextStyle(
+                //       fontSize: 25.sp,
+                //       shadows: [
+                //         Shadow(
+                //           blurRadius: 6,
+                //           offset: Offset(0,3),
+                //         )
+                //       ],
+                //       fontFamily: FontFamilyText.fredokaBold,
+                //       color: AppColors.whiteColor,
+                //       fontWeight: FontWeight.w300),
+                // ),
+                // SizedBox(
+                //   height: 4.h,
+                // ),
+                // Text(
+                //     textAlign: TextAlign.center,
+                //     AppMessages.walk,
+                //     style: TextStyleConfig.textStyle(
+                //       fontFamily: FontFamilyText.bullpen3D,
+                //       textColor: AppColors.whiteColor,
+                //       fontWeight: FontWeight.w500,
+                //       fontSize: 32,
+                //     )),
+                // Text(
+                //     textAlign: TextAlign.center,
+                //     AppMessages.findWhat,
+                //     style: TextStyleConfig.textStyle(
+                //       fontFamily: FontFamilyText.bullpen3D,
+                //       textColor: AppColors.whiteColor,
+                //       fontWeight: FontWeight.w500,
+                //       fontSize: 32,
+                //     )),
+                // Text(
+                //     textAlign: TextAlign.center,
+                //     AppMessages.completesYou,
+                //     style: TextStyleConfig.textStyle(
+                //       fontFamily: FontFamilyText.bullpen3D,
+                //       textColor: AppColors.whiteColor,
+                //       fontWeight: FontWeight.w500,
+                //       fontSize: 32,
+                //     )),
               ],
             )),
         Expanded(
@@ -186,8 +187,8 @@ class ColumnWidgets extends StatelessWidget {
                     TextSpan(
                       text: AppMessages.authScreen1,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        textColor: AppColors.blackColor,
+                        fontFamily: FontFamilyText.whitneyReg,
                         fontSize: 11.5.sp,
                       ),
                     ),
@@ -197,8 +198,8 @@ class ColumnWidgets extends StatelessWidget {
                             screenController.urlLauncher(AppMessages.termsUrl),
                       text: AppMessages.terms,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        textColor: AppColors.blackColor,
+                        fontFamily: FontFamilyText.whitney,
                         fontSize: 11.5.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -206,8 +207,8 @@ class ColumnWidgets extends StatelessWidget {
                     TextSpan(
                       text: AppMessages.authText2,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        textColor: AppColors.blackColor,
+                        fontFamily: FontFamilyText.whitneyReg,
                         fontSize: 11.5.sp,
                       ),
                     ),
@@ -217,8 +218,8 @@ class ColumnWidgets extends StatelessWidget {
                             .urlLauncher(AppMessages.privacyUrl),
                       text: AppMessages.privacyPolicy,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        textColor: AppColors.blackColor,
+                        fontFamily: FontFamilyText.whitney,
                         fontSize: 11.5.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -226,8 +227,8 @@ class ColumnWidgets extends StatelessWidget {
                     TextSpan(
                       text: AppMessages.and,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        textColor: AppColors.blackColor,
+                        fontFamily: FontFamilyText.whitneyReg,
                         fontSize: 11.5.sp,
                       ),
                     ),
@@ -237,8 +238,8 @@ class ColumnWidgets extends StatelessWidget {
                             .urlLauncher(AppMessages.communityUrl),
                       text: AppMessages.communityGuidelines,
                       style: TextStyleConfig.textStyle(
-                        textColor: AppColors.whiteColor,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
+                        textColor: AppColors.blackColor,
+                        fontFamily: FontFamilyText.whitney,
                         fontSize: 11.5.sp,
                         fontWeight: FontWeight.bold,
                       ),

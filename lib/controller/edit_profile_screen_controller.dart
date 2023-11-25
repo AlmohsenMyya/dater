@@ -371,7 +371,7 @@ class EditProfileScreenController extends GetxController {
           // profilePromptsController.text = userDetails!.profilePrompts!;
           myBioController.text = userDetails!.bio;
           myNameController.text = userDetails!.name;
-          endVal.value = double.parse(userDetails!.basic.height);
+          endVal.value = double.tryParse(userDetails!.basic.height)??120;
 
           languageList.clear();
           if (loggedInUserDetailsModel.msg[0].languages.isNotEmpty) {

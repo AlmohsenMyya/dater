@@ -15,7 +15,7 @@ class AppMessages {
   static String and = "and ";
   static String communityGuidelines = "Community Guidelines";
   static String signUpWithphoneNumber = "Sign up with phone number";
-  static String signInWithphoneNumber = "Use your phone number";
+  static String signInWithphoneNumber = "Use mobile number";
   static String termsOfUseAndPrivacyPolice = "Terms of Use and Privacy Policy";
   static String referralNumber =
       "Do you have a referral number from a friend ?";
@@ -76,6 +76,8 @@ class AppMessages {
       "Being honest will help everyone to get the best experience .";
   static String skip = "Skip";
   static String next = "Next";
+  static String continueText = "Continue";
+  static String welcome = "Welcome !";
   static String chooseChatext =
       "You can choose up to 8 things you love, \nit will help you find your soulmate .";
   static String apiCallWrong = "Something went wrong!";
@@ -104,8 +106,9 @@ class AppMessages {
       "Every regather  will cost you 1 coins";
   static String filterScreenText = "You can add one or all filters";
   static String yourBalance = "Your Balance";
-  static String coinsBalance = "Coins Balance";
+  static String coinsBalance = "Your Balance is";
   static String totalSteps = "Total Steps";
+  static String todaySteps = "Today Steps";
   static String earnMoreCoins = "Earn more coins";
   static String learnMore = "Learn more";
   static String rateUs = "Rate us";
@@ -200,4 +203,16 @@ class AppMessages {
   static String religionApiText = "religion";
   static String goalApiText = "goal";
   static String countryApiText = "country_id";
+  static String welcomeToBambo =
+      "Welcome to Bambo, where we're delighted to have \n"
+      "you join our dating community.\n"
+      "Our mission is to simplify your journey and promote a \n"
+      "more eco-conscious lifestyle. ";
+  static String kindnessAnd =
+      'Kindness and respect are our guiding principles.';
+  static String weStrive = 'We strive to protect and nurture nature.';
+  static String asYouExplore =
+      'As you explore Bambo, you\'ll earn coins simply \nby walking, aligning your actions with our \ncommitment to sustainability.';
+  static String rememberThat =
+      'Remember that these earned coins can be used \nwithin the Bambo platform, reflecting our \ndedication to both your dating experience and the \nenvironment.';
 }

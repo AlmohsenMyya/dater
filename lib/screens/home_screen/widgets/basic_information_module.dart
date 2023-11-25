@@ -21,68 +21,74 @@ class BasicInFormationModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // printAll("object ${homeScreenController.basicList.length}");
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (basicList.any(
-            (element) => (element.name != '' && element.name != ' cm'))) ...[
-          Row(
-            children: [
-              Text(
-                AppMessages.basics,
-                style: TextStyleConfig.textStyle(
-                  fontSize: 16.sp,
-                  fontFamily: FontFamilyText.sFProDisplayBold,
-                  textColor: AppColors.grey800Color,
+    return Padding(
+      padding: const EdgeInsets.only(left: 13),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (basicList.any(
+              (element) => (element.name != '' && element.name != ' cm'))) ...[
+            Row(
+              children: [
+                Text(
+                  AppMessages.basics,
+                  style: TextStyleConfig.textStyle(
+                    fontSize: 16.sp,
+                    fontFamily: FontFamilyText.sFProDisplayBold,
+                    textColor: AppColors.grey800Color,
+                  ),
                 ),
+              ],
+            ),
+            SizedBox(height: 2.h),
+            Padding(
+              padding: const EdgeInsets.only(left: 7),
+              child: Wrap(
+                spacing: 0.0,
+                children: List.generate(
+                  basicList.length,
+                  (int index) {
+                    return (basicList[index].name == '') ||
+                            (basicList[index].name == ' cm') ||
+                            (basicList[index].name == 'hidden')
+                        ? const SizedBox()
+                        : Transform(
+                            transform: Matrix4.identity()..scale(0.93),
+                            child: ChoiceChip(
+                              avatar: CircleAvatar(
+                                radius: 9.0,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: AssetImage(
+                                  basicList[index].image,
+                                ),
+                              ).commonOnlyPadding(left: 1),
+                              label: Text(
+                                basicList[index].name,
+                                style: TextStyleConfig.textStyle(
+                                  fontFamily: FontFamilyText.sFProDisplaySemibold,
+                                  textColor: AppColors.blackColor,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              selected: true,
+                              selectedColor: AppColors.lightOrange2Color,
+                              backgroundColor: Colors.white,
+                              shape: const StadiumBorder(
+                                side: BorderSide(
+                                  color: AppColors.grey400Color,
+                                  width: 1.5,
+                                ),
+                              ),
+                              onSelected: (bool value) {},
+                            ),
+                          );
+                  },
+                ).toList(),
               ),
-            ],
-          ),
-          SizedBox(height: 2.h),
-          Wrap(
-            spacing: 0.0,
-            children: List.generate(
-              basicList.length,
-              (int index) {
-                return (basicList[index].name == '') ||
-                        (basicList[index].name == ' cm') ||
-                        (basicList[index].name == 'hidden')
-                    ? const SizedBox()
-                    : Transform(
-                        transform: Matrix4.identity()..scale(0.93),
-                        child: ChoiceChip(
-                          avatar: CircleAvatar(
-                            radius: 9.0,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: AssetImage(
-                              basicList[index].image,
-                            ),
-                          ).commonOnlyPadding(left: 1),
-                          label: Text(
-                            basicList[index].name,
-                            style: TextStyleConfig.textStyle(
-                              fontFamily: FontFamilyText.sFProDisplaySemibold,
-                              textColor: AppColors.blackColor,
-                              fontSize: 16,
-                            ),
-                          ),
-                          selected: true,
-                          selectedColor: AppColors.lightOrange2Color,
-                          backgroundColor: Colors.white,
-                          shape: const StadiumBorder(
-                            side: BorderSide(
-                              color: AppColors.grey400Color,
-                              width: 1.5,
-                            ),
-                          ),
-                          onSelected: (bool value) {},
-                        ),
-                      );
-              },
-            ).toList(),
-          )
+            )
+          ],
         ],
-      ],
+      ),
     );
   }
 }

@@ -131,7 +131,7 @@ class MyNumberInnerScreenController extends GetxController {
               loginModel.msg.toLowerCase() ==
                       "Account created successfully".toLowerCase()
                   ? AuthAs.register
-                  : authAs,
+                  : AuthAs.login,
               ComingFrom.registerScreen,
             ],
           );

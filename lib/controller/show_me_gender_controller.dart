@@ -87,6 +87,7 @@ class ShowMeGenderScreenController extends GetxController {
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['token'] = verifyToken;
       request.fields[key] = value;
+      // request.fields['target_gender'] = selectedGenderValue.id;
 
       log('Request Field : ${request.fields}');
       var response = await request.send();
@@ -116,7 +117,6 @@ class ShowMeGenderScreenController extends GetxController {
 
   void radioButtonChangeFunction(Msg selectedValue) {
     isLoading(true);
-    //TODO:edit gender on server
     selectedGenderValue = selectedValue;
     isLoading(false);
   }

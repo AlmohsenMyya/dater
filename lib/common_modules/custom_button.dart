@@ -1,4 +1,3 @@
-import 'package:dater/constants/app_images.dart';
 import 'package:dater/constants/colors.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dater/utils/style.dart';
@@ -11,12 +10,12 @@ class ButtonCustom extends StatelessWidget {
   Color textColor;
   FontWeight? fontWeight;
   double? textsize;
-
   Size? size;
   Function() onPressed;
   Color backgroundColor;
   String textFontFamily;
   EdgeInsetsGeometry? padding;
+  RoundedRectangleBorder? borderShape;
 
   ButtonCustom({
     Key? key,
@@ -30,6 +29,7 @@ class ButtonCustom extends StatelessWidget {
     required this.onPressed,
     this.shadowColor = AppColors.grey900Color,
     this.textFontFamily = "SFProDisplayBold",
+    this.borderShape,
   }) : super(key: key);
 
   @override
@@ -41,9 +41,10 @@ class ButtonCustom extends StatelessWidget {
         backgroundColor: backgroundColor,
         elevation: 6,
         minimumSize: size,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
+        shape: borderShape ??
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
       ),
       onPressed: onPressed,
       child: Text(

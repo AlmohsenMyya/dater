@@ -142,31 +142,64 @@ class MainAppBar extends GetView<HomeScreenController>
               width: 35,
             ),
           ),
-          // Heart button
-          GestureDetector(
-            onTap: () {
-              Get.to(() => FavoriteScreen());
-            },
-            child: Image.asset(
-              AppImages.hardImage,
-              height: 35,
-              width: 35,
-              // fit: BoxFit.cover
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            'Bambo',
+            style: TextStyle(
+              fontFamily: FontFamilyText.fredokaBold,
+              color: AppColors.darkOrangeColor,
+              fontSize: 26,
             ),
           ),
-          // Filter screen
-          GestureDetector(
-            onTap: () {
-              Get.to(
-                () => FilterScreen(),
-              );
-            },
-            child: Image.asset(
-              AppImages.menuImage,
-              height: 35,
-              width: 35,
-            ),
-          ),
+         Row(
+           children: [
+             Obx(
+                   () => GestureDetector(
+                 onTap: () {
+                   controller.newLikes.value = false;
+                   Get.to(() => FavoriteScreen());
+                 },
+                 child: Stack(
+                   children: [
+                     Image.asset(
+                       AppImages.hardImage,
+                       height: 35,
+                       width: 35,
+                     ),
+                     if (controller.newLikes.value)
+                       Positioned(
+                         top: 0,
+                         right: 0,
+                         child: Container(
+                           width: 10,
+                           height: 10,
+                           decoration: BoxDecoration(
+                             shape: BoxShape.circle,
+                             color: AppColors.darkOrangeColor,
+                           ),
+                         ),
+                       ),
+                   ],
+                 ),
+               ),
+             ),
+             SizedBox(width: 25,),
+             GestureDetector(
+               onTap: () {
+                 Get.to(
+                       () => FilterScreen(),
+                 );
+               },
+               child: Image.asset(
+                 AppImages.menuImage,
+                 height: 35,
+                 width: 35,
+               ),
+             ),
+           ],
+         )
         ],
       ).commonSymmetricPadding(horizontal: 20, vertical: 15),
     );

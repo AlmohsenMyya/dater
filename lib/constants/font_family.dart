@@ -12,5 +12,10 @@ class FontFamilyText {
   static String bullpen3D = "Bullpen3D";
   static String sitka = "Sitka";
   static String franklinGothic = "FranklinGothic";
+  static String fredokaRegular = "FredokaRegular";
+  static String fredokaSemiBold = "FredokaSemiBold";
+  static String fredokaBold = "FredokaBold";
+  static String whitney = "whitney";
+  static String whitneyReg = "whitneyReg";
 
 }

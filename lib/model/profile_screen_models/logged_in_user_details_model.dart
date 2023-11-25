@@ -57,6 +57,8 @@ class UserDetails {
     required this.prompts,
     required this.percentage,
     required this.country,
+    required this.newLikes,
+    required this.newMatches,
   });
 
   String id;
@@ -77,6 +79,8 @@ class UserDetails {
   List<Prompt> prompts;
   int percentage;
   String country;
+  int newLikes;
+  int newMatches;
 
   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         id: json["id"] ?? "",
@@ -101,6 +105,8 @@ class UserDetails {
         // percentage: json["percentage"] ?? 0,
         percentage: json["percentage"] ?? 0,
         country: json["country"] ?? "",
+        newLikes: json["new_likes"] ?? 0,
+        newMatches: json["new_matches"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -119,6 +125,8 @@ class UserDetails {
         "basic": basic.toJson(),
         "prompts": List<dynamic>.from(prompts.map((x) => x.toJson())),
         "percentage": percentage,
+        "new_likes": newLikes,
+        "new_matches": newMatches,
       };
 }
 

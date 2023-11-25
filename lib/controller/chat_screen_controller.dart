@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dater/controller/index_screen_controller.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ import '../utils/preferences/user_preference.dart';
 
 class ChatScreenController extends GetxController {
   MatchUserData personData = Get.arguments[0];
+
   // MatchPersonData? personData = MatchPersonData(id: "2");
   RxBool isLoading = false.obs;
   RxInt successStatus = 0.obs;
@@ -30,48 +32,37 @@ class ChatScreenController extends GetxController {
   var dioRequest = dio.Dio();
   RxBool isTimerOn = true.obs;
 
-
-  /// Get All Chats Function
-  Future<void> getUserAllChatList() async {
-    isLoading(true);
-    String url = ApiUrl.getChatListApi;
-    log('getUserAllChatList Api Url : $url');
-
+  Future<void> unMatchuser() async {
+    String url = ApiUrl.unMatchApi;
     try {
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
-      String userId = await userPreference.getStringFromPrefs(key: UserPreference.userIdKey);
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
+      String userId = await userPreference.getStringFromPrefs(
+          key: UserPreference.userIdKey);
       log('Client userId : ${personData.id}');
       log('My userId : $userId');
 
       var request = http.MultipartRequest('POST', Uri.parse(url));
 
       request.fields['token'] = verifyToken;
-      request.fields['sender_id'] = personData.id;
+      request.fields['client_id'] = personData.id;
 
       var response = await request.send();
 
       response.stream.transform(utf8.decoder).listen((value) async {
-        log('getChatListFunction Value : $value');
-
-        MessageListModel messageListModel = MessageListModel.fromJson(json.decode(value));
-        successStatus.value = messageListModel.statusCode;
-
-        if(successStatus.value == 200) {
-          chatList.clear();
-          chatList.addAll(messageListModel.msg.reversed);
-          // chatList.addAll(messageListModel.msg);
-          log('chatList Length : ${chatList.length}');
+        log('unmatch Value : $value');
+        if (successStatus.value == 200) {
+        Get.back();
         } else {
-          log('sendChatMessageFunction Else');
+          log('getUserChatMessagesFunction Else');
         }
       });
-    } catch(e) {
-      log('getUserAllChatList Error :$e');
+    } catch (e) {
+      log('getUserChatMessagesFunction Error :$e');
       rethrow;
     }
-    isLoading(false);
+    loadUI();
   }
-
 
   /// Send Message
   Future<void> sendChatMessageFunction() async {
@@ -79,7 +70,8 @@ class ChatScreenController extends GetxController {
     log('sendChatMessageFunction Api Url : $url');
 
     try {
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
 
       var formData = dio.FormData.fromMap({
         'token': verifyToken,
@@ -89,16 +81,18 @@ class ChatScreenController extends GetxController {
 
       log('Send chat formData : ${formData.fields}');
 
-
       var response = await dioRequest.post(url, data: formData);
       log('sendChatMessageFunction Response : ${response.data}');
 
-      MessageSendModel messageSendModel = MessageSendModel.fromJson(json.decode(response.data));
+      MessageSendModel messageSendModel =
+          MessageSendModel.fromJson(json.decode(response.data));
       successStatus.value = messageSendModel.statusCode;
 
-      if(successStatus.value == 200) {
+      if (successStatus.value == 200) {
         // Fluttertoast.showToast(msg: messageSendModel.msg);
-        chatList.add(ChatData(messageText: textEditingController.text.trim(), clientMessage: true));
+        chatList.add(ChatData(
+            messageText: textEditingController.text.trim(),
+            clientMessage: true));
         textEditingController.clear();
       } else {
         log('sendChatMessageFunction Else');
@@ -126,23 +120,25 @@ class ChatScreenController extends GetxController {
         }
 
       });*/
-
-    } catch(e) {
+    } catch (e) {
       log('sendChatMessageFunction Error :$e');
       rethrow;
     }
     loadUI();
   }
 
-
   /// Continuously call the api
   Future<void> getUserChatMessagesFunction() async {
+   
+
     String url = ApiUrl.getChatListApi;
     log('getUserChatMessagesFunction Api Url : $url');
 
     try {
-      String verifyToken = await userPreference.getStringFromPrefs(key: UserPreference.userVerifyTokenKey);
-      String userId = await userPreference.getStringFromPrefs(key: UserPreference.userIdKey);
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
+      String userId = await userPreference.getStringFromPrefs(
+          key: UserPreference.userIdKey);
       log('Client userId : ${personData.id}');
       log('My userId : $userId');
 
@@ -156,26 +152,40 @@ class ChatScreenController extends GetxController {
       response.stream.transform(utf8.decoder).listen((value) async {
         log('getUserChatMessagesFunction Value : $value');
 
-        MessageListModel messageListModel = MessageListModel.fromJson(json.decode(value));
+        MessageListModel messageListModel =
+            MessageListModel.fromJson(json.decode(value));
         successStatus.value = messageListModel.statusCode;
 
-        if(successStatus.value == 200) {
-          chatList.clear();
-          chatList.addAll(messageListModel.msg.reversed);
-          // chatList.addAll(messageListModel.msg);
+        if (successStatus.value == 200) {
+          List<ChatData> newMessages = messageListModel.msg.reversed.toList();
+
+          // Check for new messages and add them to the chatList
+          for (var newMessage in newMessages) {
+            checkForNewMessages(newMessage);
+          }
+
           log('chatList Length : ${chatList.length}');
         } else {
           log('getUserChatMessagesFunction Else');
         }
       });
-    } catch(e) {
+    } catch (e) {
       log('getUserChatMessagesFunction Error :$e');
       rethrow;
     }
     loadUI();
   }
 
+  void checkForNewMessages(ChatData newMessage) {
+    bool isNewMessage = chatList.every((existingMessage) =>
+        existingMessage.messageText != newMessage.messageText);
 
+    if (isNewMessage) {
+      chatList.add(newMessage);
+      Get.find<IndexScreenController>().newMessages.value = true;
+      // isNewMessageIndicator.value = true;
+    }
+  }
 
   @override
   void onInit() {
@@ -185,19 +195,17 @@ class ChatScreenController extends GetxController {
 
   Future<void> initMethod() async {
     focusNode.addListener(() {
-      if(focusNode.hasFocus){
+      if (focusNode.hasFocus) {
         isEmojiVisible.value = false;
       }
     });
 
-    await getUserAllChatList();
-
-    // isTimerOn.value
-    //     ?
     Timer.periodic(const Duration(seconds: 10), (timer) async {
-      isTimerOn.value ? await getUserChatMessagesFunction() : null;
-          });
-        // : () {};
+      isTimerOn.value ? {await getUserChatMessagesFunction()} : null;
+    });
+    // Timer.periodic(const Duration(seconds: 10), (timer) async {
+    //   await getUserChatMessagesFunction();
+    // });
   }
 
   /*@override
@@ -220,13 +228,60 @@ class ChatScreenController extends GetxController {
     // Timer(const Duration(milliseconds: 100), () {}).cancel();
   }
 
-  // @override
-  // // TODO: implement onDelete
-  // InternalFinalCallback<void> get onDelete => deleteControllerFunction();
-  //
-  // deleteControllerFunction(){
-  //   super.onDelete;
-  //   Timer(const Duration(seconds: 1), () {}).cancel();
-  // }
+// @override
+// // TODO: implement onDelete
+// InternalFinalCallback<void> get onDelete => deleteControllerFunction();
+//
+// deleteControllerFunction(){
+//   super.onDelete;
+//   Timer(const Duration(seconds: 1), () {}).cancel();
+// }
 
+  /// Get All Chats Function
+// Future<void> getUserAllChatList() async {
+//   // isLoading(true);
+//   String url = ApiUrl.getChatListApi;
+//   log('getUserAllChatList Api Url : $url');
+//
+//   try {
+//     String verifyToken = await userPreference.getStringFromPrefs(
+//         key: UserPreference.userVerifyTokenKey);
+//     String userId = await userPreference.getStringFromPrefs(
+//         key: UserPreference.userIdKey);
+//     log('Client userId : ${personData.id}');
+//     log('My userId : $userId');
+//
+//     var request = http.MultipartRequest('POST', Uri.parse(url));
+//
+//     request.fields['token'] = verifyToken;
+//     request.fields['sender_id'] = personData.id;
+//
+//     var response = await request.send();
+//
+//     response.stream.transform(utf8.decoder).listen((value) async {
+//       log('getChatListFunction Value : $value');
+//
+//       MessageListModel messageListModel =
+//       MessageListModel.fromJson(json.decode(value));
+//       successStatus.value = messageListModel.statusCode;
+//
+//       if (successStatus.value == 200) {
+//         List<ChatData> newMessages = messageListModel.msg.reversed.toList();
+//
+//         // Check for new messages and add them to the chatList
+//         for (var newMessage in newMessages) {
+//           checkForNewMessages(newMessage);
+//         }
+//         // chatList.addAll(messageListModel.msg);
+//         log('chatList Length : ${chatList.length}');
+//       } else {
+//         log('sendChatMessageFunction Else');
+//       }
+//     });
+//   } catch (e) {
+//     log('getUserAllChatList Error :$e');
+//     rethrow;
+//   }
+//   // isLoading(false);
+// }
 }

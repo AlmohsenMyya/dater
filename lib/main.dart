@@ -4,9 +4,11 @@ import 'package:flutter_foreground_service/flutter_foreground_service.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import 'utils/AppController.dart';
+
 Future<void> main() async {
   runApp(const MyApp());
-
+  Get.put(AppController(), permanent: true);
   ForegroundService().start();
 }
 

@@ -46,7 +46,7 @@ class GenderSelectScreenController extends GetxController {
         log('mainGenderList :${mainGenderList.length}');
         log('nonBinaryGenderList :${nonBinaryGenderList.length}');
 
-        log("selectedGenderValue: $selectedGenderValue");
+        log("selectedGenderValue: ${selectedGenderValue.name}");
 
         log("selectedGenderValue: $selectedGenderValue");
         // log("selectedGenderValueId: $selectedGenderValueId");

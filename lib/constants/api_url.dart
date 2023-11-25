@@ -1,5 +1,6 @@
 class ApiUrl {
   static const apiMainPath = "https://oudeen.com/dater/";
+
   //authantication api's
   static const loginApi = "${apiMainPath}api/login";
   static const accountActiveApi = "${apiMainPath}api/activate";
@@ -8,6 +9,7 @@ class ApiUrl {
 
   static const getGenderApi = "${apiMainPath}api/get_genders";
   static const getGoalApi = "${apiMainPath}api/get_goals";
+
   // static const getSexualityApi = "${apiMainPath}api/get_sexuality";
   // static const getTargetGenderApi = "${apiMainPath}api/get_target_gender";
 
@@ -19,10 +21,10 @@ class ApiUrl {
   static const getCountryCodeApi = "http://country.io/phone.json";
 
   //home screen api's
-  static const likeProfileApi="${apiMainPath}api/like";
-  static const superLoveProfileApi="${apiMainPath}api/like";
+  static const likeProfileApi = "${apiMainPath}api/like";
+  static const superLoveProfileApi = "${apiMainPath}api/like";
 
-  static const matchesApi="${apiMainPath}api/matches";
+  static const matchesApi = "${apiMainPath}api/matches";
   static const getLikerApi = "${apiMainPath}api/likers";
   static const unBlurImgApi = "${apiMainPath}api/unblur_liker_image";
 
@@ -35,9 +37,11 @@ class ApiUrl {
   static const updateUserLocationApi = "${apiMainPath}api/update_location";
   static const getUserAgeApi = "${apiMainPath}api/get_birth_year";
   static const sendMessageApi = "${apiMainPath}api/messages/send";
+  static const unMatchApi = "${apiMainPath}api/unmatch";
   static const getChatListApi = "${apiMainPath}api/messages/open";
   static const getSuggestionApi = "${apiMainPath}api/suggestions";
-  static const getLoggedInUserProfileApi = "${apiMainPath}api/get_logged_full_details";
+  static const getLoggedInUserProfileApi =
+      "${apiMainPath}api/get_logged_full_details";
   static const setUserLanguageApi = "${apiMainPath}api/set_language";
   static const deleteUserPhotoApi = "${apiMainPath}api/delete_photo";
   static const getLanguageApi = "${apiMainPath}api/get_languages";
@@ -49,16 +53,15 @@ class ApiUrl {
   static const setPromptsApi = "${apiMainPath}api/set_prompt";
   static const getPrivacyPolicyApi = "${apiMainPath}api/get_privacy_policy";
   static const getTermsAndConditionApi = "${apiMainPath}api/get_terms_of_use";
-  static const getCommunityGuidelineApi = "${apiMainPath}api/get_community_guidelines";
+  static const getCommunityGuidelineApi =
+      "${apiMainPath}api/get_community_guidelines";
   static const setVerifiedApi = "${apiMainPath}api/set_as_verified";
-  static const uploadVerificationPhotoApi = "${apiMainPath}api/upload_verification_photo";
+  static const uploadVerificationPhotoApi =
+      "${apiMainPath}api/upload_verification_photo";
   static const changePhoneNumberApi = "${apiMainPath}api/change_phone_number";
   static const setCoverImageApi = "${apiMainPath}api/set_cover_photo";
   static const getCountriesApi = "${apiMainPath}api/get_contries";
 
   static const getReportsTypesApi = "${apiMainPath}api/get_report_options";
   static const reportUser = "${apiMainPath}api/report_account";
-
-
-
 }

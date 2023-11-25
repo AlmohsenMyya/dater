@@ -31,10 +31,8 @@ class AddUserPhotoScreenController extends GetxController {
     File(""),
     File(""),
     File(""),
-    File(""),
-    File(""),
-    File("")
   ];
+  List<bool> uploadedSuccessfully = [false, false, false];
   bool isImageUploadInApiSuccess = false;
   SignUpPreference signUpPreference = SignUpPreference();
   UserPreference userPreference = UserPreference();
@@ -48,7 +46,7 @@ class AddUserPhotoScreenController extends GetxController {
       );
 
       if (pickedFile != null) {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 3; i++) {
           if (index == i) {
             File tempImg = File(pickedFile.path);
             if (tempImg.lengthSync() <= 2000000) {
@@ -137,28 +135,38 @@ class AddUserPhotoScreenController extends GetxController {
 
   // Photo Save button function
   Future<void> doneButtonFunction() async {
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 3; i++) {
       if (imagesNew[i].path.isEmpty) {
-        Fluttertoast.showToast(msg: "Please select six photos");
+        Fluttertoast.showToast(msg: "Please select three photos");
         return;
       }
     }
     isLoading(true);
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 3; i++) {
       String imagesName = '';
       imagesName = imagesNew[i].path.toString().split("/").last;
       log('image-Name-$i : $imagesName');
 
-      if (imagesName != '') {
-        await uploadImageFunction(imagesNew[i]);
+      try {
+        if (imagesName != '' && !uploadedSuccessfully[i]) {
+          await uploadImageFunction(imagesNew[i]);
+        }
+      } catch (e) {
+        Fluttertoast.showToast(msg: 'Error, try another image');
+        isLoading(false);
+        imagesNew[i] = File('');
+        uploadedSuccessfully[i] = false;
+        return;
       }
+      uploadedSuccessfully[i] = true;
     }
 
     Timer(
-      const Duration(milliseconds: 500),
+      const Duration(milliseconds: 200),
       () {
         if (isImageUploadInApiSuccess == true) {
           Get.to(() => DobSelectScreen());
+          isLoading(false);
         } else {
           Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
         }

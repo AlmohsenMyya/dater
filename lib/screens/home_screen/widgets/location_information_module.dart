@@ -21,94 +21,103 @@ class LocationInformationModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (singleItem.distance! != "Not available" ||
-            singleItem.country != '' ||
-            singleItem.homeTown != '') ...[
-          Row(
-            children: [
-              Image.asset(
-                AppImages.location2Image,
-                height: 3.h,
-                width: 3.h,
-              ),
-              SizedBox(width: 1.w),
-              Text(
-                "${singleItem.name}${AppMessages.locationText}",
-                style: TextStyleConfig.textStyle(
-                  fontSize: 16.sp,
-                  fontFamily: FontFamilyText.sFProDisplayBold,
-                  textColor: AppColors.grey800Color,
+    return Padding(
+      padding: const EdgeInsets.only(left: 13),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (singleItem.distance! != "Not available" ||
+              singleItem.country != '' ||
+              singleItem.homeTown != '') ...[
+            Row(
+              children: [
+                Image.asset(
+                  AppImages.location2Image,
+                  height: 3.h,
+                  width: 3.h,
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 2.h),
-          singleItem.distance! == "Not available"
-              ? Container()
-              : Row(
+                SizedBox(width: 1.w),
+                Text(
+                  "${singleItem.name}${AppMessages.locationText}",
+                  style: TextStyleConfig.textStyle(
+                    fontSize: 16.sp,
+                    fontFamily: FontFamilyText.sFProDisplayBold,
+                    textColor: AppColors.grey800Color,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 2.h),
+            singleItem.distance! == "Not available"
+                ? Container()
+                : Row(
                   children: [
-                    Text(
-                      textAlign: TextAlign.start,
-                      // "${singleItem.homeTown}\n${singleItem.distance} km away",
-                      "${singleItem.distance} km away",
-                      style: TextStyleConfig.textStyle(
-                        fontFamily: FontFamilyText.sFProDisplaySemibold,
-                        textColor: AppColors.grey600Color,
-                        fontSize: 12.sp,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 7),
+                      child: Text(
+                        textAlign: TextAlign.start,
+                        // "${singleItem.homeTown}\n${singleItem.distance} km away",
+                        "${singleItem.distance} km away",
+                        style: TextStyleConfig.textStyle(
+                          fontFamily: FontFamilyText.sFProDisplaySemibold,
+                          textColor: AppColors.grey600Color,
+                          fontSize: 12.sp,
+                        ),
                       ),
                     ),
                   ],
                 ),
-          singleItem.distance! == "Not available"
-              ? Container()
-              : SizedBox(height: 2.h),
+            singleItem.distance! == "Not available"
+                ? Container()
+                : SizedBox(height: 2.h),
+          ],
+          Padding(
+            padding: const EdgeInsets.only(left: 7),
+            child: Wrap(
+              spacing: 0.0,
+              children: List.generate(
+                2,
+                (int index) {
+                  return (singleItem.country == '' && index == 0) ||
+                          (singleItem.homeTown == '' && index == 1)
+                      ? const SizedBox()
+                      : Transform(
+                          transform: Matrix4.identity()..scale(0.93),
+                          child: ChoiceChip(
+                            avatar: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: index == 1
+                                  ? AssetImage(AppImages.locationHome)
+                                  : AssetImage(AppImages.locationNow),
+                            ).commonOnlyPadding(left: 2),
+                            label: Text(
+                              index == 0
+                                  ? "Live in ${singleItem.country!}"
+                                  : "From ${singleItem.homeTown!}",
+                              style: TextStyleConfig.textStyle(
+                                fontFamily: FontFamilyText.sFProDisplaySemibold,
+                                textColor: AppColors.grey600Color,
+                                fontSize: 16,
+                              ),
+                            ),
+                            selected: false,
+                            selectedColor: AppColors.darkOrangeColor,
+                            backgroundColor: Colors.white,
+                            shape: const StadiumBorder(
+                              side: BorderSide(
+                                color: AppColors.grey400Color,
+                                width: 1.5,
+                              ),
+                            ),
+                            onSelected: (bool value) {},
+                          ),
+                        );
+                },
+              ).toList(),
+            ),
+          ),
         ],
-        Wrap(
-          spacing: 0.0,
-          children: List.generate(
-            2,
-            (int index) {
-              return (singleItem.country == '' && index == 0) ||
-                      (singleItem.homeTown == '' && index == 1)
-                  ? const SizedBox()
-                  : Transform(
-                      transform: Matrix4.identity()..scale(0.93),
-                      child: ChoiceChip(
-                        avatar: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: index == 1
-                              ? AssetImage(AppImages.locationHome)
-                              : AssetImage(AppImages.locationNow),
-                        ).commonOnlyPadding(left: 2),
-                        label: Text(
-                          index == 0
-                              ? "Live in ${singleItem.country!}"
-                              : "From ${singleItem.homeTown!}",
-                          style: TextStyleConfig.textStyle(
-                            fontFamily: FontFamilyText.sFProDisplaySemibold,
-                            textColor: AppColors.grey600Color,
-                            fontSize: 16,
-                          ),
-                        ),
-                        selected: false,
-                        selectedColor: AppColors.darkOrangeColor,
-                        backgroundColor: Colors.white,
-                        shape: const StadiumBorder(
-                          side: BorderSide(
-                            color: AppColors.grey400Color,
-                            width: 1.5,
-                          ),
-                        ),
-                        onSelected: (bool value) {},
-                      ),
-                    );
-            },
-          ).toList(),
-        )
-      ],
+      ),
     );
   }
 }

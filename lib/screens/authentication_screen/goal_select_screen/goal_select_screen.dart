@@ -56,6 +56,7 @@ class GoalSelectScreen extends StatelessWidget {
         text: "Next",
         textFontFamily: FontFamilyText.sFProDisplayBold,
         textsize: 15,
+        padding: EdgeInsets.symmetric(vertical: 5),
         backgroundColor: AppColors.darkOrangeColor,
         textColor: AppColors.whiteColor2,
         onPressed: () async => await goalSelectScreenController.nextButtonFunction(),

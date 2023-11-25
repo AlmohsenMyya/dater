@@ -3,8 +3,8 @@ import 'dart:developer';
 
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/constants/messages.dart';
+import 'package:dater/screens/index_screen/index_bindeing.dart';
 import 'package:dater/screens/index_screen/index_screen.dart';
-import 'package:dater/utils/functions.dart';
 import 'package:dater/utils/preferences/user_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,7 +16,6 @@ import '../../model/authentication_model/verify_code_screen_model/account_active
 import '../../model/authentication_model/verify_code_screen_model/resend_code_model.dart';
 import '../../screens/authentication_screen/sign_up_email_screen/sign_up_email_screen.dart';
 import '../../utils/preferences/signup_preference.dart';
-import '../index_screen_controller.dart';
 
 class VerifyCodeScreenController extends GetxController {
   String countryCode = Get.arguments[0] ?? "";
@@ -51,7 +50,7 @@ class VerifyCodeScreenController extends GetxController {
     "9",
     "*",
     "0",
-    "#",
+    "Del",
   ];
 
   // Active Account
@@ -77,18 +76,19 @@ class VerifyCodeScreenController extends GetxController {
         AccountActiveModel accountActiveModel =
             AccountActiveModel.fromJson(json.decode(value));
 
-        bool isCompleteRegister = await userPreference.getUserLoggedInFromPrefs(
-            key: UserPreference.completeRegister);
-        //TODO : get from backend if it's a complete account or not without use complete register button
-        printAll(name: 'complete register', '$isCompleteRegister');
+        // bool isCompleteRegister = await userPreference.getUserLoggedInFromPrefs(
+        //     key: UserPreference.completeRegister);
+        // //TODO : get from backend if it's a complete account or not without use complete register button
+        // printAll(name: 'complete register', '$isCompleteRegister');
+
         if (accountActiveModel.statusCode == 200) {
           log('Msg : ${accountActiveModel.msg}');
-          if (!isCompleteRegister) {
+          if (!accountActiveModel.infoCompleted) {
             authAs = AuthAs.register;
           }
           if (accountActiveModel.msg.toLowerCase() ==
                   "Account already activated".toLowerCase() &&
-              isCompleteRegister) {
+              accountActiveModel.infoCompleted) {
             await userPreference.setStringValueInPrefs(
               key: UserPreference.userVerifyTokenKey,
               value: accountActiveModel.token,

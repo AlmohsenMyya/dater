@@ -60,25 +60,59 @@ class IndexScreen extends GetView<IndexScreenController> {
           items: [
             BottomNavigationBarItem(
               icon: Image.asset(
-                AppImages.balanceImage,
+                width: 27,
+                height: 27,
+                controller.selectedIndex.value == 0
+                    ? AppImages.balanceIconSelected
+                    : AppImages.balanceIconUnSelected,
               ),
               label: '',
             ),
             BottomNavigationBarItem(
               icon: Image.asset(
-                AppImages.favoriteImage,
+                width: 27,
+                height: 27,
+                controller.selectedIndex.value == 1
+                    ? AppImages.favoriteIconSelected
+                    : AppImages.favoriteIconUnselected,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Stack(
+                children: [
+                  Image.asset(
+                    width: 27,
+                    height: 27,
+                    controller.selectedIndex.value == 2
+                        ? AppImages.messageIconSelected
+                        : AppImages.messageIconUnselected,
+                  ),
+                  if (controller.newMessages.value)
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        width: 10, // Adjust the size of the dot as needed
+                        height: 10,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors
+                              .darkOrangeColor, // You can change the color of the dot
+                        ),
+                      ),
+                    ),
+                ],
               ),
               label: '',
             ),
             BottomNavigationBarItem(
               icon: Image.asset(
-                AppImages.messageImage,
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                AppImages.personImage,
+                width: 27,
+                height: 27,
+                controller.selectedIndex.value == 3
+                    ? AppImages.personIconSelected
+                    : AppImages.personIconUnselected,
               ),
               label: '',
             ),

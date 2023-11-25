@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:dater/constants/enums.dart';
 import 'package:dater/screens/authentication_screen/login_screen/login_screen.dart';
+import 'package:dater/screens/index_screen/index_bindeing.dart';
 import 'package:dater/screens/index_screen/index_screen.dart';
 import 'package:get/get.dart';
 
 import '../utils/preferences/user_preference.dart';
-import 'index_screen_controller.dart';
 
 class SplashScreenController extends GetxController {
   AuthAs authAs = AuthAs.login;

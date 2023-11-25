@@ -17,8 +17,12 @@ class DobSelectModule extends StatelessWidget {
     return Container(
       width: Get.size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColors.whiteColor,
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.grey.shade200,
+        border: Border.all(
+          color: AppColors.grey300Color,
+          width: 2,
+        ),
       ),
       child: GestureDetector(
         onTap: () {
@@ -45,7 +49,7 @@ class DobSelectModule extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             const Divider(
-              color: AppColors.grey300Color,
+              color: AppColors.grey600Color,
               height: 1,
               endIndent: 10,
               indent: 10,
@@ -62,7 +66,7 @@ class DobSelectModule extends StatelessWidget {
           ],
         ).commonSymmetricPadding(horizontal: 10, vertical: 20),
       ),
-    );
+    ).paddingSymmetric(horizontal: 10);
   }
 
   void _showDatePicker(ctx) {

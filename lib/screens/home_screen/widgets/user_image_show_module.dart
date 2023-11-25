@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dater/constants/app_images.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
@@ -28,30 +29,32 @@ class UserImageShowModule extends StatelessWidget {
     // printAll('userImagesList : ${userImagesList}');
 
     return userImagesList.length > imageListIndex
-        ? SizedBox(
-            height: 56.h,
-            width: Get.width,
-            // decoration: BoxDecoration(
-            //   borderRadius: BorderRadius.circular(15),
-            // ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                userImagesList[imageShowIndex].imageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (context, obj, st) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      AppImages.swiper1Image,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ).commonSymmetricPadding(vertical: 5)
-        : Container();
+        ? CachedNetworkImage(
+      imageUrl: userImagesList[imageShowIndex].imageUrl,
+      height: 56.h,
+      width: Get.width,
+      imageBuilder: (context, imageProvider) => SizedBox(
+        height: 56.h,
+        width: Get.width,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image(
+            image: imageProvider,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      errorWidget: (context, url, error) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.asset(
+            AppImages.swiper1Image,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        );
+      },
+    ).commonSymmetricPadding(vertical: 5)
+    : Container();
   }
 }

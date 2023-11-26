@@ -14,7 +14,7 @@ import '../model/authentication_model/complete signup_screen_model/complete sign
 import '../utils/preferences/user_preference.dart';
 
 class ShowMeGenderScreenController extends GetxController {
-  String showMeGenderValue = Get.arguments[0];
+  String showMeGenderValue = Get.arguments[0].value;
   RxBool isLoading = false.obs;
   RxBool isSuccessStatus = false.obs;
   RxInt successStatus = 0.obs;

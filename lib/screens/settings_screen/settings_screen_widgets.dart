@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dater/constants/enums.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/screens/authentication_screen/location_screen/location_screen.dart';
@@ -19,7 +17,6 @@ import '../../controller/settings_screen_controller.dart';
 import '../../utils/style.dart';
 import '../personal_info_screen/personal_info_screen.dart';
 import '../set_up_email_screen/set_up_email_screen.dart';
-import '../show_me_gender_screen/show_me_gender_screen.dart';
 
 class ReferralNumberModule extends StatelessWidget {
   ReferralNumberModule({Key? key}) : super(key: key);
@@ -344,71 +341,6 @@ class LocationModule extends StatelessWidget {
   }
 }
 
-class ShowMeModule extends StatelessWidget {
-  ShowMeModule({Key? key}) : super(key: key);
-  final screenController = Get.find<SettingsScreenController>();
-
-  @override
-  Widget build(BuildContext context) {
-    log("screenController.showMeGender ${screenController.showMeGender}");
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.gray50Color,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 5.0,
-            offset: Offset(-0, 3),
-            color: AppColors.grey800Color,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppMessages.showMe,
-            style: TextStyleConfig.textStyle(
-              fontFamily: FontFamilyText.sFProDisplayBold,
-              textColor: AppColors.grey800Color,
-              fontSize: 14.sp,
-            ),
-          ),
-          SizedBox(height: 1.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                screenController.showMeGender,
-                style: TextStyleConfig.textStyle(
-                  fontFamily: FontFamilyText.sFProDisplaySemibold,
-                  textColor: AppColors.grey600Color,
-                  fontSize: 14.sp,
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Get.to(
-                    () => ShowMeGenderScreen(),
-                    arguments: [screenController.showMeGender],
-                  )!
-                      .then((value) async {
-                    await screenController.getShowMeGenderValueFromPrefs();
-                  });
-                },
-                icon: const Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: AppColors.grey600Color,
-                  size: 20,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ).commonOnlyPadding(right: 6.w, left: 6.w, top: 2.h, bottom: 2.h),
-    );
-  }
-}
 
 class CookiePolicyModule extends StatelessWidget {
   const CookiePolicyModule({Key? key}) : super(key: key);

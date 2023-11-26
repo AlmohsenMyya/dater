@@ -9,6 +9,7 @@ import 'package:dater/constants/font_family.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/model/profile_screen_models/logged_in_user_details_model.dart';
 import 'package:dater/screens/language_select_screen/language_select_screen.dart';
+import 'package:dater/screens/show_me_gender_screen/show_me_gender_screen.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:dater/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -263,6 +264,112 @@ class ReorderableGridViewModule extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class ShowMeModule extends StatelessWidget {
+  ShowMeModule({Key? key}) : super(key: key);
+  final screenController = Get.put(EditProfileScreenController());
+
+  @override
+  Widget build(BuildContext context) {
+    log("screenController.showMeGender ${screenController.showMeGender}");
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppMessages.showMe,
+          style: TextStyleConfig.textStyle(
+            fontFamily: FontFamilyText.sFProDisplaySemibold,
+            textColor: AppColors.grey800Color,
+            fontSize: 16.sp,
+          ),
+        ),
+        SizedBox(height: 1.h),
+        GestureDetector(
+          onTap: () {
+            Get.to(
+              () => ShowMeGenderScreen(),
+              arguments: [screenController.showMeGender],
+            )!
+                .then((value) async {
+              await screenController.getShowMeGenderValueFromPrefs();
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                color: AppColors.grey300Color,
+                width: 3,
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        screenController.showMeGender.value,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyleConfig.textStyle(
+                          fontFamily: FontFamilyText.sFProDisplaySemibold,
+                          textColor: AppColors.blackColor,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: AppColors.grey600Color,
+                  size: 15.sp,
+                ),
+                /*IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: AppColors.grey600Color,
+                          ),
+                        ),*/
+              ],
+            ).commonAllSidePadding(10),
+          ),
+        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Text(
+        //       screenController.showMeGender.value,
+        //       style: TextStyleConfig.textStyle(
+        //         fontFamily: FontFamilyText.sFProDisplaySemibold,
+        //         textColor: AppColors.grey600Color,
+        //         fontSize: 14.sp,
+        //       ),
+        //     ),
+        //     // IconButton(
+        //     //   onPressed: () {
+        //     //     Get.to(
+        //     //       () => ShowMeGenderScreen(),
+        //     //       arguments: [screenController.showMeGender],
+        //     //     )!
+        //     //         .then((value) async {
+        //     //       await screenController.getShowMeGenderValueFromPrefs();
+        //     //     });
+        //     //   },
+        //     //   icon: const Icon(
+        //     //     Icons.arrow_forward_ios_outlined,
+        //     //     color: AppColors.grey600Color,
+        //     //     size: 20,
+        //     //   ),
+        //     // ),
+        //   ],
+        // ),
+      ],
     );
   }
 }
@@ -894,7 +1001,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(height: 5.h),
+        SizedBox(height: 3.h),
         GestureDetector(
           onTap: () {
             editProfileScreenController.goToEditInterests();
@@ -957,6 +1064,9 @@ class EditProfileScreenWidgets extends StatelessWidget {
           ),
         ),
 
+        SizedBox(height: 5.h),
+        ShowMeModule(),
+
         /// Language Box
         SizedBox(height: 5.h),
         Row(
@@ -1006,7 +1116,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
               children: List.generate(
                 editProfileScreenController.languageList.length,
                 (int index) {
-                  bool selected = true;
+                  // bool selected = true;
                   return Transform(
                     transform: Matrix4.identity()..scale(0.9),
                     child: ChoiceChip(

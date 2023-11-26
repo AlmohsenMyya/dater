@@ -37,6 +37,7 @@ class LanguageSelectScreenController extends GetxController {
       var response = await request.send();
 
       response.stream.transform(utf8.decoder).listen((value) async {
+
         LanguageModel languageModel = LanguageModel.fromJson(json.decode(value));
         successStatus.value = languageModel.statusCode;
 

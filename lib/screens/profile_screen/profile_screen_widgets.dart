@@ -314,7 +314,6 @@ class AboutMeAllModule extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         // About Me Module
         if (screenController.userBio.value != '') ...[
           Padding(
@@ -367,47 +366,47 @@ class AboutMeAllModule extends StatelessWidget {
               spacing: 0.0,
               children: List.generate(
                 screenController.basicList.length,
-                    (int index) {
+                (int index) {
                   return (screenController.basicList[index].name != "Add" &&
-                      screenController.basicList[index].name != "" &&
-                      screenController.basicList[index].name != " cm" &&
-                      screenController.basicList[index].name != 'hidden')
+                          screenController.basicList[index].name != "" &&
+                          screenController.basicList[index].name != " cm" &&
+                          screenController.basicList[index].name != 'hidden')
                       ? Transform(
-                    transform: Matrix4.identity()..scale(0.95),
-                    child: ChoiceChip(
-                      // avatar: CircleAvatar(
-                      //   // radius: 9.0,
-                      //   backgroundColor: Colors.transparent,
-                      //   backgroundImage: AssetImage(
-                      //       screenController.basicList[index].image),
-                      // ),
-                      avatar: Image(
-                        height: 35,
-                        width: 35,
-                        image: AssetImage(
-                          screenController.basicList[index].image,
-                        ),
-                      ),
-                      label: Text(
-                        screenController.basicList[index].name.trim(),
-                        style: TextStyleConfig.textStyle(
-                          fontFamily: FontFamilyText.sFProDisplaySemibold,
-                          textColor: AppColors.blackColor,
-                          fontSize: 16,
-                        ),
-                      ),
-                      selected: true,
-                      selectedColor: AppColors.lightOrange2Color,
-                      backgroundColor: Colors.white,
-                      shape: const StadiumBorder(
-                        side: BorderSide(
-                          color: AppColors.grey400Color,
-                          width: 1.5,
-                        ),
-                      ),
-                      onSelected: (bool value) {},
-                    ),
-                  ).commonSymmetricPadding(horizontal: 1)
+                          transform: Matrix4.identity()..scale(0.95),
+                          child: ChoiceChip(
+                            // avatar: CircleAvatar(
+                            //   // radius: 9.0,
+                            //   backgroundColor: Colors.transparent,
+                            //   backgroundImage: AssetImage(
+                            //       screenController.basicList[index].image),
+                            // ),
+                            avatar: Image(
+                              height: 35,
+                              width: 35,
+                              image: AssetImage(
+                                screenController.basicList[index].image,
+                              ),
+                            ),
+                            label: Text(
+                              screenController.basicList[index].name.trim(),
+                              style: TextStyleConfig.textStyle(
+                                fontFamily: FontFamilyText.sFProDisplaySemibold,
+                                textColor: AppColors.blackColor,
+                                fontSize: 16,
+                              ),
+                            ),
+                            selected: true,
+                            selectedColor: AppColors.lightOrange2Color,
+                            backgroundColor: Colors.white,
+                            shape: const StadiumBorder(
+                              side: BorderSide(
+                                color: AppColors.grey400Color,
+                                width: 1.5,
+                              ),
+                            ),
+                            onSelected: (bool value) {},
+                          ),
+                        ).commonSymmetricPadding(horizontal: 1)
                       : const SizedBox();
                 },
               ).toList(),
@@ -434,21 +433,21 @@ class AboutMeAllModule extends StatelessWidget {
             // spacing: 3.0,
             children: List.generate(
               screenController.interestList.length,
-                  (int index) {
+              (int index) {
                 return Transform(
                   transform: Matrix4.identity()..scale(0.95),
                   child: ChoiceChip(
                     avatar: screenController.interestList[index].image !=
-                        AppImages.ballImage
+                            AppImages.ballImage
                         ? CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: NetworkImage(
-                          screenController.interestList[index].image),
-                    )
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: NetworkImage(
+                                screenController.interestList[index].image),
+                          )
                         : CircleAvatar(
-                      backgroundImage: AssetImage(
-                          screenController.interestList[index].image),
-                    ),
+                            backgroundImage: AssetImage(
+                                screenController.interestList[index].image),
+                          ),
                     label: Text(
                       screenController.interestList[index].name,
                       style: TextStyleConfig.textStyle(
@@ -495,7 +494,7 @@ class AboutMeAllModule extends StatelessWidget {
               // spacing: 1.0,
               children: List.generate(
                 screenController.languageList.length,
-                    (int index) {
+                (int index) {
                   return Transform(
                     transform: Matrix4.identity()..scale(0.9),
                     child: ChoiceChip(
@@ -528,9 +527,10 @@ class AboutMeAllModule extends StatelessWidget {
               ).toList(),
             ),
           ),
-          SizedBox(height: 1.h,)
+          SizedBox(
+            height: 1.h,
+          )
         ],
-
 
         screenController.userImages.length < 2
             ? Container()
@@ -564,6 +564,51 @@ class AboutMeAllModule extends StatelessWidget {
                 },
               ),
 
+        SizedBox(height: 2.h),
+        for(int i=0;i<screenController.promptsList.length;i++)...[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 13),
+                child: Text(
+                  screenController.promptsList[i].question,
+                  style: TextStyleConfig.textStyle(
+                    fontFamily: FontFamilyText.sFProDisplaySemibold,
+                    textColor: AppColors.grey700Color,
+                    //fontWeight: FontWeight.w500,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+              SizedBox(height: 1.h),
+              Padding(
+                padding: const EdgeInsets.only(left: 13),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: AppColors.grey400Color,
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    screenController.promptsList[i].answer,
+                    textAlign: TextAlign.center,
+                    style: TextStyleConfig.textStyle(
+                      fontFamily: FontFamilyText.sFProDisplaySemibold,
+                      textColor: AppColors.grey600Color,
+                      //fontWeight: FontWeight.w500,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
         // User Image Module
         SizedBox(height: 2.h),
         screenController.userImages.length < 3
@@ -598,63 +643,8 @@ class AboutMeAllModule extends StatelessWidget {
                 },
               ),
         // User Prompts Module
-        SizedBox(height: 2.h),
-        screenController.promptsList.length > 1
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    screenController.promptsList[1].question,
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.sFProDisplaySemibold,
-                      textColor: AppColors.grey300Color,
-                      //fontWeight: FontWeight.w500,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                  SizedBox(height: 1.h),
-                  Container(
-                    width: Get.width,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: AppColors.grey400Color,
-                        width: 1,
-                      ),
-                    ),
-                    child: Text(
-                      screenController.promptsList[1].answer,
-                      textAlign: TextAlign.center,
-                      style: TextStyleConfig.textStyle(
-                        fontFamily: FontFamilyText.sFProDisplaySemibold,
-                        textColor: AppColors.grey600Color,
-                        //fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            /*RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text:
-                          "${screenController.promptsList[1].question}${screenController.promptsList[1].answer}",
-                      style: TextStyleConfig.textStyle(
-                        textColor: AppColors.grey800Color,
-                        fontFamily: FontFamilyText.sFProDisplayRegular,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              )*/
-            : Container(),
 
-        // User Images Module
+
         SizedBox(height: 2.h),
         screenController.userImages.length < 4
             ? Container()

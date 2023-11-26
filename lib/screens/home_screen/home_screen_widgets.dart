@@ -475,54 +475,55 @@ class SwipeUserModule extends GetView<HomeScreenController> {
                                     ).commonSymmetricPadding(vertical: 5)
                                   : Container(),
 
-                              singleItem.prompts!.isNotEmpty
-                                  ? Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 13),
-                                          child: Text(
-                                            singleItem.prompts![0].question,
-                                            style: TextStyleConfig.textStyle(
-                                              fontFamily: FontFamilyText
-                                                  .sFProDisplaySemibold,
-                                              textColor: AppColors.grey700Color,
-//fontWeight: FontWeight.w500,
-                                              fontSize: 16.sp,
-                                            ),
+                              for (int i = 0;
+                                  i < (singleItem.prompts?.length ?? 0);
+                                  i++) ...[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 13),
+                                      child: Text(
+                                        singleItem.prompts![i].question,
+                                        style: TextStyleConfig.textStyle(
+                                          fontFamily: FontFamilyText
+                                              .sFProDisplaySemibold,
+                                          textColor: AppColors.grey700Color,
+                                          //fontWeight: FontWeight.w500,
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 1.h),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 13),
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 15),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          border: Border.all(
+                                            color: AppColors.grey400Color,
+                                            width: 1,
                                           ),
                                         ),
-                                        SizedBox(height: 1.h),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 20),
-                                          child: Container(
-                                            width: Get.width,
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              border: Border.all(
-                                                color: AppColors.grey400Color,
-                                                width: 1,
-                                              ),
-                                            ),
-                                            child: Text(
-                                              singleItem.prompts![0].answer,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyleConfig.textStyle(
-                                                fontFamily: FontFamilyText
-                                                    .sFProDisplaySemibold,
-                                                textColor: AppColors.blackColor,
-//fontWeight: FontWeight.w500,
-                                                fontSize: 12.sp,
-                                              ),
-                                            ),
+                                        child: Text(
+                                          singleItem.prompts![i].answer,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyleConfig.textStyle(
+                                            fontFamily: FontFamilyText
+                                                .sFProDisplaySemibold,
+                                            textColor: AppColors.blackColor,
+                                            //fontWeight: FontWeight.w500,
+                                            fontSize: 12.sp,
                                           ),
                                         ),
-                                      ],
-                                    ).commonSymmetricPadding(vertical: 5)
-                                  : Container(),
+                                      ),
+                                    ),
+                                  ],
+                                ).commonSymmetricPadding(vertical: 5)
+                              ],
 //
 
                               /// User Images Module

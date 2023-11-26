@@ -40,6 +40,15 @@ class EditProfileScreenController extends GetxController {
 
   List<Interest> interestList = [];
   List<String> languageList = [];
+  RxString showMeGender = "".obs;
+
+  Future<void> getShowMeGenderValueFromPrefs() async {
+    showMeGender.value = await userPreference.getStringFromPrefs(
+        key: UserPreference.isShowMeGenderKey);
+    isLoading(true);
+    isLoading(false);
+    log("showMeGender $showMeGender");
+  }
 
   goToEditInterests() async {
     log('going to interests');
@@ -90,6 +99,7 @@ class EditProfileScreenController extends GetxController {
 
   // RxList<File> captureImageList = RxList<File>();
   RxList<UploadUserImage> captureImageList = RxList<UploadUserImage>();
+
   // RxDouble startVal = 120.0.obs;
   RxDouble endVal = 120.0.obs;
   File? file;
@@ -371,7 +381,7 @@ class EditProfileScreenController extends GetxController {
           // profilePromptsController.text = userDetails!.profilePrompts!;
           myBioController.text = userDetails!.bio;
           myNameController.text = userDetails!.name;
-          endVal.value = double.tryParse(userDetails!.basic.height)??120;
+          endVal.value = double.tryParse(userDetails!.basic.height) ?? 120;
 
           languageList.clear();
           if (loggedInUserDetailsModel.msg[0].languages.isNotEmpty) {

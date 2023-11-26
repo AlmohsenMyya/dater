@@ -19,7 +19,6 @@ class SettingsScreenController extends GetxController {
 
   RxString referralNumber = "".obs;
 
-  String showMeGender = "";
   String userVerified = "";
 
   UserPreference userPreference = UserPreference();
@@ -56,7 +55,7 @@ class SettingsScreenController extends GetxController {
       rethrow;
     }
     // isLoading(false);
-    await getShowMeGenderValueFromPrefs();
+    // await getShowMeGenderValueFromPrefs();
   }
 
   /// Copy Text Function
@@ -110,13 +109,7 @@ class SettingsScreenController extends GetxController {
     isLoading(false);
   }
 
-  Future<void> getShowMeGenderValueFromPrefs() async {
-    showMeGender = await userPreference.getStringFromPrefs(
-        key: UserPreference.isShowMeGenderKey);
-    isLoading(true);
-    isLoading(false);
-    log("showMeGender $showMeGender");
-  }
+
 
   @override
   void onInit() {

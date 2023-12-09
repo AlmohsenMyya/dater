@@ -25,7 +25,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
           child: Image.asset(
             AppImages.balanceHeader,
             width: Get.width,
-            height: 9.h,
+            height: 60,
           ),
         ),
 
@@ -47,13 +47,13 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
             margin: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                SizedBox(height: 3.h, width: Get.width),
+                SizedBox(height: 3, width: Get.width),
                 Text(
                   AppMessages.coinsBalance,
                   style: TextStyleConfig.textStyle(
                     fontFamily: FontFamilyText.fredokaSemiBold,
                     textColor: AppColors.darkOrangeColor,
-                    fontSize: 20.sp,
+                    fontSize: 35,
                   ),
                 ),
                 Row(
@@ -66,7 +66,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                       image: const AssetImage(AppImages.balanceIcon),
                     ),
                     SizedBox(
-                      height: 10.h,
+                      height: 15,
                       width: 2.w,
                     ),
                     Text(
@@ -76,13 +76,13 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                       style: TextStyleConfig.textStyle(
                         fontFamily: FontFamilyText.whitney,
                         textColor: AppColors.blackColor,
-                        fontSize: 55.sp,
+                        fontSize: 60,
                       ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 1.h,
+                  height: 15,
                 ),
                 Obx(
                   () => Row(
@@ -99,14 +99,14 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                     ],
                   ),
                 ),
-                SizedBox(height: 3.h),
+                SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
                       text: 'Your daily rate of coins : ',
                       style: TextStyleConfig.textStyle(
                         fontFamily: FontFamilyText.whitneyReg,
                         textColor: AppColors.blackColor,
-                        fontSize: 12.sp,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                       children: [
@@ -115,13 +115,13 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                           style: TextStyleConfig.textStyle(
                             fontFamily: FontFamilyText.whitneyReg,
                             textColor: AppColors.darkOrangeColor,
-                            fontSize: 12.sp,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ]),
                 ),
-                SizedBox(height: 1.h),
+                SizedBox(height: 10),
                 Container(
                   padding: EdgeInsets.only(
                     bottom: 1,
@@ -142,18 +142,18 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                       style: TextStyle(
                         fontFamily: FontFamilyText.whitney,
                         color: AppColors.blackColor,
-                        fontSize: 12.sp,
+                        fontSize: 16,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 5.h),
+                SizedBox(height: 25),
                 Image.asset(
                   AppImages.animalCoins,
                   width: Get.width,
                 ),
                 SizedBox(
-                  height: 4.h,
+                  height: 30,
                 ),
                 ButtonCustom(
                   text: AppMessages.earnMoreCoins,
@@ -162,7 +162,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                     showComingSoonPopup(context);
                     // Get.to(() => EarnMoreCoinsScreen());
                   },
-                  textsize: 14.sp,
+                  textsize: 20,
                   textFontFamily: FontFamilyText.whitneyReg,
                   textColor: AppColors.whiteColor2,
                   backgroundColor: AppColors.darkOrangeColor,
@@ -171,7 +171,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                   ),
                 ),
                 SizedBox(
-                  height: 1.h,
+                  height: 15,
                 ),
               ],
             ),

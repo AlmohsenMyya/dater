@@ -201,7 +201,7 @@ class MainAppBar extends GetView<HomeScreenController>
            ],
          )
         ],
-      ).commonSymmetricPadding(horizontal: 20, vertical: 15),
+      ).commonSymmetricPadding(horizontal: 20, vertical:10),
     );
   }
 

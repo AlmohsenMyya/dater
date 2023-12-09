@@ -558,6 +558,7 @@ class EditProfileScreenController extends GetxController {
 
   Future<void> initMethod() async {
     await getUserDetailsFunction();
+    await getShowMeGenderValueFromPrefs();
   }
 
   /// Set Value in local variables to use change values

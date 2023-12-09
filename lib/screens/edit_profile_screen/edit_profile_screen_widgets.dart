@@ -1160,7 +1160,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
               style: TextStyleConfig.textStyle(
                 fontFamily: FontFamilyText.sFProDisplaySemibold,
                 textColor: AppColors.grey800Color,
-                fontSize: 16.sp,
+                fontSize: 16,
               ),
             )
           ],
@@ -1172,7 +1172,7 @@ class EditProfileScreenWidgets extends StatelessWidget {
               style: TextStyleConfig.textStyle(
                 fontFamily: FontFamilyText.sFProDisplayRegular,
                 textColor: AppColors.grey600Color,
-                fontSize: 12.sp,
+                fontSize: 16,
               ),
             )
           ],

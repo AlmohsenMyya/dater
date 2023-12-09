@@ -54,7 +54,7 @@ class SettingsScreenController extends GetxController {
       log('getUserReferralCodeFunction Error :$e');
       rethrow;
     }
-    // isLoading(false);
+    isLoading(false);
     // await getShowMeGenderValueFromPrefs();
   }
 
@@ -120,6 +120,6 @@ class SettingsScreenController extends GetxController {
   Future<void> initMethod() async {
     userVerified = await userPreference.getStringFromPrefs(key: UserPreference.verifiedKey);
     log('userVerified :$userVerified');
-    await getUserReferralCodeFunction();
+    getUserReferralCodeFunction();
   }
 }

@@ -59,6 +59,7 @@ class SwipeUserModule extends GetView<HomeScreenController> {
                 final allowedActions = [
                   SwipeDirection.right,
                   SwipeDirection.left,
+                  SwipeDirection.up,
                 ];
                 return allowedActions.contains(direction);
               },
@@ -611,6 +612,7 @@ class SwipeUserModule extends GetView<HomeScreenController> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
+                                      printAll('clear');
                                       controller.cardController.value.next(
                                         swipeDirection: SwipeDirection.left,
                                       );
@@ -643,11 +645,12 @@ class SwipeUserModule extends GetView<HomeScreenController> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
+                                      // printAll('favvvvv');
                                       controller.cardController.value.next(
                                         swipeDirection: SwipeDirection.right,
                                       );
                                     },
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.favorite_border_outlined,
                                       color: AppColors.lightOrangeColor,
                                       size: 50,
@@ -655,7 +658,6 @@ class SwipeUserModule extends GetView<HomeScreenController> {
                                   ),
                                 ],
                               ).commonSymmetricPadding(horizontal: 10),
-
                               SizedBox(height: 3.h),
                             ],
                           ),

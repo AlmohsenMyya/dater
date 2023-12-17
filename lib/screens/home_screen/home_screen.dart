@@ -3,6 +3,7 @@ import 'package:dater/constants/colors.dart';
 import 'package:dater/controller/home_screen_controller.dart';
 import 'package:dater/screens/home_screen/widgets/main_app_bar.dart';
 import 'package:dater/utils/extensions.dart';
+import 'package:dater/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swipable_stack/swipable_stack.dart';
@@ -52,15 +53,19 @@ class HomeScreen extends GetView<HomeScreenController> {
                                         controller.isVisible.value ? 1.0 : 0.0,
                                     duration: const Duration(milliseconds: 500),
                                     curve: Curves.decelerate,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.cardController.value.next(
-                                          swipeDirection: SwipeDirection.up,
-                                        );
-                                      },
-                                      child: Icon(Icons.star_rounded,
-                                          color: AppColors.lightOrangeColor,
-                                          size: Get.height / 13.84),
+                                    child: Visibility(
+                                      visible: controller.isVisible.value,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          printAll('float');
+                                          controller.cardController.value.next(
+                                            swipeDirection: SwipeDirection.up,
+                                          );
+                                        },
+                                        child: Icon(Icons.star_rounded,
+                                            color: AppColors.lightOrangeColor,
+                                            size: Get.height / 13.84),
+                                      ),
                                     ),
                                   ),
                                 ),

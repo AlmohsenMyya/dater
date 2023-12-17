@@ -67,7 +67,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                     ),
                     SizedBox(
                       height: 15,
-                      width: 2.w,
+                      width: 2,
                     ),
                     Text(
                       controller.coinValue.value,
@@ -121,7 +121,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                         ),
                       ]),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 5),
                 Container(
                   padding: EdgeInsets.only(
                     bottom: 1,
@@ -147,7 +147,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                SizedBox(height: 30),
                 Image.asset(
                   AppImages.animalCoins,
                   width: Get.width,
@@ -251,7 +251,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
                 fontFamily: FontFamilyText.whitney,
                 fontWeight: FontWeight.bold,
                 textColor: AppColors.darkOrangeColor,
-                fontSize: 12.sp,
+                fontSize: 17,
               ),
             ),
             Text(
@@ -259,7 +259,7 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
               style: TextStyleConfig.textStyle(
                 fontFamily: FontFamilyText.whitneyReg,
                 textColor: AppColors.grey800Color,
-                fontSize: 10.sp,
+                fontSize: 15,
               ),
             ),
           ],

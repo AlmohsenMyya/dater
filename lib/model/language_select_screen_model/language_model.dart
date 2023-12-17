@@ -16,12 +16,30 @@ class LanguageModel {
   List<LanguageData> msg;
   int statusCode;
 
-  factory LanguageModel.fromJson(Map<String, dynamic> json) => LanguageModel(
+  factory LanguageModel.fromJson(Map<String, dynamic> json) {
+    try {
+      return LanguageModel(
         response: json["response"] ?? "",
         msg: List<LanguageData>.from(
-            (json["msg"] ?? []).map((x) => LanguageData.fromJson(x ?? {}))),
-        statusCode: json["status_code"] ?? '0',
+          (json["msg"] ?? []).map((x) {
+            try {
+              return LanguageData.fromJson(x ?? {});
+            } catch (e) {
+              // Handle the exception (e.g., print an error message)
+              print("Error parsing LanguageData: $e");
+              return null; // Skip the erroneous data
+            }
+          }).where((data) => data != null).cast<LanguageData>(), // Remove null entries
+        ),
+        statusCode: json["status_code"] ?? 0,
       );
+    } catch (e) {
+      // Handle the exception (e.g., print an error message)
+      print("Error parsing LanguageModel: $e");
+      return LanguageModel(response: "", msg: [], statusCode: 0); // Return an empty model in case of an error
+    }
+  }
+
 
   Map<String, dynamic> toJson() => {
         "response": response,

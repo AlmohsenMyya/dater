@@ -150,7 +150,7 @@ class MainAppBar extends GetView<HomeScreenController>
             style: TextStyle(
               fontFamily: FontFamilyText.fredokaBold,
               color: AppColors.darkOrangeColor,
-              fontSize: 26,
+              fontSize: 35,
             ),
           ),
          Row(
@@ -201,7 +201,7 @@ class MainAppBar extends GetView<HomeScreenController>
            ],
          )
         ],
-      ).commonSymmetricPadding(horizontal: 20, vertical:10),
+      ).commonSymmetricPadding(horizontal: 20, vertical:0),
     );
   }
 

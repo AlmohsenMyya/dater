@@ -62,5 +62,17 @@
     <string>This app needs access to location when open.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>This app needs access to location when in the background.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>App needs access to photo lib for profile images</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>To capture profile photo please grant camera access</string>
+    <key>NSMotionUsageDescription</key>
+    <string>This application tracks your steps</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>processing</string>
+    </array>
+
 </dict>
 </plist>

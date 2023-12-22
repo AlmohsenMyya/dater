@@ -127,7 +127,7 @@ class HomeScreenController extends GetxController {
     log("getLocation");
     Timer.periodic(
       const Duration(seconds: 1),
-      (timer) {
+          (timer) {
         // ignore: void_checks
         // isLoading(true);
         fetchMobileLocation();
@@ -186,7 +186,7 @@ class HomeScreenController extends GetxController {
       var response = await dioRequest.get(url);
 
       ReportsModelMsg reportsModelMsg =
-          ReportsModelMsg.fromJson(json.decode(response.data));
+      ReportsModelMsg.fromJson(json.decode(response.data));
       successStatus.value = reportsModelMsg.statusCode;
       if (successStatus.value == 200) {
         reportsList.clear();
@@ -224,7 +224,7 @@ class HomeScreenController extends GetxController {
       var response = await dioRequest.post(url, data: formData);
 
       LanguageSaveModel reportResponse =
-          LanguageSaveModel.fromJson(json.decode(response.data));
+      LanguageSaveModel.fromJson(json.decode(response.data));
       successStatus.value = reportResponse.statusCode;
       // if (successStatus.value == 200) {
       // } else {
@@ -257,12 +257,12 @@ class HomeScreenController extends GetxController {
           key: UserPreference.userVerifyTokenKey);
 
       var formData =
-          dio.FormData.fromMap({'token': verifyToken, 'offset': offset.value});
+      dio.FormData.fromMap({'token': verifyToken, 'offset': offset.value});
 
       var response = await dioRequest.post(url, data: formData);
       printAll(name: 'suggestionList', response);
       SuggestionListModel suggestionListModel =
-          SuggestionListModel.fromJson(json.decode(response.data));
+      SuggestionListModel.fromJson(json.decode(response.data));
 
       successStatus.value = suggestionListModel.statusCode;
       if (successStatus.value == 200) {
@@ -423,7 +423,7 @@ class HomeScreenController extends GetxController {
       log('superLove ProfileFunction Response Function : ${response.body}');
 
       SuperLoveModel superLoveModel =
-          SuperLoveModel.fromJson(json.decode(response.body));
+      SuperLoveModel.fromJson(json.decode(response.body));
 
       //liked_id
       if (superLoveModel.statusCode == 200) {
@@ -540,7 +540,7 @@ class HomeScreenController extends GetxController {
       log('regather Response : ${response.data}');
 
       RegatherModel regatherModel =
-          RegatherModel.fromJson(json.decode(response.data));
+      RegatherModel.fromJson(json.decode(response.data));
       successStatus.value = regatherModel.statusCode;
 
       if (successStatus.value == 200) {
@@ -571,14 +571,22 @@ class HomeScreenController extends GetxController {
   setChangedUserData(int index) {
     index++;
     log(name: 'currUser', '$index');
-    name = suggestionList[index].name.toString().obs;
+    name = suggestionList[index].name
+        .toString()
+        .obs;
     currentUserId = suggestionList[index].id!.obs;
     // log(name: 'bioSuggest', suggestionList[index].bio.toString());
-    bio = suggestionList[index].bio.toString().obs;
-    age = suggestionList[index].age.toString().obs;
+    bio = suggestionList[index].bio
+        .toString()
+        .obs;
+    age = suggestionList[index].age
+        .toString()
+        .obs;
     // profilePrompts = suggestionList[index].profilePrompts.toString().obs;
     work = suggestionList[index].basic!.work.obs;
-    starSign = suggestionList[index].starSign.toString().obs;
+    starSign = suggestionList[index].starSign
+        .toString()
+        .obs;
     gender = suggestionList[index].basic!.gender.obs;
     education = suggestionList[index].basic!.education.obs;
     height = suggestionList[index].basic!.height.obs;
@@ -674,7 +682,7 @@ class HomeScreenController extends GetxController {
       response.stream.transform(utf8.decoder).listen((value) async {
         log('Location Update value : $value');
         SavedDataModel savedDataModel =
-            SavedDataModel.fromJson(json.decode(value));
+        SavedDataModel.fromJson(json.decode(value));
         successStatus.value = savedDataModel.statusCode;
 
         if (successStatus.value == 200) {

@@ -161,7 +161,7 @@ class BalanceScreenController extends GetxController {
       });
     } catch (e) {
       log('getMyCoinsFunction Error :$e');
-      rethrow;
+      // rethrow;
     }
     isLoading(false);
   }

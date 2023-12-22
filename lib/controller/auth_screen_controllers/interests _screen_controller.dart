@@ -92,6 +92,8 @@ class InterestsScreenController extends GetxController {
     }
   }
 
+  bool welcomePageCalled = false;
+
   // Next Button Click Function
   Future<void> nextButtonClickFunction() async {
     // String selectedOptionIdString = "";
@@ -126,10 +128,9 @@ class InterestsScreenController extends GetxController {
         SaveInterestModel saveInterestModel =
             SaveInterestModel.fromJson(json.decode(value));
 
-        if (saveInterestModel.statusCode == 200) {
-          // Fluttertoast.showToast(msg: saveInterestModel.msg);
-          // Get.offAll(() => IndexScreen(), binding: IndexBinding());
+        if (saveInterestModel.statusCode == 200 && !welcomePageCalled) {
           Get.offAll(() => WelcomePage(), binding: WelcomePageBinding());
+          welcomePageCalled = true;
         } else if (saveInterestModel.statusCode == 400) {
           // Fluttertoast.showToast(msg: saveInterestModel.msg);
         } else {

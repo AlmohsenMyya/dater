@@ -67,7 +67,10 @@ class UserPreference {
     prefs.setString(userTokenKey, '');
     prefs.setString(userVerifyTokenKey, '');
     prefs.setBool(isUserLoggedInKey, false);
+    prefs.clear();
+
   }
+
 
   // Set String Type List
   Future<void> setListOfStringInPrefs({required List<String> value}) async {

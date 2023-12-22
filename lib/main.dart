@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return GetMaterialApp(
+          theme: ThemeData(useMaterial3: false),
           debugShowCheckedModeBanner: false,
           title: 'Dating App',
           home: SplashScreen(),

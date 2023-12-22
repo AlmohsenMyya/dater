@@ -52,6 +52,8 @@ class SignUpPreference {
 
     log("signUpEmailKey : ${prefs.getString(signUpEmailKey)}");
     log("signUpFNameKey : ${prefs.getString(signUpFNameKey)}");
+    prefs.clear();
+
   }
 
   Future<void> setStringValueInPrefs(

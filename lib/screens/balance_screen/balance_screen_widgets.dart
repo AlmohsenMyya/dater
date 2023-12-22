@@ -38,145 +38,148 @@ class WidgetsBalanceModule extends GetView<BalanceScreenController> {
         //     // fontWeight: FontWeight.bold,
         //   ),
         // ),
-        Material(
-          elevation: 6,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          color: Colors.white,
-          child: Container(
-            width: Get.width,
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                SizedBox(height: 3, width: Get.width),
-                Text(
-                  AppMessages.coinsBalance,
-                  style: TextStyleConfig.textStyle(
-                    fontFamily: FontFamilyText.fredokaSemiBold,
-                    textColor: AppColors.darkOrangeColor,
-                    fontSize: 35,
+        Expanded(
+          child: Material(
+            elevation: 6,
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            color: Colors.white,
+            child: Container(
+              width: Get.width,
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  SizedBox(height: 3, width: Get.width),
+                  Text(
+                    AppMessages.coinsBalance,
+                    style: TextStyleConfig.textStyle(
+                      fontFamily: FontFamilyText.fredokaSemiBold,
+                      textColor: AppColors.darkOrangeColor,
+                      fontSize: 35,
+                    ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-                      fit: BoxFit.contain,
-                      width: 31,
-                      height: 31,
-                      image: const AssetImage(AppImages.balanceIcon),
-                    ),
-                    SizedBox(
-                      height: 15,
-                      width: 2,
-                    ),
-                    Text(
-                      controller.coinValue.value,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyleConfig.textStyle(
-                        fontFamily: FontFamilyText.whitney,
-                        textColor: AppColors.blackColor,
-                        fontSize: 60,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Obx(
-                  () => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      stepsWidget(
-                          name: AppMessages.totalSteps == ''
-                              ? '0'
-                              : AppMessages.totalSteps,
-                          number: controller.steps.value),
-                      stepsWidget(
-                          name: AppMessages.todaySteps,
-                          number: controller.todaySteps.value.toString()),
+                      Image(
+                        fit: BoxFit.contain,
+                        width: 31,
+                        height: 31,
+                        image: const AssetImage(AppImages.balanceIcon),
+                      ),
+                      SizedBox(
+                        height: 15,
+                        width: 2,
+                      ),
+                      Text(
+                        controller.coinValue.value,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyleConfig.textStyle(
+                          fontFamily: FontFamilyText.whitney,
+                          textColor: AppColors.blackColor,
+                          fontSize: 60,
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                SizedBox(height: 20),
-                RichText(
-                  text: TextSpan(
-                      text: 'Your daily rate of coins : ',
-                      style: TextStyleConfig.textStyle(
-                        fontFamily: FontFamilyText.whitneyReg,
-                        textColor: AppColors.blackColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: '20',
-                          style: TextStyleConfig.textStyle(
-                            fontFamily: FontFamilyText.whitneyReg,
-                            textColor: AppColors.darkOrangeColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ]),
-                ),
-                SizedBox(height: 5),
-                Container(
-                  padding: EdgeInsets.only(
-                    bottom: 1,
+                  SizedBox(
+                    height: 15,
                   ),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 1.0, // Underline thickness
-                  ))),
-                  child: GestureDetector(
-                    onTap: () {
-                      // showComingSoonPopup(context);
-                      Get.to(() => EarnMoreCoinsScreen());
-                    },
-                    child: Text(
-                      "Learn more",
-                      style: TextStyle(
-                        fontFamily: FontFamilyText.whitney,
-                        color: AppColors.blackColor,
-                        fontSize: 16,
+                  Obx(
+                    () => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        stepsWidget(
+                            name: AppMessages.totalSteps == ''
+                                ? '0'
+                                : AppMessages.totalSteps,
+                            number: controller.steps.value),
+                        stepsWidget(
+                            name: AppMessages.todaySteps,
+                            number: controller.todaySteps.value.toString()),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  RichText(
+                    text: TextSpan(
+                        text: 'Your daily rate of coins : ',
+                        style: TextStyleConfig.textStyle(
+                          fontFamily: FontFamilyText.whitneyReg,
+                          textColor: AppColors.blackColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '20',
+                            style: TextStyleConfig.textStyle(
+                              fontFamily: FontFamilyText.whitneyReg,
+                              textColor: AppColors.darkOrangeColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ]),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    padding: EdgeInsets.only(
+                      bottom: 1,
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                      color: Colors.grey,
+                      width: 1.0, // Underline thickness
+                    ))),
+                    child: GestureDetector(
+                      onTap: () {
+                        // showComingSoonPopup(context);
+                        Get.to(() => EarnMoreCoinsScreen());
+                      },
+                      child: Text(
+                        "Learn more",
+                        style: TextStyle(
+                          fontFamily: FontFamilyText.whitney,
+                          color: AppColors.blackColor,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 30),
-                Image.asset(
-                  AppImages.animalCoins,
-                  width: Get.width,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                ButtonCustom(
-                  text: AppMessages.earnMoreCoins,
-                  onPressed: () {
-                    controller.getSteps();
-                    showComingSoonPopup(context);
-                    // Get.to(() => EarnMoreCoinsScreen());
-                  },
-                  textsize: 20,
-                  textFontFamily: FontFamilyText.whitneyReg,
-                  textColor: AppColors.whiteColor2,
-                  backgroundColor: AppColors.darkOrangeColor,
-                  borderShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                  SizedBox(height: 30),
+                  Image.asset(
+                    AppImages.animalCoins,
+                    width: Get.width,
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-              ],
+                  SizedBox(
+                    height: 30,
+                  ),
+                  ButtonCustom(
+                    text: AppMessages.earnMoreCoins,
+                    onPressed: () {
+                      controller.getSteps();
+                      showComingSoonPopup(context);
+                      // Get.to(() => EarnMoreCoinsScreen());
+                    },
+                    textsize: 20,
+                    textFontFamily: FontFamilyText.whitneyReg,
+                    textColor: AppColors.whiteColor2,
+                    backgroundColor: AppColors.darkOrangeColor,
+                    borderShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
             ),
           ),
-        )
+        ),
+        SizedBox(height: 2)
       ],
     );
   }

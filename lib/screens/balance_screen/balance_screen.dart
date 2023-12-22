@@ -14,19 +14,12 @@ class BalanceScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.whiteColor2,
       body: Obx(
-        ()=> balanceScreenController.isLoading.value
-        ? const CustomLoader()
-        : SafeArea(
-          child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                WidgetsBalanceModule(),
-              ],
-            ).commonOnlyPadding(top: 10, bottom: 10, left: 15, right: 15),
-          ),
-        ),
+        () => balanceScreenController.isLoading.value
+            ? const CustomLoader()
+            : SafeArea(
+                child: WidgetsBalanceModule().commonOnlyPadding(
+                    top: 10, bottom: 10, left: 15, right: 15),
+              ),
       ),
       //  bottomNavigationBar:  BottomNavigationBarModule(),
     );

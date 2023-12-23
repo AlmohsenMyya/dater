@@ -59,7 +59,7 @@ class SwipeUserModule extends GetView<HomeScreenController> {
                 final allowedActions = [
                   SwipeDirection.right,
                   SwipeDirection.left,
-                  // SwipeDirection.up,
+                  SwipeDirection.up,
                 ];
                 return allowedActions.contains(direction);
               },

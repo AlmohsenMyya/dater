@@ -118,13 +118,13 @@ class SwipeUserModule extends GetView<HomeScreenController> {
                 }
 
                 /// When Swipe Up
-                // else if (swipeDirection == SwipeDirection.up) {
-                //   controller.lastLikeProfileId =
-                //       controller.suggestionList[index].id!;
-                //   controller.skipped.value = false;
-                //   await controller.understandSuperLoveFunction(index);
-                //   // homeScreenController.isRewindAllow = true;
-                // }
+                else if (swipeDirection == SwipeDirection.up) {
+                  controller.lastLikeProfileId =
+                      controller.suggestionList[index].id!;
+                  controller.skipped.value = false;
+                  await controller.understandSuperLoveFunction(index);
+                  // homeScreenController.isRewindAllow = true;
+                }
               },
               overlayBuilder: (context, properties) {
                 // properties.swipeProgress;

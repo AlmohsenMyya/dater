@@ -45,7 +45,7 @@ class HomeScreen extends GetView<HomeScreenController> {
 
                               /// Star button - Super love button
                               Positioned(
-                                bottom: Get.height * 0.02,
+                                bottom: Get.height * 0.03,
                                 right: Get.height / 166,
                                 child: Obx(
                                   () => AnimatedOpacity(

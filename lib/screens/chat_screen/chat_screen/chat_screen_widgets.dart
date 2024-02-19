@@ -8,6 +8,7 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import '../../../common_modules/custom_loader.dart';
 import '../../../controller/chat_screen_controller.dart';
 import '../../../model/chat_screens_models/chat_list_model.dart';
 
@@ -162,15 +163,22 @@ class TextFormFieldModule extends StatelessWidget {
             ),
           ),
         ),
-        IconButton(
-          onPressed: () async {
-            if (chatScreenController.textEditingController.text
-                .trim()
-                .isNotEmpty) {
-              await chatScreenController.sendChatMessageFunction();
-            }
-          },
-          icon: Image.asset(AppImages.appIcon),
+        Obx(
+          ()=> chatScreenController.isSendLoading.value
+              ?  Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: CustomLoader(size:Get.height * 0.03),
+              )
+              : IconButton(
+            onPressed: () async {
+              if (chatScreenController.textEditingController.text
+                  .trim()
+                  .isNotEmpty) {
+                await chatScreenController.sendChatMessageFunction();
+              }
+            },
+            icon: Image.asset(AppImages.appIcon),
+          ),
         ),
       ],
     ).commonSymmetricPadding(horizontal: 60, vertical: 4);

@@ -122,9 +122,7 @@ class ChatScreen extends StatelessWidget {
             return Future.value(false);
           },
           child: Obx(
-            () => chatScreenController.isLoading.value
-                ? const CustomLoader()
-                : Column(
+            () =>  Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
@@ -143,7 +141,12 @@ class ChatScreen extends StatelessWidget {
                                   SizedBox(height: 2.h),
                                   ChatScreenWidgets(),
                                   SizedBox(height: 5.h),
-                                  MessageAllModule()
+                                  chatScreenController.isLoading.value
+                                      ? const CustomLoader()
+                                      :
+                                  chatScreenController.isSendsuccess.value
+                                      ?  Container()
+                                      :MessageAllModule()
                                       .commonOnlyPadding(bottom: 10),
                                 ],
                               ),

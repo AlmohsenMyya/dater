@@ -708,14 +708,14 @@ class EditProfileScreenWidgets extends StatelessWidget {
                           max: 220.0,
                           activeColor: AppColors.lightOrangeColor,
                           inactiveColor: AppColors.darkGreyColor,
-                          value: editProfileScreenController.endVal.value,
+                          value: (editProfileScreenController.endVal.value ?? 120.0)
+                              .clamp(120.0, 220.0), // Ensure value is within the range
                           onChanged: (double value) {
                             editProfileScreenController.endVal.value = value;
-                            // await editProfileScreenController
-                            //     .setUserHeightFunction();
                             editProfileScreenController.loadUI();
                           },
                         ),
+
                       ),
                     ),
                   ],

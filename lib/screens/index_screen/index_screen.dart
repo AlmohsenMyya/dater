@@ -12,7 +12,7 @@ import '../profile_screen/profile_screen.dart';
 class IndexScreen extends GetView<IndexScreenController> {
   IndexScreen({Key? key}) : super(key: key);
 
-  // final indexScreenController = Get.put(IndexScreenController());
+  final indexScreenController = Get.put(IndexScreenController());
   final screen = [
     BalanceScreen(),
     HomeScreen(),

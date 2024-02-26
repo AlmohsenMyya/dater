@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/model/balance_screen_model/steps_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedometer/pedometer.dart';
@@ -132,7 +133,33 @@ class BalanceScreenController extends GetxController {
     print(event);
     status.value = event.status;
   }
+  /// Set FCM Token
+  Future<void> setFCMToken() async {
+    isLoading(true);
+    String url = ApiUrl.setFCMToken;
+    log('setFCMToken Api Url : $url');
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    String? fcmToken = await messaging.getToken() ;
+    print('setFCMToken  $fcmToken');
+    try {
+      String verifyToken = await userPreference.getStringFromPrefs(
+          key: UserPreference.userVerifyTokenKey);
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.fields['token'] = verifyToken;
+      request.fields['new_token'] = fcmToken??"firebase error";
 
+      var response = await request.send();
+
+      response.stream.transform(utf8.decoder).listen((value) async {
+        log('setFCMToken Api value : $value');
+
+      });
+    } catch (e) {
+      log('setFCMToken Error :$e');
+      // rethrow;
+    }
+    isLoading(false);
+  }
   /// Get My Coins
   Future<void> getMyCoinsFunction() async {
     isLoading(true);

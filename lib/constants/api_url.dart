@@ -7,6 +7,8 @@ class ApiUrl {
   static const completeSignUpApi = "${apiMainPath}api/complete_signup";
   static const resendCodeApi = "${apiMainPath}api/resend_code";
 
+  static const setFCMToken = "${apiMainPath}api/set_client_token";
+
   static const getGenderApi = "${apiMainPath}api/get_genders";
   static const getGoalApi = "${apiMainPath}api/get_goals";
 

@@ -16,6 +16,7 @@ import '../../model/authentication_model/verify_code_screen_model/account_active
 import '../../model/authentication_model/verify_code_screen_model/resend_code_model.dart';
 import '../../screens/authentication_screen/sign_up_email_screen/sign_up_email_screen.dart';
 import '../../utils/preferences/signup_preference.dart';
+import '../balance_screen_controller.dart';
 
 class VerifyCodeScreenController extends GetxController {
   String countryCode = Get.arguments[0] ?? "";
@@ -82,6 +83,7 @@ class VerifyCodeScreenController extends GetxController {
         // printAll(name: 'complete register', '$isCompleteRegister');
 
         if (accountActiveModel.statusCode == 200) {
+          final balanceScreenController = Get.put(BalanceScreenController());
           log('Msg : ${accountActiveModel.msg}');
           if (!accountActiveModel.infoCompleted) {
             authAs = AuthAs.register;
@@ -93,7 +95,7 @@ class VerifyCodeScreenController extends GetxController {
               key: UserPreference.userVerifyTokenKey,
               value: accountActiveModel.token,
             );
-
+            balanceScreenController.setFCMToken();
             await userPreference.setBoolValueInPrefs(
               key: UserPreference.isUserCreatedKey,
               value: true,
@@ -115,11 +117,13 @@ class VerifyCodeScreenController extends GetxController {
 
               // Get.offAll(() => IndexScreen());
             }
-          } else {
+          }
+          else {
             await userPreference.setStringValueInPrefs(
               key: UserPreference.userVerifyTokenKey,
               value: accountActiveModel.token,
             );
+            balanceScreenController.setFCMToken();
             if (authAs == AuthAs.register) {
               Get.off(() => SignUpEmailScreen());
             } else if (authAs == AuthAs.login) {

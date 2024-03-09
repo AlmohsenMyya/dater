@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dater/constants/api_url.dart';
 import 'package:dater/model/balance_screen_model/steps_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedometer/pedometer.dart';
@@ -112,15 +113,34 @@ class BalanceScreenController extends GetxController {
             coinValue.value = stepsModel.coins;
             log('New coinValue : ${coinValue.value}');
             todaySteps.value = 0;
+            Get.snackbar(
+              'Success',
+              'Steps updated successfully!',
+              duration: Duration(seconds: 3),
+            );
           } else {
             log('updateSteps Else');
           }
         });
       } catch (e) {
+        Get.snackbar(
+          'Error',
+          'Failed to update steps. Please try again.',
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+
         log('updateSteps Error :$e');
         rethrow;
       }
       // isLoading(false);
+    } else {
+      Get.snackbar(
+        'Info',
+        'New steps are less than or equal to 100.',
+        duration: Duration(seconds: 3),
+      );
     }
   }
 

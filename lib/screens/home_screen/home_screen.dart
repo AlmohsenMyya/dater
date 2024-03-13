@@ -20,7 +20,7 @@ class HomeScreen extends GetView<HomeScreenController> {
     return Scaffold(
         backgroundColor: AppColors.whiteColor2,
         resizeToAvoidBottomInset: false,
-        appBar: const MainAppBar(),
+        appBar:  MainAppBar(),
         body: Obx(
           () => controller.isLoading.value
               ? const CustomLoader()

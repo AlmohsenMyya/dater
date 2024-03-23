@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dater/constants/api_url.dart';
+import 'package:dater/model/authentication_model/set_fcm_token+model.dart';
 import 'package:dater/model/balance_screen_model/steps_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -154,13 +155,13 @@ class BalanceScreenController extends GetxController {
     status.value = event.status;
   }
   /// Set FCM Token
-  Future<void> setFCMToken() async {
+  Future<void> setFCMTokenFunc() async {
     isLoading(true);
     String url = ApiUrl.setFCMToken;
-    log('setFCMToken Api Url : $url');
+    log('setFCMTokenFunc Api Url : $url');
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     String? fcmToken = await messaging.getToken() ;
-    print('setFCMToken  $fcmToken');
+    print('setFCMTokenFunc  $fcmToken');
     try {
       String verifyToken = await userPreference.getStringFromPrefs(
           key: UserPreference.userVerifyTokenKey);
@@ -171,11 +172,21 @@ class BalanceScreenController extends GetxController {
       var response = await request.send();
 
       response.stream.transform(utf8.decoder).listen((value) async {
-        log('setFCMToken Api value : $value');
-
+        log('setFCMToken Api value : ${value}');
+        SetFcmTokenModel setFcmTokenModel =
+        SetFcmTokenModel.fromJson(json.decode(value));
+        await userPreference.setStringValueInPrefs(
+          key: UserPreference.userVerifyTokenKey,
+          value: setFcmTokenModel.token,
+        );
+        await userPreference.setStringValueInPrefs(
+          key: UserPreference.isYourFirtsTime,
+          value: "no",
+        );
       });
+
     } catch (e) {
-      log('setFCMToken Error :$e');
+      log('setFCMTokenFunc Error :$e');
       // rethrow;
     }
     isLoading(false);

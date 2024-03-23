@@ -100,7 +100,7 @@ class ButtonCustomLoginAndSignUp extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
+         image== null ? SizedBox() : SizedBox(
             height: 25,
             width: 25,
             child: Image.asset("$image"),

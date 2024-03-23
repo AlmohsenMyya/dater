@@ -57,7 +57,7 @@ class VerifyCodeScreenController extends GetxController {
   // Active Account
   Future<void> activateAccountFunction() async {
     isLoading(true);
-    String url = ApiUrl.accountActiveApi;
+    String url = ApiUrl.accountActiveByEmailApi;
     log('activateAccountFunction Api Url : $url');
 
     String verifyToken = await userPreference.getStringFromPrefs(
@@ -65,14 +65,19 @@ class VerifyCodeScreenController extends GetxController {
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
-
-      request.fields['phone'] = "$countryCode$mobileNumber";
+print("$mobileNumber ... $verifyToken");
+      // request.fields['phone'] =
+      // // "$countryCode"
+      // "+963996367749";
+request.fields['email'] =
+      // "$countryCode"
+          "$mobileNumber";
       request.fields['verify_token'] = verifyToken;
 
       var response = await request.send();
 
       response.stream.transform(utf8.decoder).listen((value) async {
-        log('Active Value : $value');
+        log('Active Value ******** : $value');
 
         AccountActiveModel accountActiveModel =
             AccountActiveModel.fromJson(json.decode(value));
@@ -95,7 +100,6 @@ class VerifyCodeScreenController extends GetxController {
               key: UserPreference.userVerifyTokenKey,
               value: accountActiveModel.token,
             );
-            balanceScreenController.setFCMToken();
             await userPreference.setBoolValueInPrefs(
               key: UserPreference.isUserCreatedKey,
               value: true,
@@ -123,7 +127,6 @@ class VerifyCodeScreenController extends GetxController {
               key: UserPreference.userVerifyTokenKey,
               value: accountActiveModel.token,
             );
-            balanceScreenController.setFCMToken();
             if (authAs == AuthAs.register) {
               Get.off(() => SignUpEmailScreen());
             } else if (authAs == AuthAs.login) {
@@ -167,12 +170,12 @@ class VerifyCodeScreenController extends GetxController {
   // Resend Code
   Future<void> resendCodeFunction() async {
     isLoading(true);
-    String url = ApiUrl.resendCodeApi;
+    String url = ApiUrl.resendCodeByEmailApi;
     log('Resend Code Api Url :$url');
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
-      request.fields['phone'] = "$countryCode$mobileNumber";
+      request.fields['email'] = "$countryCode$mobileNumber";
 
       var response = await request.send();
 
@@ -201,6 +204,43 @@ class VerifyCodeScreenController extends GetxController {
     }
   }
 
+  Future<void> resendCodeToEmailFunction() async {
+    isLoading(true);
+    String url = ApiUrl.loginByEmailApi;
+    log('Resend Code Api Url :$url');
+
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.fields['email'] =
+      // "$countryCode"
+          "$mobileNumber";
+
+      var response = await request.send();
+
+      response.stream.transform(utf8.decoder).listen((value) async {
+        log('Resend code response :$value');
+
+        ResendCodeModel resendCodeModel =
+        ResendCodeModel.fromJson(json.decode(value));
+
+        if (resendCodeModel.statusCode == 200) {
+          Fluttertoast.showToast(msg: resendCodeModel.msg);
+          firstDigitController.clear();
+          secondDigitController.clear();
+          thirdDigitController.clear();
+          fourthDigitController.clear();
+          controller.clear();
+        } else if (resendCodeModel.statusCode == 400) {
+          Fluttertoast.showToast(msg: resendCodeModel.msg);
+        } else {
+          Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
+        }
+      });
+    } catch (e) {
+      log('resendCodeFunction Error :$e');
+      rethrow;
+    }
+  }
   forTestOnly() {
     firstDigitController.text = '1';
     secondDigitController.text = '1';

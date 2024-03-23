@@ -148,7 +148,68 @@ class MyNumberInnerScreenController extends GetxController {
 
     isLoading(false);
   }
+  Future<void> loginUsingEmailFunction() async {
+    isLoading(true);
+    String url = ApiUrl.loginByEmailApi;
+    log('loginUsingEmailFunction Api Url : $url');
 
+    try {
+      // String countryCode = selectCountryCodeValue.split(" ")[1];
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+
+      // request.fields['phone'] = "$countryCode${phoneNumberController.text}";
+      request.fields['email'] =
+      // "${selectCountryCodeValue.dialCode}"
+          "${phoneNumberController.text}";
+
+      log('Fields : ${request.fields}');
+
+      var response = await request.send();
+
+      response.stream.transform(utf8.decoder).listen((value) async {
+        log('loginUsingEmailFunction value : $value');
+
+        LoginModel loginModel = LoginModel.fromJson(json.decode(value));
+
+        if (loginModel.statusCode == 200) {
+          // Set Mobile number & token in prefs
+          await userPreference.setStringValueInPrefs(
+            key: UserPreference.userMobileNoKey,
+            value: phoneNumberController.text,
+          );
+          await userPreference.setStringValueInPrefs(
+            key: UserPreference.userTokenKey,
+            value: loginModel.verifyToken,
+          );
+          await userPreference.setStringValueInPrefs(
+              key: UserPreference.userCountryCodeKey,
+              value: selectCountryCodeValue.dialCode.toString());
+
+          Get.to(
+                () => VerifyCodeScreen(),
+            arguments: [
+              selectCountryCodeValue.dialCode,
+              phoneNumberController.text.trim(),
+              loginModel.msg.toLowerCase() ==
+                  "Account created successfully".toLowerCase()
+                  ? AuthAs.register
+                  : AuthAs.login,
+              ComingFrom.registerScreen,
+            ],
+          );
+        } else if (loginModel.statusCode == 400) {
+          Fluttertoast.showToast(msg: loginModel.msg);
+        } else {
+          Fluttertoast.showToast(msg: AppMessages.apiCallWrong);
+        }
+      });
+    } catch (e) {
+      log('loginUsingMobileNumberFunction Error :$e');
+      rethrow;
+    }
+
+    isLoading(false);
+  }
   // Continue Button Function
   Future<void> onContinueButtonClickFunction() async {
     if (formKey.currentState!.validate()) {
@@ -162,13 +223,14 @@ class MyNumberInnerScreenController extends GetxController {
       log('Mobile Number :${phoneNumberController.text.trim()}');
 
       finalMobileNumber =
-          "${selectCountryCodeValue.dialCode}${phoneNumberController.text.trim()}";
+          // "${selectCountryCodeValue.dialCode}"
+              "${phoneNumberController.text.trim()}";
       log('finalMobileNumber : $finalMobileNumber');
 
       if (authAs == AuthAs.register) {
-        await loginUsingMobileNumberFunction();
+        await loginUsingEmailFunction();
       } else if (authAs == AuthAs.login) {
-        await loginUsingMobileNumberFunction();
+        await loginUsingEmailFunction();
       }
     }
   }

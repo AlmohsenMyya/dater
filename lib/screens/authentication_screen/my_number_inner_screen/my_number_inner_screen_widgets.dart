@@ -14,7 +14,8 @@ import '../../../constants/messages.dart';
 import '../../../model/authentication_model/country_code_list_model/country_code_list_model.dart';
 
 class TextFormFiledModule extends StatelessWidget {
-  TextFormFiledModule({Key? key}) : super(key: key);
+  final bool isEmail;
+  TextFormFiledModule({Key? key,  this.isEmail= false}) : super(key: key);
 
   final screenController = Get.find<MyNumberInnerScreenController>();
 
@@ -23,7 +24,7 @@ class TextFormFiledModule extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
+        isEmail? SizedBox() : Expanded(
           flex: 25,
           child: GestureDetector(
             onTap: openBottomSheetModule,
@@ -96,6 +97,7 @@ class TextFormFiledModule extends StatelessWidget {
             ),
           ),
         ),
+        isEmail? Icon(Icons.email_outlined):SizedBox(),
         const SizedBox(width: 20),
         Expanded(
           flex: 75,
@@ -105,10 +107,10 @@ class TextFormFiledModule extends StatelessWidget {
               cursorColor: AppColors.darkOrangeColor,
               controller: screenController.phoneNumberController,
               textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.phone,
-              maxLength: 10,
+              keyboardType: isEmail ? TextInputType.emailAddress :TextInputType.phone,
+              maxLength: 40,
               validator: (value) =>
-                  FieldValidator().validateMobileNumber(value!),
+                 isEmail?  FieldValidator().validateEmail(value!) :FieldValidator().validateMobileNumber(value!),
               decoration: InputDecoration(
                 focusedErrorBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: AppColors.darkOrangeColor),
@@ -121,7 +123,7 @@ class TextFormFiledModule extends StatelessWidget {
                 ),
                 isDense: true,
                 counterText: '',
-                hintText: AppMessages.phoneNumber,
+                hintText: isEmail ? AppMessages.email : AppMessages.phoneNumber,
                 hintStyle: TextStyle(
                   color: AppColors.grey500Color,
                   fontSize: 14,
@@ -277,14 +279,15 @@ class TextFormFiledModule extends StatelessWidget {
 }
 
 class TextCustomModule extends StatelessWidget {
-  const TextCustomModule({super.key});
+  final bool isEmail;
+  const TextCustomModule({Key? key,  this.isEmail= false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        text: AppMessages.myNumberScreenInformationText,
+        text: isEmail ? AppMessages.myEmilIScreenInformationText: AppMessages.myNumberScreenInformationText,
         style: TextStyleConfig.textStyle(
           fontFamily: "SFProDisplayRegular",
           textColor: AppColors.grey600Color,

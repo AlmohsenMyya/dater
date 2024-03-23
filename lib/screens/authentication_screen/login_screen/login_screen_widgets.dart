@@ -166,14 +166,15 @@ class ColumnWidgets extends StatelessWidget {
               // ? Container() : Spacer(),
               /// Login Button
               ButtonCustomLoginAndSignUp(
-                image: AppImages.mobileImage,
+                // image: AppImages.mobileImage,
                 onPressed: () {
                   Get.to(
-                    () => MyNumberInnerScreen(),
+                    () => MyNumberInnerScreen(isEmail:  true),
                     arguments: [AuthAs.login],
                   );
                 },
-                text: AppMessages.signInWithphoneNumber,
+                text: AppMessages.signInWithEmail,
+                // AppMessages.signInWithphoneNumber,
                 textsize: 12.sp,
                 textColor: AppColors.grey700Color,
               ),

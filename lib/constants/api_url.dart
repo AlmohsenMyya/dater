@@ -2,10 +2,13 @@ class ApiUrl {
   static const apiMainPath = "https://oudeen.com/dater/";
 
   //authantication api's
+  static const loginByEmailApi = "${apiMainPath}api/email_login";
   static const loginApi = "${apiMainPath}api/login";
   static const accountActiveApi = "${apiMainPath}api/activate";
+  static const accountActiveByEmailApi = "${apiMainPath}api/activate_email";
   static const completeSignUpApi = "${apiMainPath}api/complete_signup";
   static const resendCodeApi = "${apiMainPath}api/resend_code";
+  static const resendCodeByEmailApi = "${apiMainPath}api/resend_code_email";
 
   static const setFCMToken = "${apiMainPath}api/set_client_token";
 

@@ -197,7 +197,8 @@ class ResendButtonModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await verifyCodeScreenController.resendCodeFunction();
+        // await verifyCodeScreenController.resendCodeFunction();
+        await verifyCodeScreenController.resendCodeToEmailFunction();
       },
       child: Container(
         decoration: BoxDecoration(

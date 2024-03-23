@@ -128,7 +128,7 @@ class InterestsScreenController extends GetxController {
         SaveInterestModel saveInterestModel =
             SaveInterestModel.fromJson(json.decode(value));
 
-        if (saveInterestModel.statusCode == 200 && !welcomePageCalled) {
+        if (saveInterestModel.statusCode == 200 && welcomePageCalled) {
           Get.offAll(() => WelcomePage(), binding: WelcomePageBinding());
           welcomePageCalled = true;
         } else if (saveInterestModel.statusCode == 400) {
@@ -151,8 +151,8 @@ class InterestsScreenController extends GetxController {
     log('Complete SignUp Api Url : $url');
 
     try {
-      String userEmail = await signUpPreference.getStringFromPrefs(
-          key: SignUpPreference.signUpEmailKey);
+      String userPhone = await signUpPreference.getStringFromPrefs(
+          key:  UserPreference.userMobileNoKey);
       String userName = await signUpPreference.getStringFromPrefs(
           key: SignUpPreference.signUpFNameKey);
       String userSexuality = await signUpPreference.getStringFromPrefs(
@@ -165,7 +165,7 @@ class InterestsScreenController extends GetxController {
           key: SignUpPreference.userGoalKey);
       String verifyToken = await userPreference.getStringFromPrefs(
           key: UserPreference.userVerifyTokenKey);
-
+log("541541515 $userName -- $userSexuality -- $userGender -- $verifyToken -- $userTargetGender--  $userPhone --finsh");
       // api calling start
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['f_name'] = userName;
@@ -175,10 +175,11 @@ class InterestsScreenController extends GetxController {
       request.fields['token'] = verifyToken;
       request.fields['goal'] = userGoal;
       request.fields['target_gender'] = userTargetGender;
-      request.fields['email'] = userEmail;
+      request.fields['phone'] = userPhone;
 
       log('Request Field : ${request.fields}');
       var response = await request.send();
+
 
       response.stream.transform(utf8.decoder).listen((value) async {
         CompleteSignupModel completeSignupModel =

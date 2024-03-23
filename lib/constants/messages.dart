@@ -7,6 +7,7 @@ class AppMessages {
   static String findWhat = "Find What";
   static String completesYou = "Completes You";
   static String bambo = "Bambo";
+  static String myEmilIs = "My email";
   static String authScreen1 =
       "By clicking “use your phone number”, you agree with our ";
   static String terms = "Terms. ";
@@ -16,14 +17,17 @@ class AppMessages {
   static String communityGuidelines = "Community Guidelines";
   static String signUpWithphoneNumber = "Sign up with phone number";
   static String signInWithphoneNumber = "Use mobile number";
+  static String signInWithEmail = "Login with Email";
   static String termsOfUseAndPrivacyPolice = "Terms of Use and Privacy Policy";
   static String referralNumber =
       "Do you have a referral number from a friend ?";
   static String whatsYourEmail = '''What's Your email?''';
+  static String whatsYourNumber = '''What's Your number?''';
   static String skipButton = "Skip";
   static String continueButton = "Continue";
   static String nextButton = "Next";
   static String enterYourEmail = "Enter your email";
+  static String enterYourNumber = "Enter your number";
   static String myNumberIs = "My number is";
   static String phoneNumber = "Phone Number";
   static String newPhoneNumber = " New Phone Number";
@@ -35,6 +39,8 @@ class AppMessages {
   static String myCodeIs = "My code is";
   static String myNumberScreenInformationText =
       "When you tap “Continue”,\n Bambo will send you a text with verification code,\n The verified phone number can be used to log in.";
+  static String myEmilIScreenInformationText =
+      "When you tap “Continue”,\n Bambo will send you an email with verification code, so you can log in.";
   static String resend = "Resend";
   static String verificationCodeText =
       "Please enter the 4-digit code sent to you at +1 354 112 2376";
@@ -190,6 +196,7 @@ class AppMessages {
   static String bioApiText = "bio";
   static String targetGenderApiText = "target_gender";
   static String emailApiText = "email";
+  static String phoneApiText = "phone";
   static String profilePromptsApiText = "profile_prompts";
   static String workApiText = "work";
   static String educationApiText = "education";

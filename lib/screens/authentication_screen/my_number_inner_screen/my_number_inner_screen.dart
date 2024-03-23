@@ -15,7 +15,8 @@ import '../../../utils/style.dart';
 import 'my_number_inner_screen_widgets.dart';
 
 class MyNumberInnerScreen extends StatelessWidget {
-  MyNumberInnerScreen({Key? key}) : super(key: key);
+  bool isEmail ;
+  MyNumberInnerScreen({Key? key , this.isEmail = false}) : super(key: key);
   final myNumberInnerScreenController =
       Get.put(MyNumberInnerScreenController());
 
@@ -23,7 +24,7 @@ class MyNumberInnerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.whiteColor2,
-      appBar: commonAppBarModule(text: AppMessages.myNumberIs),
+      appBar: commonAppBarModule(text: AppMessages.myEmilIs),
       body: SingleChildScrollView(
         child: Obx(
           () => myNumberInnerScreenController.isLoading.value
@@ -31,10 +32,10 @@ class MyNumberInnerScreen extends StatelessWidget {
               : Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(height: 4.h),
-                    TextFormFiledModule(),
-                    SizedBox(height: 4.h),
-                    const TextCustomModule(),
+                    SizedBox(height: isEmail ? 7.h : 4.h),
+                    TextFormFiledModule(isEmail: isEmail),
+                    SizedBox(height: isEmail ? 16.h : 4.h),
+                    TextCustomModule(isEmail: isEmail ),
                     SizedBox(height: 7.h),
                     ButtonCustom(
                       size: const Size(double.infinity, 50),
@@ -52,7 +53,7 @@ class MyNumberInnerScreen extends StatelessWidget {
                     SizedBox(
                       height: 5.h,
                     ),
-                    Column(
+                  isEmail? SizedBox():  Column(
                       children: [
                         Text(
                           "Do you have a referral number from a friend ?",

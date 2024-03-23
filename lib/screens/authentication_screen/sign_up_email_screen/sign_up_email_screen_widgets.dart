@@ -37,7 +37,7 @@ class SignUpEmailScreenWidgets extends StatelessWidget {
         ),
         SizedBox(height: 2.h),
         Text(
-          AppMessages.whatsYourEmail,
+          AppMessages.whatsYourNumber,
           style: TextStyleConfig.textStyle(
             fontFamily: FontFamilyText.sFProDisplayRegular,
             textColor: AppColors.grey800Color,
@@ -63,10 +63,10 @@ class SignUpEmailScreenWidgets extends StatelessWidget {
           key: signUpEmailScreenController.formKey,
           child: noShadowTextFormFiledCustom(
             fieldController: signUpEmailScreenController.emailTextFieldController,
-            hintText: AppMessages.enterYourEmail,
-            keyboardType: TextInputType.text,
-            validate: (value)=> FieldValidator().validateEmail(value!),
-          ).commonSymmetricPadding(horizontal: 10),
+            hintText: AppMessages.enterYourNumber,
+            keyboardType: TextInputType.phone,
+            validate: (value)=> FieldValidator().validatePhoneNumber(value!),
+          ).commonSymmetricPadding(horizontal: 14),
         ),
         SizedBox(height: 2.h),
 

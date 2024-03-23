@@ -27,7 +27,7 @@ class SignUpEmailScreenController extends GetxController {
   Future<void> continueButtonClickFunction() async {
     if (formKey.currentState!.validate()) {
       await updateUserProfileEmailFunction(
-        key: AppMessages.emailApiText,
+        key: AppMessages.phoneApiText,
         value: emailTextFieldController.text.toLowerCase().trim(),
       );
       log("emailTextFieldController.text: ${emailTextFieldController.text}");

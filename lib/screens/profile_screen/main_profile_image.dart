@@ -23,7 +23,9 @@ class mainProfileImage extends StatelessWidget {
       child: Stack(
         children: [
           CachedNetworkImage(
-            imageUrl: controller.userImages[0].imageUrl,
+            imageUrl: controller.userImages.isEmpty?
+            "https://media.istockphoto.com/id/1332100919/vector/man-icon-black-icon-person-symbol.jpg?s=612x612&w=0&k=20&c=AVVJkvxQQCuBhawHrUhDRTCeNQ3Jgt0K1tXjJsFy1eg="
+                : controller.userImages[0].imageUrl,
             height: Get.height * 0.78,
             width: Get.width,
             imageBuilder: (context, imageProvider) => Container(

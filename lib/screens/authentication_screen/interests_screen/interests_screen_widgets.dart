@@ -6,6 +6,7 @@ import 'package:dater/constants/font_family.dart';
 import 'package:dater/constants/interests_images.dart';
 import 'package:dater/constants/messages.dart';
 import 'package:dater/controller/auth_screen_controllers/interests%20_screen_controller.dart';
+import 'package:dater/screens/index_screen/index_screen.dart';
 import 'package:dater/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../utils/style.dart';
+import '../../index_screen/index_bindeing.dart';
 
 // ignore: must_be_immutable
 class InterestsWidgetModule extends StatelessWidget {
@@ -204,6 +206,7 @@ class SkipAndNextButtonModule extends StatelessWidget {
                     textColor: AppColors.whiteColor2,
                     onPressed: () async {
                       await interestsScreenController.completeSignUpFunction();
+                      Get.offAll(() => IndexScreen(), binding: IndexBinding());
                     },
                   ),
                 ),
@@ -235,6 +238,7 @@ class SkipAndNextButtonModule extends StatelessWidget {
                       } else {
                         await interestsScreenController
                             .nextButtonClickFunction();
+                        Get.offAll(() => IndexScreen(), binding: IndexBinding());
                       }
                     },
                   ),

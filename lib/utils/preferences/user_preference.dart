@@ -12,6 +12,8 @@ class UserPreference {
   // static String userCountryDialCodeKey = "userCountryDialCodeKey"; // String
   static String userVerifyTokenKey =
       "userVerifyTokenKey"; // This is main token // String
+  static String isYourFirtsTime =
+      "yes"; // This is main token // String
   static String isUserCreatedKey = "isUserCreatedKey"; // bool
   static String isUserLoggedInKey = "isUserLoggedInKey"; // bool
   static String isSeeWhoLikesYouKey = "isSeeWhoLikesYouKey"; // String

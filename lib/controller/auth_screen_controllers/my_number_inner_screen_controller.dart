@@ -257,6 +257,18 @@ class MyNumberInnerScreenController extends GetxController {
       phoneNumberController.text = await userPreference.getStringFromPrefs(
           key: UserPreference.userMobileNoKey);
     }
+    await userPreference.setStringValueInPrefs(
+      key: UserPreference.isYourAd1FirtsTime,
+      value: "yes",
+    );
+    await userPreference.setStringValueInPrefs(
+      key: UserPreference.isYourAd2FirtsTime,
+      value: "yes",
+    );
+    await userPreference.setStringValueInPrefs(
+      key: UserPreference.isYourAd3FirtsTime,
+      value: "yes",
+    );
     await getCountryCodesFunction();
   }
 }

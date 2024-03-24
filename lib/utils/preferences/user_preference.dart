@@ -13,7 +13,15 @@ class UserPreference {
   static String userVerifyTokenKey =
       "userVerifyTokenKey"; // This is main token // String
   static String isYourFirtsTime =
-      "yes"; // This is main token // String
+      "isYourFirtsTime"; // This is main token // String
+  static String isYourAdFirtsTime =
+      "isYourAdFirtsTime";
+  static String isYourAd1FirtsTime =
+      "isYourAd1FirtsTime";// This is main token // String
+  static String isYourAd2FirtsTime =
+      "isYourAd2FirtsTime";
+  static String isYourAd3FirtsTime =
+      "isYourAd3FirtsTime";
   static String isUserCreatedKey = "isUserCreatedKey"; // bool
   static String isUserLoggedInKey = "isUserLoggedInKey"; // bool
   static String isSeeWhoLikesYouKey = "isSeeWhoLikesYouKey"; // String
